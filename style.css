@@ -200,6 +200,76 @@ body {
     font-size: 0.95rem;
 }
 
+/* Estilos para la página de detalle */
+.detalle-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.detalle-header {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.detalle-img {
+    flex: 1;
+    min-width: 300px;
+}
+
+.detalle-img img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.detalle-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.detalle-info h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.detalle-datos {
+    margin: 20px 0;
+}
+
+.dato {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dato-label {
+    font-weight: bold;
+    color: #666;
+}
+
+.dato-valor {
+    color: #333;
+}
+
+.btn-volver {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-volver:hover {
+    background-color: #2563eb;
+}
+
 footer {
     text-align: center;
     padding: 2rem;
