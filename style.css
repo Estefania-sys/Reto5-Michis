@@ -331,6 +331,7 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
+<<<<<<< HEAD
 .logoutbtn{
     background-color:#2ecc71;
     border: none;
@@ -342,6 +343,90 @@ tr:hover {
     background-color:#000000;
     color:white;
     transition: 0.3s;
+=======
+/* Estilos para el contenedor del formulario */
+.form-container {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    background-color: #f9f9f9;
+    min-height: 80vh;
+}
+
+.form-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+.form-box h1 {
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Estilos de los mensajes de respuesta */
+.mensaje-exito {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #c3e6cb;
+}
+
+.mensaje-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #f5c6cb;
+}
+
+/* Diseño del formulario */
+.estilo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.grupo-input label {
+    font-weight: bold;
+    color: #555;
+}
+
+.grupo-input input, 
+.grupo-input textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.grupo-input input:focus, 
+.grupo-input textarea:focus {
+    border-color: #ff6b6b; /* Color acorde al logo de michis */
+    outline: none;
+}
+
+/* Ajuste del botón para que ocupe el ancho necesario */
+.form-box .btn-primary {
+    margin-top: 10px;
+    cursor: pointer;
+    border: none;
+>>>>>>> 41c928fd405608b2f4efd8d9afaab08bc4e43051
 }
 
 /* =========================================

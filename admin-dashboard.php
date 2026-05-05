@@ -2,10 +2,10 @@
 session_start();
 if(!isset($_SESSION['admin'])) { header("Location: login.php"); exit; }
 require_once 'Clases/Conexion.php';
-require_once 'Clases/Adopcion.php';
+require_once 'Clases/TicketAdopcion.php';
 
 $pdo = (new Conexion())->getConnection();
-$solicitudes = Adopcion::listarTodas($pdo);
+$solicitudes = TicketAdopcion::listarTodas($pdo);
 ?>
 <!DOCTYPE html>
 <html lang="es">
