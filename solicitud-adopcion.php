@@ -1,6 +1,6 @@
 <?php
 require_once 'Clases/Conexion.php';
-require_once 'Clases/Adopcion.php';
+require_once 'Clases/TicketAdopcion.php';
 require_once 'Clases/Gato.php';
 
 $db = new Conexion();
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mensaje = $_POST['mensaje'];
     $id_gato_form = $_POST['id_gato'];
 
-    if (Adopcion::registrarInteres($pdo, $id_gato_form, $nombres, $apellidos, $email, $mensaje)) {
+    if (TicketAdopcion::registrarInteres($pdo, $id_gato_form, $nombres, $apellidos, $email, $mensaje)) {
         $mensaje_resultado = "¡Solicitud enviada! Nos pondremos en contacto contigo pronto.";
         $clase_mensaje = "mensaje-exito";
     } else {

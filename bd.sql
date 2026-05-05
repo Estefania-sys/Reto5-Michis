@@ -94,3 +94,7 @@ INSERT INTO Historial_Medico (id_gato, id_vacuna, fecha_revision) VALUES
 -- Un registro de adopción (Carlos Ruiz adopta a Mia)
 INSERT INTO Adopciones (id_usuario, id_gato, fecha_adopcion, observaciones) VALUES 
 (4, 4, '2024-04-20', 'Familia con experiencia previa en gatos siameses.');
+
+ALTER TABLE Adopciones 
+ADD COLUMN cita1_ok BOOLEAN DEFAULT FALSE,
+ADD COLUMN cita2_ok BOOLEAN DEFAULT FALSE;
