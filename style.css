@@ -382,6 +382,38 @@ tr:hover {
    ========================================= */
 footer {
     text-align: center;
+<<<<<<< HEAD
+    padding: 2rem;
+    background: #333;
+    color: white;
+    margin-top: 3rem;
+}
+
+/* TEST . PHP */
+.testsection{
+    display:grid;
+    font-size:70px;
+    text-align: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.testbtn{
+    background-color: darkgray;
+    border: none;
+    padding: 15px;
+    border-radius:10px;
+    font-size: 50px;
+    cursor:pointer;
+}
+
+.testbtn:hover{
+    background-color: gray;
+    transition: 0.3s;
+    color:white;
+
+=======
     padding: 40px 0;
     color: var(--text-muted);
     font-size: 0.9rem;
@@ -395,4 +427,5 @@ footer {
     .navbar ul {
         display: none; /* Aquí podrías añadir un menú hamburguesa más tarde */
     }
+>>>>>>> 23bd54a6c5a4df2625e157506d53bf2467609aa2
 }
