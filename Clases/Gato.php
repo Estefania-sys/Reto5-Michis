@@ -49,6 +49,13 @@ class Gato {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Dentro de la clase Gato en Gato.php
+    public static function obtenerHistorial($pdo, $id) {
+        // Llamamos directamente a la lógica de HistorialMedico
+        require_once 'HistorialMedico.php'; 
+        return HistorialMedico::obtenerPorGato($pdo, $id);
+    }
+
     // Getters por si los necesitas después
     public function getNombre() { return $this->nombre; }
     public function getFotoUrl() { return $this->foto_url; }
