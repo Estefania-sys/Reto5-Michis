@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<<<<<<< HEAD
 <?php include 'navbar/header.php'?>
     <div class="container">
         <h2>Solicitud de Adopción</h2>
@@ -55,62 +54,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">Enviar solicitud</button>
         </form>
     </div>
-=======
-    <header class="navbar">
-        <section class="logo">🐱 <span>CatShelter</span></section>
-        <nav>
-            <ul>
-                <a href="index.php">Inicio</a>
-                <a href="index.php#catalogo">Adoptar</a>
-                <a href="#">Contacto</a>
-                <a href="login.php" class="btn-login">Admin Login</a>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="form-container">
-        <section class="form-box">
-            <h1>Solicitud para: <?php echo $gato ? htmlspecialchars($gato['nombre']) : 'Michi'; ?></h1>
-            
-            <?php if ($mensaje_resultado): ?>
-                <div class="<?php echo $clase_mensaje; ?>">
-                    <?php echo $mensaje_resultado; ?>
-                </div>
-            <?php endif; ?>
-
-            <form action="solicitud-adopcion.php?id=<?php echo $id_gato; ?>" method="POST" class="estilo-formulario">
-                <input type="hidden" name="id_gato" value="<?php echo htmlspecialchars($id_gato); ?>">
-
-                <div class="grupo-input">
-                    <label>Nombres:</label>
-                    <input type="text" name="nombres" placeholder="Tu nombre" required>
-                </div>
-
-                <div class="grupo-input">
-                    <label>Apellidos:</label>
-                    <input type="text" name="apellidos" placeholder="Tus apellidos" required>
-                </div>
-
-                <div class="grupo-input">
-                    <label>Correo Electrónico:</label>
-                    <input type="email" name="email" placeholder="ejemplo@correo.com" required>
-                </div>
-
-                <div class="grupo-input">
-                    <label>Mensaje / Consulta:</label>
-                    <textarea name="mensaje" rows="4" placeholder="¿Por qué quieres adoptar o qué información necesitas?" required></textarea>
-                </div>
-
-                <button type="submit" class="btn-primary">Enviar Solicitud</button>
-            </form>
-            
-            <a href="detalle-gato.php?id=<?php echo $id_gato; ?>" class="btn-volver">← Volver al detalle</a>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Cat Shelter Proyecto Final.</p>
-    </footer>
->>>>>>> 41c928fd405608b2f4efd8d9afaab08bc4e43051
 </body>
 </html>

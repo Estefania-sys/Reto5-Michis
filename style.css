@@ -331,7 +331,6 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-<<<<<<< HEAD
 .logoutbtn{
     background-color:#2ecc71;
     border: none;
@@ -343,7 +342,6 @@ tr:hover {
     background-color:#000000;
     color:white;
     transition: 0.3s;
-=======
 /* Estilos para el contenedor del formulario */
 .form-container {
     padding: 40px 20px;
@@ -426,7 +424,6 @@ tr:hover {
     margin-top: 10px;
     cursor: pointer;
     border: none;
->>>>>>> 41c928fd405608b2f4efd8d9afaab08bc4e43051
 }
 
 /* =========================================
@@ -475,6 +472,6 @@ footer {
         flex-direction: column;
     }
     .navbar ul {
-        display: none; /* Aquí podrías añadir un menú hamburguesa más tarde */
+        display: none;
     }
 }
