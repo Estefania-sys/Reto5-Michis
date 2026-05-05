@@ -19,7 +19,7 @@ if (!$gato) {
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($gato['nombre']); ?> - Detalle</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">m
 </head>
 <body>
     <header class="navbar">
@@ -82,7 +82,7 @@ if (!$gato) {
                 <p><?php echo htmlspecialchars($gato['descripcion']); ?></p>
 
                 <?php if (strtolower($gato['estado']) === 'disponible'): ?>
-                    <button class="btn-primary" onclick="alert('¡Gracias por tu interés! Pronto podrás completar la solicitud de adopción.')">Solicitar adopción</button>
+                    <a href="solicitud-adopcion.php?id=<?php echo $gato['id_gato']; ?>" class="btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">Solicitar información / Cita</a>
                 <?php endif; ?>
 
                 <a href="index.php#catalogo" class="btn-volver">← Volver al catálogo</a>
