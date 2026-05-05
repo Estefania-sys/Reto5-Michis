@@ -22,17 +22,7 @@ if ($pdo) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="navbar">
-        <section class="logo">🐱 <span>CatShelter</span></section>
-        <nav>
-            <ul>
-                <a href="index.php">Inicio</a>
-                <a href="#catalogo">Adoptar</a>
-                <a href="#">Contacto</a>
-                <a href="login.php" class="btn-login">Admin Login</a>
-            </ul>
-        </nav>
-    </header>
+<?php include 'navbar/header.php'?>
 
     <main id="catalogo" class="container">
         <h2 class="section-title">Gatitos en adopción</h2>

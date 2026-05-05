@@ -242,6 +242,44 @@ body {
 }
 
 /* =========================================
+   CONTACTO.PHP
+   ========================================= */
+.contactos{
+    text-align: center;
+    margin-top:15px;
+}
+
+.botoneracontacto{
+    text-align: center;
+    margin-top:30px;
+    white-space:pre;
+}
+
+.contactobtn{
+    background-color:green;
+    color:white;
+    border:none;
+    padding:20px;
+    border-radius:10px;
+    text-decoration: none;
+}
+
+.contactobtn:hover{
+    background-color:lime;
+    color:black;
+    transition: 0.3s;
+    box-shadow: 5px 5px 10px #000000;
+}
+
+.contactos p{
+    font-size: 25px;
+}
+
+.contactos h1{
+    font-size: 55px;
+}
+
+/* =========================================
    FORMULARIOS
    ========================================= */
 form {
@@ -293,6 +331,17 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
+.logoutbtn{
+    background-color:#2ecc71;
+    border: none;
+    padding:9px;
+    border-radius: 20px;
+}
+
+.logoutbtn:hover{
+    background-color:#000000;
+    color:white;
+    transition: 0.3s;
 /* Estilos para el contenedor del formulario */
 .form-container {
     padding: 40px 20px;
@@ -382,7 +431,6 @@ tr:hover {
    ========================================= */
 footer {
     text-align: center;
-<<<<<<< HEAD
     padding: 2rem;
     background: #333;
     color: white;
@@ -413,7 +461,6 @@ footer {
     transition: 0.3s;
     color:white;
 
-=======
     padding: 40px 0;
     color: var(--text-muted);
     font-size: 0.9rem;
@@ -425,7 +472,6 @@ footer {
         flex-direction: column;
     }
     .navbar ul {
-        display: none; /* Aquí podrías añadir un menú hamburguesa más tarde */
+        display: none;
     }
->>>>>>> 23bd54a6c5a4df2625e157506d53bf2467609aa2
 }

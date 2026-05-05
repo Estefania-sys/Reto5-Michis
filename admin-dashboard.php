@@ -13,10 +13,7 @@ $solicitudes = TicketAdopcion::listarTodas($pdo);
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="admin-nav">
-        <span>Bienvenido, <?php echo $_SESSION['admin']; ?></span>
-        <a href="logout.php">Cerrar Sesión</a>
-    </header>
+<?php include 'navbar/headeradmin.php' ?>
     <main class="container">
         <h2>Solicitudes Pendientes</h2>
         <table>
