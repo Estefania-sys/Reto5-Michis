@@ -1,23 +1,24 @@
 <?php
-// Clase para los que tienen LOGIN (Admin y Trabajadoras)
+require_once 'Persona.php';
+
 class Usuario extends Persona {
-  private $password;
-  private $rol;
+    private $rol;
 
-  public function __construct($id, $nombres, $apellidos, $email, $password, $rol) {
-    parent::__construct($id, $nombres, $apellidos, $email);
-    $this->password = $password;
-    $this->rol = $rol;
-  }
+    public function __construct($id, $nombres, $apellidos, $email, $rol) {
+        parent::__construct($id, $nombres, $apellidos, $email);
+        $this->rol = $rol;
+    }
 
-  public function getRol() { return $this->rol; }
-  public function getPassword() { return $this->password; }
-}
+    public static function login($pdo, $email, $pass) {
+        $sql = "SELECT * FROM Usuarios WHERE email = :email AND password = :pass AND rol != 'adoptante'";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['email' => $email, 'pass' => $pass]);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Clase para ADOPTANTES (Sin login)
-class Cliente extends Persona {
-  public function __construct($id, $nombres, $apellidos, $email) {
-    parent::__construct($id, $nombres, $apellidos, $email);
-  }
+        if ($res) {
+            return new Usuario($res['id_usuario'], $res['nombres'], $res['apellidos'], $res['email'], $res['rol']);
+        }
+        return null;
+    }
 }
 ?>

@@ -1,19 +1,27 @@
 <?php
 class Adopcion {
-  private $id_adopcion;
-  private $id_usuario;
-  private $id_gato;
-  private $fecha;
-  private $observaciones;
+    public static function registrarInteres($pdo, $id_gato, $nombres, $apellidos, $email, $mensaje) {
+        // Primero, si no existe el usuario 'adoptante', lo creamos
+        $sqlUser = "INSERT INTO Usuarios (nombres, apellidos, email, rol) 
+                    VALUES (:nom, :ape, :em, 'adoptante') 
+                    ON CONFLICT (email) DO UPDATE SET nombres = EXCLUDED.nombres 
+                    RETURNING id_usuario";
+        $stmtUser = $pdo->prepare($sqlUser);
+        $stmtUser->execute(['nom' => $nombres, 'ape' => $apellidos, 'em' => $email]);
+        $id_usuario = $stmtUser->fetchColumn();
 
-  public function __construct($id_adopcion, $id_usuario, $id_gato, $fecha, $observaciones) {
-    $this->id_adopcion = $id_adopcion;
-    $this->id_usuario = $id_usuario;
-    $this->id_gato = $id_gato;
-    $this->fecha = $fecha;
-    $this->observaciones = $observaciones;
-  }
+        // Insertamos la adopción
+        $sqlAdop = "INSERT INTO Adopciones (id_usuario, id_gato, observaciones) VALUES (:iu, :ig, :obs)";
+        $stmtAdop = $pdo->prepare($sqlAdop);
+        return $stmtAdop->execute(['iu' => $id_usuario, 'ig' => $id_gato, 'obs' => $mensaje]);
+    }
 
-  public function getIdAdopcion() { return $this->id_adopcion; }
+    public static function listarTodas($pdo) {
+        $sql = "SELECT a.*, g.nombre as gato_nombre, u.nombres as user_nombre 
+                FROM Adopciones a 
+                JOIN Gatos g ON a.id_gato = g.id_gato 
+                JOIN Usuarios u ON a.id_usuario = u.id_usuario";
+        return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

@@ -7,6 +7,7 @@ $pdo = $conexion->getConnection();
 
 $gatos = [];
 if ($pdo) {
+    // Mantenemos la lógica de negocio fuera de la vista
     $sql = "SELECT * FROM Gatos WHERE estado != 'adoptado' ORDER BY nombre";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
@@ -17,31 +18,21 @@ if ($pdo) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cat Shelter - Adopta un amigo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header class="navbar">
         <section class="logo">🐱 <span>CatShelter</span></section>
         <nav>
             <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#catalogo">Adoptar</a></li>
-                <li><a href="#">Contacto</a></li>
-                <li><a href="login.php" class="btn-login">Admin Login</a></li>
+                <a href="index.php">Inicio</a>
+                <a href="#catalogo">Adoptar</a>
+                <a href="#">Contacto</a>
+                <a href="login.php" class="btn-login">Admin Login</a>
             </ul>
         </nav>
     </header>
-
-    <section class="hero">
-        <section class="hero-content">
-            <h1>Encuentra a tu compañero perfecto</h1>
-            <p>Dales una segunda oportunidad a estos pequeños valientes.</p>
-            <a href="#catalogo" class="btn-primary">Ver Gatitos</a>
-        </section>
-    </section>
 
     <main id="catalogo" class="container">
         <h2 class="section-title">Gatitos en adopción</h2>
@@ -80,7 +71,7 @@ if ($pdo) {
     </main>
 
     <footer>
-        <p>&copy; 2026 Cat Shelter Proyecto Final. Hecho con ❤️ para los michis.</p>
+        <p>&copy; 2026 Cat Shelter Proyecto Final.</p>
     </footer>
 
 </body>

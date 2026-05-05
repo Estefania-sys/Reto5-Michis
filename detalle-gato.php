@@ -3,18 +3,11 @@ require_once 'Clases/Conexion.php';
 require_once 'Clases/Gato.php';
 
 $id_gato = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$gato = null;
+$pdo = (new Conexion())->getConnection();
 
-$conexion = new Conexion();
-$pdo = $conexion->getConnection();
-
-if ($pdo && $id_gato > 0) {
-    $sql = "SELECT * FROM Gatos WHERE id_gato = :id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id', $id_gato, PDO::PARAM_INT);
-    $stmt->execute();
-    $gato = $stmt->fetch(PDO::FETCH_ASSOC);
-}
+// Usamos el método de la clase
+$gato = Gato::obtenerPorId($pdo, $id_gato);
+$historial = Gato::obtenerHistorial($pdo, $id_gato);
 
 if (!$gato) {
     header('Location: index.php');
@@ -25,20 +18,18 @@ if (!$gato) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($gato['nombre']); ?> - Cat Shelter</title>
+    <title><?php echo htmlspecialchars($gato['nombre']); ?> - Detalle</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header class="navbar">
         <section class="logo">🐱 <span>CatShelter</span></section>
         <nav>
             <ul>
-                <li><a href="index.php">Inicio</a></li>
-                <li><a href="index.php#catalogo">Adoptar</a></li>
-                <li><a href="#">Contacto</a></li>
-                <li><a href="login.php" class="btn-login">Admin Login</a></li>
+                <a href="index.php">Inicio</a>
+                <a href="#catalogo">Adoptar</a>
+                <a href="#">Contacto</a>
+                <a href="login.php" class="btn-login">Admin Login</a>
             </ul>
         </nav>
     </header>
@@ -50,39 +41,42 @@ if (!$gato) {
             </section>
             <section class="detalle-info">
                 <h1><?php echo htmlspecialchars($gato['nombre']); ?></h1>
-                <span class="badge <?php echo strtolower($gato['estado']); ?>">
-                    <?php 
-                    $estados = [
-                        'disponible' => 'Disponible',
-                        'en tratamiento' => 'En tratamiento',
-                        'adoptado' => 'Adoptado'
-                    ];
-                    echo isset($estados[$gato['estado']]) ? $estados[$gato['estado']] : ucfirst($gato['estado']);
-                    ?>
-                </span>
+                
+                <section class="info-medica">
+                    <h3>Historial Médico y Vacunas</h3>
+                    <?php if (!empty($historial)): ?>
+                        <ul>
+                            <?php foreach ($historial as $h): ?>
+                                <li><strong><?php echo $h['fecha_revision']; ?>:</strong> <?php echo htmlspecialchars($h['nombre_vacuna'] ?? 'Revisión general'); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p>No hay registros médicos públicos disponibles.</p>
+                    <?php endif; ?>
+                </section>
 
-                <section class="detalle-datos">
-                    <section class="dato">
+                <div class="detalle-datos">
+                    <div class="dato">
                         <span class="dato-label">Raza:</span>
                         <span class="dato-valor"><?php echo htmlspecialchars($gato['raza']); ?></span>
-                    </section>
-                    <section class="dato">
+                    </div>
+                    <div class="dato">
                         <span class="dato-label">Edad:</span>
                         <span class="dato-valor"><?php echo htmlspecialchars($gato['edad']); ?> años</span>
-                    </section>
-                    <section class="dato">
+                    </div>
+                    <div class="dato">
                         <span class="dato-label">Género:</span>
                         <span class="dato-valor"><?php echo htmlspecialchars($gato['genero']); ?></span>
-                    </section>
-                    <section class="dato">
+                    </div>
+                    <div class="dato">
                         <span class="dato-label">Esterilizado:</span>
                         <span class="dato-valor"><?php echo $gato['esterilizado'] ? 'Sí' : 'No'; ?></span>
-                    </section>
-                    <section class="dato">
+                    </div>
+                    <div class="dato">
                         <span class="dato-label">Fecha de nacimiento:</span>
                         <span class="dato-valor"><?php echo date('d/m/Y', strtotime($gato['fecha_nacimiento'])); ?></span>
-                    </section>
-                </section>
+                    </div>
+                </div>
 
                 <h3>Acerca de <?php echo htmlspecialchars($gato['nombre']); ?></h3>
                 <p><?php echo htmlspecialchars($gato['descripcion']); ?></p>
@@ -95,10 +89,8 @@ if (!$gato) {
             </section>
         </section>
     </main>
-
     <footer>
         <p>&copy; 2026 Cat Shelter Proyecto Final. Hecho con ❤️ para los michis.</p>
     </footer>
-
 </body>
 </html>
