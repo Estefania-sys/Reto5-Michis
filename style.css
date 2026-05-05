@@ -277,3 +277,29 @@ footer {
     color: white;
     margin-top: 3rem;
 }
+
+/* TEST . PHP */
+.testsection{
+    display:grid;
+    font-size:70px;
+    text-align: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.testbtn{
+    background-color: darkgray;
+    border: none;
+    padding: 15px;
+    border-radius:10px;
+    font-size: 50px;
+    cursor:pointer;
+}
+
+.testbtn:hover{
+    background-color: gray;
+    transition: 0.3s;
+    color:white;
+
+}
