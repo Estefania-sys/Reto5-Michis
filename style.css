@@ -342,6 +342,7 @@ tr:hover {
     background-color:#000000;
     color:white;
     transition: 0.3s;
+}
 /* Estilos para el contenedor del formulario */
 .form-container {
     padding: 40px 20px;

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'navbar/header.php'?>
     <div class="container">
         <h2>Solicitud de Adopción</h2>
-        <p><?php echo $mensaje; ?></p>
+        <p class="<?php echo $clase_mensaje; ?>"><?php echo $mensaje_resultado; ?></p>
         <form method="POST">
             <input type="hidden" name="id_gato" value="<?php echo $id_gato; ?>">
             <input type="text" name="nombre" placeholder="Tu Nombre" required>
