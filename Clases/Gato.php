@@ -25,14 +25,19 @@ class Gato {
         $this->foto_url = $foto_url;
     }
 
-    // Métodos SQL dentro de la clase
+    /**
+     * Lista todos los gatos que no han sido adoptados.
+     */
     public static function listarNoAdoptados($pdo) {
         $sql = "SELECT * FROM Gatos WHERE estado != 'adoptado' ORDER BY nombre";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retornamos array
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Obtiene los datos de un gato específico por su ID.
+     */
     public static function obtenerPorId($pdo, $id) {
         $sql = "SELECT * FROM Gatos WHERE id_gato = :id";
         $stmt = $pdo->prepare($sql);
@@ -40,24 +45,20 @@ class Gato {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Obtiene el historial médico delegando la lógica a la clase HistorialMedico.
+     * (Se eliminó la duplicidad que causaba el error)
+     */
     public static function obtenerHistorial($pdo, $id) {
-        $sql = "SELECT h.*, v.nombre_vacuna FROM Historial_Medico h 
-                LEFT JOIN Vacunas v ON h.id_vacuna = v.id_vacuna 
-                WHERE h.id_gato = :id ORDER BY h.fecha_revision DESC";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Dentro de la clase Gato en Gato.php
-    public static function obtenerHistorial($pdo, $id) {
-        // Llamamos directamente a la lógica de HistorialMedico
+        // Asegúrate de que este archivo y la clase HistorialMedico existan
         require_once 'HistorialMedico.php'; 
         return HistorialMedico::obtenerPorGato($pdo, $id);
     }
 
-    // Getters por si los necesitas después
+    // Getters
+    public function getId() { return $this->id; }
     public function getNombre() { return $this->nombre; }
     public function getFotoUrl() { return $this->foto_url; }
+    public function getEstado() { return $this->estado; }
 }
 ?>
