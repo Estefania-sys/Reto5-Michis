@@ -56,9 +56,20 @@ class Gato {
     }
 
     // Getters
-    public function getId() { return $this->id; }
-    public function getNombre() { return $this->nombre; }
-    public function getFotoUrl() { return $this->foto_url; }
-    public function getEstado() { return $this->estado; }
+    public function getId() { 
+        return $this->id; 
+        }
+        
+    public function getNombre() { 
+        return $this->nombre; 
+        }
+
+    public function getFotoUrl() { 
+        return $this->foto_url; 
+        }
+
+    public function getEstado() { 
+        return $this->estado; 
+        }
 }
 ?>

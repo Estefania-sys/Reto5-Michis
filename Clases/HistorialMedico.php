@@ -50,7 +50,15 @@ class HistorialMedico {
     }
 
     // Getters
-    public function getIdHistorial() { return $this->id_historial; }
-    public function getFecha() { return $this->fecha_revision; }
-    public function getDiagnostico() { return $this->diagnostico; }
+    public function getIdHistorial() {
+        return $this->id_historial;
+        }
+        
+    public function getFecha() { 
+        return $this->fecha_revision; 
+        }
+
+    public function getDiagnostico() { 
+        return $this->diagnostico; 
+        }
 }
