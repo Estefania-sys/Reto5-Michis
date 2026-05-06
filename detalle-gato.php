@@ -19,7 +19,7 @@ if (!$gato) {
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($gato['nombre']); ?> - Detalle</title>
-    <link rel="stylesheet" href="style.css">m
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php include 'navbar/header.php'?>
