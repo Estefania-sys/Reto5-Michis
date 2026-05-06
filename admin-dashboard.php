@@ -27,5 +27,6 @@ $solicitudes = TicketAdopcion::listarTodas($pdo);
             <?php endforeach; ?>
         </table>
     </main>
+    <?php include 'navbar/footer.php' ?>
 </body>
 </html>

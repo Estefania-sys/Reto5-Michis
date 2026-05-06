@@ -18,6 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <?php include 'navbar/header.php'?>
     <div class="login-box">
         <form method="POST">
             <h2>Acceso Personal</h2>
@@ -26,5 +27,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Entrar</button>
         </form>
     </div>
+    <?php include 'navbar/footer.php' ?>
 </body>
 </html>

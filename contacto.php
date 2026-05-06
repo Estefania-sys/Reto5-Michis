@@ -12,9 +12,11 @@
     <p>Si tienes alguna duda respecto a los animales que tenemos en la protectora, no dudes en contactarnos en:</p>
 </section>
 <section class="botoneracontacto">
-    <p><a class="contactobtn" href="mailto:correo@ejemplo.com">Mándanos un correo clicando aquí o a correo@ejemplo.com</a></p>
-  
-    <p><a class="contactobtn" href="tel:123456789">Llámanos clicando aquí o al número: 123 45 67 89</a></p>
+    <p><a class="contactobtn" href="mailto:correo@ejemplo.com">📩 Envíame un Email clicando aquí a correo@ejemplo.com</a></p>
+    <p><a class="contactobtn" href="tel:123456789">📞 Llámanos clicando aquí o al número: 123 45 67 89</a></p>
 </section>
+
+<?php include 'navbar/footer.php' ?>
+
 </body>
 </html>

@@ -54,5 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">Enviar solicitud</button>
         </form>
     </div>
+    <?php include 'navbar/footer.php' ?>
 </body>
 </html>

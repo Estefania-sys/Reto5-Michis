@@ -428,51 +428,75 @@ tr:hover {
 }
 
 /* =========================================
-   FOOTER
+   FOOTER ESTILO HEADER
    ========================================= */
-footer {
-    text-align: center;
-    padding: 2rem;
-    background: #333;
-    color: white;
-    margin-top: 3rem;
+.main-footer {
+    background-color: var(--white); /* Fondo blanco como el header */
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05); /* Sombra hacia arriba */
+    margin-top: 50px;
+    padding-top: 40px;
+    border-top: 1px solid #eee; /* Línea sutil de separación */
 }
 
-/* TEST . PHP */
-.testsection{
-    display:grid;
-    font-size:70px;
-    text-align: center;
-    justify-content: center;
-    text-align: center;
-
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.testbtn{
-    background-color: darkgray;
-    border: none;
-    padding: 15px;
-    border-radius:10px;
-    font-size: 50px;
-    cursor:pointer;
+.footer-brand .logo {
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 1.3rem;
 }
 
-.testbtn:hover{
-    background-color: gray;
-    transition: 0.3s;
-    color:white;
-
-    padding: 40px 0;
+.footer-brand p {
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    max-width: 300px;
 }
 
-/* RESPONSIVE */
+.footer-social h4 {
+    color: var(--secondary);
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    text-decoration: none;
+    color: var(--secondary);
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--primary);
+}
+
+.footer-copyright {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #fcfcfc; /* Un gris casi blanco para diferenciar el final */
+    border-top: 1px solid #f1f1f1;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* Ajuste para móviles */
 @media (max-width: 768px) {
-    .detalle-header {
+    .footer-grid {
         flex-direction: column;
-    }
-    .navbar ul {
-        display: none;
+        text-align: center;
+        align-items: center;
     }
 }

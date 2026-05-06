@@ -60,9 +60,7 @@ if ($pdo) {
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Cat Shelter Proyecto Final.</p>
-    </footer>
+    <?php include 'navbar/footer.php' ?>
 
 </body>
 </html>

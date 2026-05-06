@@ -2,19 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Contáctanos</title>
+    <title>Huellas con Alma | Refugio de Gatos</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php include 'navbar/header.php'?>
+
 <section class="contactos">
-    <h1>HOLA</h1>
-    <p>About us</p>
+    <h1>Entre oficina y ronroneos: Mi misión</h1>
+    
+    <div class="bio-container">
+        <p><strong>¡Hola! Soy la persona detrás de este refugio.</strong></p>
+        
+        <p>Durante el día, cumplo con mi jornada laboral como cualquier otra profesional, pero mi verdadera vocación comienza cuando cierro el ordenador. Mi vida está dedicada a ser el puente entre el abandono y el calor de un hogar.</p>
+
+        <p>Este refugio nació de la necesidad de dar voz a quienes no la tienen. De forma totalmente voluntaria y personal, gestiono este espacio con un único objetivo: <strong>que cada gato que pase por mis manos encuentre una familia que lo ame para siempre.</strong></p>
+
+        <blockquote>
+            "Rescatar a un gato no cambiará el mundo, pero para ese gato, su mundo habrá cambiado para siempre."
+        </blockquote>
+    </div>
 </section>
+
 <section class="botoneracontacto">
-    <p><a class="contactobtn" href="mailto:correo@ejemplo.com">BBBBBBBBBBBBBBBBBBBBBBB</a></p>
-  
-    <p><a class="contactobtn" href="tel:123456789">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></p>
+    <h2>¿Estás listo para darle una oportunidad?</h2>
+    <p>Si quieres adoptar, ser casa de acogida o simplemente conocer más sobre mi labor, estaré encantada de hablar contigo.</p>
+    
+    <p>
+        <a class="contactobtn" href="contacto.php">Contacta conmigo aquí</a>
+    </p>
 </section>
+<?php include 'navbar/footer.php' ?>
+
 </body>
 </html>

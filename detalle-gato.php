@@ -80,8 +80,6 @@ if (!$gato) {
             </section>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2026 Cat Shelter Proyecto Final. Hecho con ❤️ para los michis.</p>
-    </footer>
+    <?php include 'navbar/footer.php' ?>
 </body>
 </html>
