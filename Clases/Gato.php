@@ -57,7 +57,12 @@ class Gato {
     }
 
     // Getters por si los necesitas después
-    public function getNombre() { return $this->nombre; }
-    public function getFotoUrl() { return $this->foto_url; }
+    public function getNombre() { 
+        return $this->nombre; 
+    }
+
+    public function getFotoUrl() {
+         return $this->foto_url; 
+         }
 }
 ?>
