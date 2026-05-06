@@ -5,7 +5,7 @@
         <nav>
             <ul>
                 <a href="index.php">Inicio</a>
-                <a href="#catalogo">Adoptar</a>
+                <a href="catalogo.php">Adoptar</a>
                 <a href="contacto.php">Contacto</a>
                 <a href="login.php" class="btn-login">Admin Login</a>
             </ul>

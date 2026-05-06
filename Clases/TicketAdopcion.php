@@ -7,7 +7,7 @@ class TicketAdopcion {
      * Por defecto, las citas se inicializan en FALSE (0 en BD).
      */
     public static function registrarInteres($pdo, $id_gato, $nombres, $apellidos, $email, $mensaje) {
-        // 1. Manejo del usuario adoptante (PostgreSQL ON CONFLICT)
+        try{// 1. Manejo del usuario adoptante (PostgreSQL ON CONFLICT)
         $sqlUser = "INSERT INTO Usuarios (nombres, apellidos, email, rol) 
                     VALUES (:nom, :ape, :em, 'adoptante') 
                     ON CONFLICT (email) DO UPDATE SET nombres = EXCLUDED.nombres 
@@ -20,7 +20,7 @@ class TicketAdopcion {
         // 2. Insertamos el Ticket con los nuevos campos de seguimiento
         // Nota: Asegúrate de haber ejecutado el ALTER TABLE en tu BD para estos campos
         $sqlAdop = "INSERT INTO Adopciones (id_usuario, id_gato, observaciones, cita1_ok, cita2_ok) 
-                    VALUES (:iu, :ig, :obs, false, false)";
+                    VALUES (:iu, :ig, :obs, CURRENT_DATE, false, false)";
         
         $stmtAdop = $pdo->prepare($sqlAdop);
         return $stmtAdop->execute([
@@ -28,6 +28,9 @@ class TicketAdopcion {
             'ig' => $id_gato, 
             'obs' => $mensaje
         ]);
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     /**
@@ -48,17 +51,24 @@ class TicketAdopcion {
      * Método nuevo para que la Voluntaria/Admin valide las fases del ticket
      */
     public static function actualizarSeguimiento($pdo, $id_adopcion, $fase, $resultado) {
-        // $fase puede ser 'cita1_ok' o 'cita2_ok'
-        // $resultado es booleano (true/false)
-        
-        $columna = ($fase === 1) ? 'cita1_ok' : 'cita2_ok';
-        
-        $sql = "UPDATE Adopciones SET $columna = :res WHERE id_adopcion = :id";
+    // Determina qué columna actualizar según la fase (1 o 2)
+    $columna = ($fase == 1) ? 'cita1_ok' : 'cita2_ok';
+    
+    // El resultado se maneja como booleano para la lógica de PostgreSQL
+    $sql = "UPDATE Adopciones SET $columna = :res WHERE id_adopcion = :id";
+    $stmt = $pdo->prepare($sql);
+    
+    return $stmt->execute([
+        'res' => $resultado ? 'true' : 'false',
+        'id'  => $id_adopcion
+    ]);
+    }
+
+    // Nuevo método sugerido en Gato.php para cerrar el proceso
+    public static function marcarComoAdoptado($pdo, $id_gato) {
+        $sql = "UPDATE Gatos SET estado = 'adoptado' WHERE id_gato = :id";
         $stmt = $pdo->prepare($sql);
-        return $stmt->execute([
-            'res' => $resultado ? 'true' : 'false',
-            'id'  => $id_adopcion
-        ]);
+        return $stmt->execute(['id' => $id_gato]);
     }
 
     /**
