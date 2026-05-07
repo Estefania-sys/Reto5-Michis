@@ -466,6 +466,17 @@ tr:hover {
     font-size: 1.1rem;
 }
 
+.social-icons a{
+    font-size:40px;
+    color:green;
+    text-decoration: none;
+}
+
+.social-icons a:hover{
+    color:#00a500;
+    transition: 0.3s;
+}
+
 .social-links {
     display: flex;
     gap: 15px;
