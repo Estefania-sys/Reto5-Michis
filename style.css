@@ -73,12 +73,21 @@ body {
     color: var(--primary);
 }
 
-.btn-login {
-    background: var(--secondary);
-    color: white !important;
-    padding: 8px 16px;
-    border-radius: 20px;
+.btn-login{
+    background-color:green;
+    color:white !important;
+    border:none;
+    padding:10px;
+    border-radius:10px;
+    text-decoration: none;
 }
+
+.btn-login:hover{
+    background-color:lime;
+    color:black !important;
+    transition: 0.3s;
+}
+
 
 /* =========================================
    CATÁLOGO (Grid de Gatos)
