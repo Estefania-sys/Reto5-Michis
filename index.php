@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Huellas con Alma | Refugio de Gatos</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
 </head>
 <body>
 <?php include 'navbar/header.php'?>
@@ -29,7 +30,7 @@
     <p>Si quieres adoptar, ser casa de acogida o simplemente conocer más sobre mi labor, estaré encantada de hablar contigo.</p>
     
     <p>
-        <a class="contactobtn" href="contacto.php">Contacta conmigo aquí</a>
+        <a class="contactobtn" href="contacto.php"><i class="fa-solid fa-address-book"></i>  Contacta conmigo aquí</a>
     </p>
 </section>
 <?php include 'navbar/footer.php' ?>

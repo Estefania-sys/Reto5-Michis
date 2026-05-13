@@ -1,3 +1,6 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!-- Incluimos el CSS de Font Awesome -->
+</head>
 <footer class="main-footer">
     <div class="container footer-content">
         <div class="footer-brand">
@@ -10,9 +13,9 @@
         <div class="footer-social">
             <h4>Síguenos</h4>
             <div class="social-icons">
-                <a href="#" title="Facebook">FB</a>
-                <a href="#" title="Instagram">IG</a>
-                <a href="#" title="Twitter">TW</a>
+                <a href="#" title="Facebook"><i class="fa-brands fa-square-facebook"></i></a>
+                <a href="#" title="Instagram"><i class="fa-brands fa-square-instagram"></i></a>
+                <a href="#" title="Twitter"><i class="fa-brands fa-square-x-twitter"></i></a>
             </div>
         </div>
     </div>

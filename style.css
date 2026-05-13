@@ -73,12 +73,21 @@ body {
     color: var(--primary);
 }
 
-.btn-login {
-    background: var(--secondary);
-    color: white !important;
-    padding: 8px 16px;
-    border-radius: 20px;
+.btn-login{
+    background-color:green;
+    color:white !important;
+    border:none;
+    padding:10px;
+    border-radius:10px;
+    text-decoration: none;
 }
+
+.btn-login:hover{
+    background-color:lime;
+    color:black !important;
+    transition: 0.3s;
+}
+
 
 /* =========================================
    CATÁLOGO (Grid de Gatos)
@@ -464,6 +473,17 @@ tr:hover {
     color: var(--secondary);
     margin-bottom: 12px;
     font-size: 1.1rem;
+}
+
+.social-icons a{
+    font-size:40px;
+    color:green;
+    text-decoration: none;
+}
+
+.social-icons a:hover{
+    color:#00a500;
+    transition: 0.3s;
 }
 
 .social-links {
