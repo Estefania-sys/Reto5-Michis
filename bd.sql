@@ -19,11 +19,13 @@ CREATE TABLE Gatos (
     id_gato SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     fecha_nacimiento DATE,
-    edad INTEGER,
     genero VARCHAR(10),
     raza VARCHAR(50),
+    capa_patron VARCHAR(50),
+    pelo_largo VARCHAR(50),
+    character_tags TEXT[],
     esterilizado BOOLEAN,
-    descripcion TEXT,
+    notas_cuidador TEXT,
     estado VARCHAR(20), -- 'disponible', 'adoptado', 'en tratamiento'
     foto_url VARCHAR(255)
 );
@@ -55,31 +57,29 @@ INSERT INTO Usuarios (nombres, apellidos, email, password, rol) VALUES
 
 -- 2 Trabajadoras (Voluntarias)
 ('Marta', 'García López', 'marta.vol@refugio.com', 'marta_pass_456', 'voluntario'),
--- Nota: Uso 'voluntario' siguiendo tu comentario previo, pero puedes cambiarlo a 'trabajadora'
-('Sofía', 'Pérez Ruiz', 'sofia.vol@refugio.com', 'sofia_pass_789', 'voluntario'),
 
--- 4 Clientes (Sin password)
+-- 3 Adoptantes
 ('Carlos', 'Sánchez Villa', 'carlos.sv@email.com', NULL, 'adoptante'),
 ('Laura', 'Gómez Fer', 'laura.gomez@email.com', NULL, 'adoptante'),
 ('Diego', 'Torres Marín', 'diego.tm@email.com', NULL, 'adoptante'),
 ('Ana Belén', 'Cano Saura', 'ana.belen@email.com', NULL, 'adoptante');
 
-INSERT INTO Gatos (nombre, fecha_nacimiento, edad, genero, raza, esterilizado, descripcion, estado, foto_url) VALUES
-('Luna', '2022-05-10', 2, 'Hembra', 'Común Europeo', true, 'Muy cariñosa y juguetona.', 'disponible', 'Imagenes/Luna.jpg'),
-('Simba', '2021-08-15', 3, 'Macho', 'Tabby', true, 'Un poco tímido al principio, pero muy leal.', 'disponible', 'Imagenes/Simba.jpg'),
-('Oliver', '2023-01-20', 1, 'Macho', 'Persa', false, 'Le encanta dormir al sol.', 'en tratamiento', 'Imagenes/Oliver.jpg'),
-('Mia', '2020-11-30', 3, 'Hembra', 'Siamés', true, 'Maúlla mucho para pedir mimos.', 'adoptado', 'Imagenes/Mia.jpg'),
-('Bella', '2023-06-12', 0, 'Hembra', 'Mestizo', false, 'Cachorrita con mucha energía.', 'disponible', 'Imagenes/Bella.jpg'),
-('Leo', '2019-03-05', 5, 'Macho', 'Maine Coon', true, 'Un gigante noble y tranquilo.', 'disponible', 'Imagenes/Leo.jpg'),
-('Chloe', '2022-09-21', 1, 'Hembra', 'Ragdoll', true, 'Pelo muy suave y ojos azules.', 'disponible', 'Imagenes/Chloe.jpg'),
-('Jack', '2018-07-14', 6, 'Macho', 'Común Europeo', true, 'Rescatado de la calle, busca calma.', 'disponible', 'Imagenes/Jack.jpg'),
-('Kitty', '2023-04-02', 1, 'Hembra', 'Bengala', false, 'Muy activa, necesita espacio para saltar.', 'en tratamiento', 'Imagenes/Kitty.jpg'),
-('Loki', '2021-12-10', 2, 'Macho', 'Sphynx', true, 'Gato sin pelo, muy sociable y caluroso.', 'disponible', 'Imagenes/Loki.jpg'),
-('Lucy', '2022-02-28', 2, 'Hembra', 'Ruso Azul', true, 'Elegante y silenciosa.', 'adoptado', 'Imagenes/Lucy.jpg'),
-('Charlie', '2020-05-15', 4, 'Macho', 'Bosque de Noruega', true, 'Le encanta que lo cepillen.', 'disponible', 'Imagenes/Charlie.jpg'),
-('Rocky', '2023-02-10', 1, 'Macho', 'Mestizo', true, 'Valiente y siempre atento.', 'disponible', 'Imagenes/Rocky.jpg'),
-('Sophie', '2019-10-10', 4, 'Hembra', 'Angora', true, 'Una reina que busca su trono.', 'disponible', 'Imagenes/Sophie.jpg'),
-('Milo', '2024-01-05', 0, 'Macho', 'Común Europeo', false, 'Bebé rescatado hace una semana.', 'disponible', 'Imagenes/Milo.jpg');
+INSERT INTO Gatos (nombre, fecha_nacimiento, genero, raza, capa_patron, pelo_largo, character_tags, esterilizado, notas_cuidador, estado, foto_url) VALUES
+('Luna', '2022-05-10', 'Hembra', 'Común Europeo', 'Atigrada', 'Corto', ARRAY['Cariñosa','Juguetona'], true, 'Muy cariñosa y juguetona, ideal para hogares que le gustan los mimos.', 'disponible', 'Imagenes/Luna.jpg'),
+('Simba', '2021-08-15', 'Macho', 'Tabby', 'Atigrado', 'Corto', ARRAY['Leal','Tímido'], true, 'Un poco tímido al principio, pero muy leal con quienes confía.', 'disponible', 'Imagenes/Simba.jpg'),
+('Oliver', '2023-01-20', 'Macho', 'Persa', 'Sólida', 'Largo', ARRAY['Dormilón','Tranquilo'], false, 'Le encanta dormir al sol y busca un hogar tranquilo.', 'en tratamiento', 'Imagenes/Oliver.jpg'),
+('Mia', '2020-11-30', 'Hembra', 'Siamés', 'Point', 'Corto', ARRAY['Vocal','Cariñosa'], true, 'Maúlla mucho para pedir mimos y es muy inteligente.', 'adoptado', 'Imagenes/Mia.jpg'),
+('Bella', '2023-06-12', 'Hembra', 'Gato Doméstico', 'Carey', 'Corto', ARRAY['Juguetona','Activa'], false, 'Gatito con mucha energía y ganas de jugar.', 'disponible', 'Imagenes/Bella.jpg'),
+('Leo', '2019-03-05', 'Macho', 'Maine Coon', 'Moteada', 'Largo', ARRAY['Noble','Tranquilo'], true, 'Un gigante noble y tranquilo que disfruta de la compañía humana.', 'disponible', 'Imagenes/Leo.jpg'),
+('Chloe', '2022-09-21', 'Hembra', 'Ragdoll', 'Bicolor', 'Largo', ARRAY['Suave','Dulce'], true, 'Pelo muy suave y ojos azules. Le encanta acariciarse.', 'disponible', 'Imagenes/Chloe.jpg'),
+('Jack', '2018-07-14', 'Macho', 'Gato Doméstico', 'Atigrado', 'Corto', ARRAY['Calmado','Afectuoso'], true, 'Rescatado de la calle, busca calma y cariño.', 'disponible', 'Imagenes/Jack.jpg'),
+('Kitty', '2023-04-02', 'Hembra', 'Bengala', 'Manchado', 'Corto', ARRAY['Activa','Enérgica'], false, 'Muy activa, necesita espacio y juguetes para saltar.', 'en tratamiento', 'Imagenes/Kitty.jpg'),
+('Loki', '2021-12-10', 'Macho', 'Sphynx', 'Liso', 'Corto', ARRAY['Sociable','Cariñoso'], true, 'Gato sin pelo, muy sociable y cariñoso con las personas.', 'disponible', 'Imagenes/Loki.jpg'),
+('Lucy', '2022-02-28', 'Hembra', 'Ruso Azul', 'Sólida', 'Corto', ARRAY['Elegante','Reservada'], true, 'Elegante y silenciosa, con una presencia muy especial.', 'adoptado', 'Imagenes/Lucy.jpg'),
+('Charlie', '2020-05-15', 'Macho', 'Gato Doméstico', 'Bicolor', 'Largo', ARRAY['Amistoso','Paciente'], true, 'Le encanta que lo cepillen y disfruta de las caricias.', 'disponible', 'Imagenes/Charlie.jpg'),
+('Freya', '2017-07-16', 'Hembra', 'Común Europeo', 'Atigrada', 'Corto', ARRAY['Valiente','Leal'], true, 'Valiente y siempre atenta. Con algo de carácter pero muy leal.', 'disponible', 'Imagenes/Freya.jpg'),
+('Sophie', '2019-10-10', 'Hembra', 'Angora', 'Blanca', 'Largo', ARRAY['Regia','Carismática'], true, 'Una reina que busca su trono y mucho mimo.', 'disponible', 'Imagenes/Sophie.jpg'),
+('Milo', '2024-01-05', 'Macho', 'Común Europeo', 'Atigrado', 'Corto', ARRAY['Curioso','Tierno'], false, 'Bebé rescatado hace una semana, muy curioso y cariñoso.', 'disponible', 'Imagenes/Milo.jpg');
 
 -- Insertar vacunas básicas
 INSERT INTO Vacunas (nombre_vacuna, fecha_vacuna) VALUES 

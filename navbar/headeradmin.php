@@ -5,7 +5,7 @@
     <nav>
         <ul>
                 <span>Bienvenid@, <?php echo $_SESSION['admin']; ?></span>
-                <a class="logoutbtn" href="logout.php">Cerrar Sesión</a>
+                <a class="logoutbtn" href="/Reto5-Michis/logout.php">Cerrar Sesión</a>
         </ul>
     </nav>
 </header>

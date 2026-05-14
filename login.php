@@ -8,7 +8,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = Usuario::login($pdo, $_POST['email'], $_POST['password']);
     if($user) {
         $_SESSION['admin'] = $user->getNombreCompleto();
-        header("Location: admin-dashboard.php");
+        header("Location: Admin/admin-index.php");
     }
 }
 ?>

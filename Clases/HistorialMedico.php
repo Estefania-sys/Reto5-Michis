@@ -35,6 +35,21 @@ class HistorialMedico {
     }
 
     /**
+     * Obtiene la lista de vacunas registradas para un gato.
+     */
+    public static function obtenerVacunasPorGato($pdo, $id_gato) {
+        $sql = "SELECT v.nombre_vacuna, v.fecha_vacuna, h.fecha_revision 
+                FROM Historial_Medico h 
+                JOIN Vacunas v ON h.id_vacuna = v.id_vacuna 
+                WHERE h.id_gato = :id_gato 
+                ORDER BY h.fecha_revision DESC";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id_gato' => $id_gato]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Registra una nueva entrada en el historial (Útil para la Voluntaria/Admin)
      */
     public static function agregarEntrada($pdo, $id_gato, $diagnostico, $id_vacuna = null) {
