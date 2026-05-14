@@ -420,6 +420,117 @@ label {
 }
 
 /* =========================================
+   PANEL DE ADMIN
+   ========================================= */
+.admin-panel {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.admin-panel h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.admin-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.admin-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #667eea;
+}
+
+.admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-view {
+    background-color: #667eea;
+    color: white;
+}
+
+.btn-view:hover {
+    background-color: #5568d3;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 16px;
+}
+
+.cita-status {
+    display: flex;
+    gap: 5px;
+}
+
+.cita-ok,
+.cita-no {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.cita-ok {
+    background-color: #28a745;
+}
+
+.cita-no {
+    background-color: #dc3545;
+}
+
+
+/* =========================================
    TABLAS Y ADMIN
    ========================================= */
 table {
