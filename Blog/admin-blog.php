@@ -31,7 +31,7 @@ $gatosAdoptados = $pdo->query("SELECT id_gato, nombre FROM Gatos WHERE estado = 
 <body>
     <?php include __DIR__ . '/../navbar/headeradmin.php'; ?>
     <main class="container">
-        <div class="form-box">
+        <section class="form-box">
             <h2>Publicar un "Final Feliz"</h2>
                 <?php if ($mensaje): ?>
                 <p class="mensaje-exito"><?php echo htmlspecialchars($mensaje); ?></p>
@@ -43,34 +43,34 @@ $gatosAdoptados = $pdo->query("SELECT id_gato, nombre FROM Gatos WHERE estado = 
 
             <?php if ($blog->isAvailable()): ?>
                 <form method="POST" class="estilo-formulario">
-                    <div class="grupo-input">
+                    <section class="grupo-input">
                         <label>Selecciona al Gato:</label>
                         <select name="id_gato" required>
                             <?php foreach ($gatosAdoptados as $g): ?>
                                 <option value="<?php echo htmlspecialchars($g['id_gato']); ?>"><?php echo htmlspecialchars($g['nombre']); ?></option>
                             <?php endforeach; ?>
                         </select>
-                    </div>
+                    </section>
 
-                    <div class="grupo-input">
+                    <section class="grupo-input">
                         <label>Título de la historia:</label>
                         <input type="text" name="titulo" placeholder="Ej: El nuevo hogar de Luna" required>
-                    </div>
+                    </section>
 
-                    <div class="grupo-input">
+                    <section class="grupo-input">
                         <label>La historia:</label>
                         <textarea name="historia" rows="6" required></textarea>
-                    </div>
+                    </section>
 
-                    <div class="grupo-input">
+                    <section class="grupo-input">
                         <label>Nombre del archivo de imagen (Ej: luna_feliz.jpg):</label>
                         <input type="text" name="foto" required>
-                    </div>
+                    </section>
 
                     <button type="submit" class="btn-primary">Publicar en el Blog</button>
                 </form>
             <?php endif; ?>
-        </div>
+        </section>
     </main>
 </body>
 </html>

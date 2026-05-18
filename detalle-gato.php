@@ -34,16 +34,27 @@ if (!$gato) {
             $orientationClass = 'vertical';
         ?>
         <section class="detalle-header">
+<<<<<<< HEAD
             <section class="detalle-img <?php echo htmlspecialchars($orientationClass); ?>">
                 <div class="detalle-img-box">
                     <div class="card-carousel <?php echo count($fotosDetalle) === 1 ? 'single-image' : ''; ?>" id="detalle-carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
                         <?php foreach ($fotosDetalle as $index => $foto): ?>
+=======
+            <section class="detalle-img">
+                <?php $fotosDetalle = Imagenes::obtenerFotos($gato); ?>
+                <section class="card-carousel <?php echo count($fotosDetalle) === 1 ? 'single-image' : ''; ?>" id="detalle-carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
+                    <?php foreach ($fotosDetalle as $index => $foto): ?>
+>>>>>>> 864598b5d3ca8cb2692c991cbad40515b09f9b2d
                         <img src="<?php echo htmlspecialchars($foto); ?>" alt="<?php echo htmlspecialchars($nombreMostrar . ' foto ' . ($index + 1)); ?>" class="carousel-slide <?php echo $index === 0 ? 'active' : ''; ?>">
                     <?php endforeach; ?>
                     <button type="button" class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
                     <button type="button" class="carousel-btn carousel-next" aria-label="Siguiente">›</button>
+<<<<<<< HEAD
                 </div>
                 </div>
+=======
+                </section>
+>>>>>>> 864598b5d3ca8cb2692c991cbad40515b09f9b2d
             </section>
             <section class="detalle-info">
                 <h1><?php echo htmlspecialchars($nombreMostrar); ?></h1>
@@ -73,57 +84,57 @@ if (!$gato) {
                     <?php endif; ?>
                 </section>
 
-                <div class="detalle-datos">
-                    <div class="dato">
+                <section class="detalle-datos">
+                    <section class="dato">
                         <span class="dato-label">Raza:</span>
                         <span class="dato-valor"><?php echo htmlspecialchars($gato['raza']); ?></span>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <span class="dato-label">Edad:</span>
                         <span class="dato-valor"><?php echo htmlspecialchars(Gato::calcularEdadDesdeNacimiento($gato['fecha_nacimiento'])); ?> años</span>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <span class="dato-label">Género:</span>
                         <span class="dato-valor"><?php echo htmlspecialchars($gato['genero']); ?></span>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <span class="dato-label">Esterilizado:</span>
                         <span class="dato-valor"><?php echo $gato['esterilizado'] ? 'Sí' : 'No'; ?></span>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <span class="dato-label">Fecha de nacimiento:</span>
                         <span class="dato-valor"><?php echo date('d/m/Y', strtotime($gato['fecha_nacimiento'])); ?></span>
-                    </div>
+                    </section>
                     <?php $capaPatron = $gato['capa_patron'] ?? ''; ?>
                     <?php $peloLargo = $gato['pelo_largo'] ?? ''; ?>
                     <?php $tags = !empty($gato['character_tags']) ? Gato::parsePgArray($gato['character_tags']) : []; ?>
 
                     <?php if ($capaPatron !== ''): ?>
-                        <div class="dato">
+                        <section class="dato">
                             <span class="dato-label">Patrón de color:</span>
                             <span class="dato-valor"><?php echo htmlspecialchars($capaPatron); ?></span>
-                        </div>
+                        </section>
                     <?php endif; ?>
 
                     <?php if ($peloLargo !== ''): ?>
-                        <div class="dato">
+                        <section class="dato">
                             <span class="dato-label">Pelo:</span>
                             <span class="dato-valor"><?php echo htmlspecialchars($peloLargo); ?></span>
-                        </div>
+                        </section>
                     <?php endif; ?>
 
                     <?php if (!empty($tags)): ?>
-                        <div class="dato">
+                        <section class="dato">
                             <span class="dato-label">Característica:</span>
                             <span class="dato-valor"><?php echo htmlspecialchars(implode(', ', $tags)); ?></span>
-                        </div>
+                        </section>
                     <?php endif; ?>
 
-                    <div class="dato">
+                    <section class="dato">
                         <span class="dato-label">Vacunas registradas:</span>
                         <span class="dato-valor"><?php echo !empty($vacunas) ? 'Sí' : 'No'; ?></span>
-                    </div>
-                </div>
+                    </section>
+                </section>
 
                 <h3>Acerca de <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?></h3>
                 <p><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></p>

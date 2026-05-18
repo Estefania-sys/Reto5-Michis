@@ -17,21 +17,27 @@ $posts = $blog->obtenerTodos();
     
     <main class="container">
         <header class="blog-header">
+<<<<<<< HEAD
             <div class="blog-header-top">
                 <div>
                     <h1>🐾 Historias Felices</h1>
+=======
+            <section class="blog-header-top">
+                <section>
+                    <h1>🐾 Finales Felices</h1>
+>>>>>>> 864598b5d3ca8cb2692c991cbad40515b09f9b2d
                     <p>Historias de gatos que encontraron su hogar ideal gracias al voluntariado.</p>
-                </div>
+                </section>
                 <?php if (!empty($_SESSION['admin'])): ?>
-                    <div class="blog-admin-info">
+                    <section class="blog-admin-info">
                         <span>Bienvenido, <?php echo htmlspecialchars($_SESSION['admin']); ?></span>
                         <div class="blog-admin-actions">
                             <a href="admin-blog.php" class="btn-primary" style="max-width: 220px; margin-top: 20px; display: inline-block;">Publicar historia</a>
                             <a href="../logout.php" class="btn-secondary" style="max-width: 220px; margin-top: 20px; display: inline-block;">Cerrar sesión</a>
                         </div>
-                    </div>
+                    </section>
                 <?php endif; ?>
-            </div>
+            </section>
         </header>
         
         <section class="grid-blog">
@@ -42,16 +48,16 @@ $posts = $blog->obtenerTodos();
             <?php if (empty($errorBlog) && !empty($posts)): ?>
                 <?php foreach ($posts as $p): ?>
                     <article class="blog-card">
-                        <div class="blog-card-img">
+                        <section class="blog-card-img">
                             <img src="../Imagenes/Gatos/<?php echo htmlspecialchars($p['foto']); ?>" alt="Foto final feliz">
-                        </div>
-                        <div class="blog-card-info">
+                        </section>
+                        <section class="blog-card-info">
                             <h3><?php echo htmlspecialchars($p['titulo']); ?></h3>
                             <p><?php echo nl2br(htmlspecialchars($p['contenido'])); ?></p>
                             <?php if (!empty($p['fecha'])): ?>
                                 <time>Publicado el: <?php echo htmlspecialchars($p['fecha']->toDateTime()->format('d/m/Y')); ?></time>
                             <?php endif; ?>
-                        </div>
+                        </section>
                     </article>
                 <?php endforeach; ?>
             <?php elseif (empty($errorBlog)): ?>
