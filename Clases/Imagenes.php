@@ -12,6 +12,158 @@ class Imagenes {
         return basename(trim($nombre));
     }
 
+    private static function sanitizeForFolder($nombre) {
+        if (empty($nombre)) {
+            return null;
+        }
+        $s = trim(mb_strtolower($nombre, 'UTF-8'));
+        $s = preg_replace('/[\s\/\\]+/', '_', $s);
+        $s = preg_replace('/[^a-z0-9_\-]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $s));
+        $s = preg_replace('/_+/', '_', $s);
+        $s = trim($s, '_-');
+        return $s ?: null;
+    }
+
+    public static function getImageOrientation($imagenRelPath) {
+        // Todas las imágenes se tratan como verticales de igual tamaño.
+        return 'vertical';
+    }
+
+    private static function getTargetImageSize() {
+        return ['width' => 899, 'height' => 1599];
+    }
+
+    private static function getCacheFolder() {
+        return self::getBaseFolder() . 'cache/';
+    }
+
+    private static function getCachedImagePath($imagenRelPath) {
+        $relative = preg_replace('#^Imagenes/Gatos/#', '', $imagenRelPath);
+        return 'Imagenes/Gatos/cache/' . $relative;
+    }
+
+    private static function ensureDirectoryExists($path) {
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+    }
+
+    private static function resizeImageToUniformSize($sourcePath, $destPath) {
+        if (!function_exists('imagecreatetruecolor') || !function_exists('imagecopyresampled')) {
+            return false;
+        }
+
+        $size = @getimagesize($sourcePath);
+        if ($size === false) {
+            return false;
+        }
+
+        list($origWidth, $origHeight, $imageType) = $size;
+        $target = self::getTargetImageSize();
+        $targetWidth = $target['width'];
+        $targetHeight = $target['height'];
+
+        if ($origWidth <= 0 || $origHeight <= 0) {
+            return false;
+        }
+
+        $srcRatio = $origWidth / $origHeight;
+        $targetRatio = $targetWidth / $targetHeight;
+
+        if ($srcRatio > $targetRatio) {
+            $newWidth = $targetWidth;
+            $newHeight = (int)round($targetWidth / $srcRatio);
+        } else {
+            $newHeight = $targetHeight;
+            $newWidth = (int)round($targetHeight * $srcRatio);
+        }
+
+        switch ($imageType) {
+            case IMAGETYPE_JPEG:
+                if (!function_exists('imagecreatefromjpeg')) {
+                    return false;
+                }
+                $image = @imagecreatefromjpeg($sourcePath);
+                break;
+            case IMAGETYPE_PNG:
+                if (!function_exists('imagecreatefrompng')) {
+                    return false;
+                }
+                $image = @imagecreatefrompng($sourcePath);
+                break;
+            case IMAGETYPE_GIF:
+                if (!function_exists('imagecreatefromgif')) {
+                    return false;
+                }
+                $image = @imagecreatefromgif($sourcePath);
+                break;
+            default:
+                return false;
+        }
+
+        if (!$image) {
+            return false;
+        }
+
+        $canvas = imagecreatetruecolor($targetWidth, $targetHeight);
+        $white = imagecolorallocate($canvas, 255, 255, 255);
+        imagefill($canvas, 0, 0, $white);
+
+        if ($imageType === IMAGETYPE_PNG || $imageType === IMAGETYPE_GIF) {
+            imagecolortransparent($canvas, $white);
+            imagealphablending($canvas, false);
+            imagesavealpha($canvas, true);
+        }
+
+        $dstX = (int)round(($targetWidth - $newWidth) / 2);
+        $dstY = (int)round(($targetHeight - $newHeight) / 2);
+        imagecopyresampled($canvas, $image, $dstX, $dstY, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+
+        self::ensureDirectoryExists(dirname($destPath));
+
+        $success = false;
+        switch ($imageType) {
+            case IMAGETYPE_JPEG:
+                $success = imagejpeg($canvas, $destPath, 85);
+                break;
+            case IMAGETYPE_PNG:
+                $success = imagepng($canvas, $destPath, 6);
+                break;
+            case IMAGETYPE_GIF:
+                $success = imagegif($canvas, $destPath);
+                break;
+        }
+
+        imagedestroy($image);
+        imagedestroy($canvas);
+
+        return $success;
+    }
+
+    private static function obtenerImagenHomogenea($imagen) {
+        if (empty($imagen)) {
+            return $imagen;
+        }
+
+        $rutaAbs = __DIR__ . '/../' . $imagen;
+        if (!file_exists($rutaAbs) || !is_file($rutaAbs)) {
+            return $imagen;
+        }
+
+        $cachedRel = self::getCachedImagePath($imagen);
+        $cachedAbs = __DIR__ . '/../' . $cachedRel;
+
+        if (file_exists($cachedAbs) && filemtime($cachedAbs) >= filemtime($rutaAbs)) {
+            return $cachedRel;
+        }
+
+        if (self::resizeImageToUniformSize($rutaAbs, $cachedAbs)) {
+            return $cachedRel;
+        }
+
+        return $imagen;
+    }
+
     private static function scanFolderNames() {
         $base = self::getBaseFolder();
         if (!is_dir($base)) {
@@ -37,10 +189,26 @@ class Imagenes {
             return null;
         }
 
+        // Prioritize folders that begin with the numeric id (new scheme: "id_slug")
+        if (!empty($gato['id_gato'])) {
+            $idStr = (string)$gato['id_gato'];
+            foreach ($folders as $folder) {
+                if (stripos($folder, $idStr . '_') === 0 || strcasecmp($folder, $idStr) === 0) {
+                    return $folder;
+                }
+            }
+        }
+
+        // Fall back to matching by normalized name (compatibility with old folders)
         if (!empty($gato['nombre'])) {
             $candidate = self::normalizeFolderName($gato['nombre']);
             foreach ($folders as $folder) {
                 if (strcasecmp($folder, $candidate) === 0) {
+                    return $folder;
+                }
+                // also try sanitized slug match
+                $slug = self::sanitizeForFolder($gato['nombre']);
+                if (!empty($slug) && strcasecmp($folder, $slug) === 0) {
                     return $folder;
                 }
             }
@@ -63,12 +231,13 @@ class Imagenes {
     }
 
     public static function obtenerNombre($gato) {
-        $folderName = self::findFolderName($gato);
-        if (!empty($folderName)) {
-            return $folderName;
+        // Prefer the explicit name stored for the cat for visual display
+        if (!empty($gato['nombre'])) {
+            return $gato['nombre'];
         }
 
-        return !empty($gato['nombre']) ? $gato['nombre'] : null;
+        $folderName = self::findFolderName($gato);
+        return !empty($folderName) ? $folderName : null;
     }
 
     public static function obtenerFotos($gato) {
@@ -101,7 +270,8 @@ class Imagenes {
                 continue;
             }
             if (preg_match('/\.(jpe?g|png|gif)$/i', $archivo)) {
-                $imagenes[] = 'Imagenes/Gatos/' . $nombreCarpeta . '/' . $archivo;
+                $rutaRel = 'Imagenes/Gatos/' . $nombreCarpeta . '/' . $archivo;
+                $imagenes[] = self::obtenerImagenHomogenea($rutaRel);
             }
         }
 
@@ -112,15 +282,23 @@ class Imagenes {
         if (!empty($gato['foto_url'])) {
             $rutaFoto = __DIR__ . '/../' . $gato['foto_url'];
             if (file_exists($rutaFoto)) {
-                return $gato['foto_url'];
+                return self::obtenerImagenHomogenea($gato['foto_url']);
             }
         }
 
         if (!empty($nombreCarpeta)) {
-            return 'Imagenes/Gatos/' . $nombreCarpeta . '.png';
+            $candidate1 = 'Imagenes/Gatos/' . $nombreCarpeta . '.png';
+            $candidate2 = 'Imagenes/Gatos/' . $nombreCarpeta . '/default.png';
+            if (file_exists(__DIR__ . '/../' . $candidate1)) {
+                return self::obtenerImagenHomogenea($candidate1);
+            }
+            if (file_exists(__DIR__ . '/../' . $candidate2)) {
+                return self::obtenerImagenHomogenea($candidate2);
+            }
+            return self::obtenerImagenHomogenea($candidate1);
         }
 
-        return 'Imagenes/Gatos/default.png';
+        return self::obtenerImagenHomogenea('Imagenes/Gatos/default.png');
     }
 }
 ?>

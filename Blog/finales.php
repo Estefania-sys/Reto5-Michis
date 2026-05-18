@@ -19,7 +19,7 @@ $posts = $blog->obtenerTodos();
         <header class="blog-header">
             <div class="blog-header-top">
                 <div>
-                    <h1>🐾 Finales Felices</h1>
+                    <h1>🐾 Historias Felices</h1>
                     <p>Historias de gatos que encontraron su hogar ideal gracias al voluntariado.</p>
                 </div>
                 <?php if (!empty($_SESSION['admin'])): ?>

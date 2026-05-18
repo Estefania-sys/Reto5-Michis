@@ -29,15 +29,20 @@ if (!$gato) {
 
 
     <main class="detalle-container">
+        <?php
+            $fotosDetalle = Imagenes::obtenerFotos($gato);
+            $orientationClass = 'vertical';
+        ?>
         <section class="detalle-header">
-            <section class="detalle-img">
-                <?php $fotosDetalle = Imagenes::obtenerFotos($gato); ?>
-                <div class="card-carousel <?php echo count($fotosDetalle) === 1 ? 'single-image' : ''; ?>" id="detalle-carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
-                    <?php foreach ($fotosDetalle as $index => $foto): ?>
+            <section class="detalle-img <?php echo htmlspecialchars($orientationClass); ?>">
+                <div class="detalle-img-box">
+                    <div class="card-carousel <?php echo count($fotosDetalle) === 1 ? 'single-image' : ''; ?>" id="detalle-carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
+                        <?php foreach ($fotosDetalle as $index => $foto): ?>
                         <img src="<?php echo htmlspecialchars($foto); ?>" alt="<?php echo htmlspecialchars($nombreMostrar . ' foto ' . ($index + 1)); ?>" class="carousel-slide <?php echo $index === 0 ? 'active' : ''; ?>">
                     <?php endforeach; ?>
                     <button type="button" class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
                     <button type="button" class="carousel-btn carousel-next" aria-label="Siguiente">›</button>
+                </div>
                 </div>
             </section>
             <section class="detalle-info">
@@ -123,11 +128,11 @@ if (!$gato) {
                 <h3>Acerca de <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?></h3>
                 <p><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></p>
 
-                <?php if (strtolower($gato['estado']) === 'disponible'): ?>
-                    <a href="solicitud-adopcion.php?id=<?php echo $gato['id_gato']; ?>" class="btn-primary">Solicitar información / Cita</a>
-                <?php endif; ?>
-
-                <a href="catalogo.php" class="btn-secondary">← Volver al catálogo</a>
+                <?php $isDisponible = strtolower(trim($gato['estado'] ?? '')) === 'disponible'; ?>
+                <div class="detalle-actions">
+                    <a href="solicitud-adopcion.php?id=<?php echo $gato['id_gato']; ?>" class="btn-primary<?php echo $isDisponible ? '' : ' btn-disabled'; ?>" <?php echo $isDisponible ? '' : 'aria-disabled="true" tabindex="-1"'; ?>>Solicitar información / Cita</a>
+                    <a href="catalogo.php" class="btn-secondary">← Volver al catálogo</a>
+                </div>
             </section>
         </section>
     </main>
