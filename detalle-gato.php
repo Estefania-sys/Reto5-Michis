@@ -34,27 +34,15 @@ if (!$gato) {
             $orientationClass = 'vertical';
         ?>
         <section class="detalle-header">
-<<<<<<< HEAD
-            <section class="detalle-img <?php echo htmlspecialchars($orientationClass); ?>">
-                <div class="detalle-img-box">
-                    <div class="card-carousel <?php echo count($fotosDetalle) === 1 ? 'single-image' : ''; ?>" id="detalle-carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
-                        <?php foreach ($fotosDetalle as $index => $foto): ?>
-=======
             <section class="detalle-img">
                 <?php $fotosDetalle = Imagenes::obtenerFotos($gato); ?>
                 <section class="card-carousel <?php echo count($fotosDetalle) === 1 ? 'single-image' : ''; ?>" id="detalle-carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
                     <?php foreach ($fotosDetalle as $index => $foto): ?>
->>>>>>> 864598b5d3ca8cb2692c991cbad40515b09f9b2d
                         <img src="<?php echo htmlspecialchars($foto); ?>" alt="<?php echo htmlspecialchars($nombreMostrar . ' foto ' . ($index + 1)); ?>" class="carousel-slide <?php echo $index === 0 ? 'active' : ''; ?>">
                     <?php endforeach; ?>
                     <button type="button" class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
                     <button type="button" class="carousel-btn carousel-next" aria-label="Siguiente">›</button>
-<<<<<<< HEAD
-                </div>
-                </div>
-=======
                 </section>
->>>>>>> 864598b5d3ca8cb2692c991cbad40515b09f9b2d
             </section>
             <section class="detalle-info">
                 <h1><?php echo htmlspecialchars($nombreMostrar); ?></h1>
