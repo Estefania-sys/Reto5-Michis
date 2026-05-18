@@ -12,7 +12,7 @@
 <section class="contactos">
     <h1>Entre oficina y ronroneos: Mi misión</h1>
     
-    <div class="bio-container">
+    <section class="bio-container">
         <p><strong>¡Hola! Soy la persona detrás de este refugio.</strong></p>
         
         <p>Durante el día, cumplo con mi jornada laboral como cualquier otra profesional, pero mi verdadera vocación comienza cuando cierro el ordenador. Mi vida está dedicada a ser el puente entre el abandono y el calor de un hogar.</p>
@@ -22,7 +22,7 @@
         <blockquote>
             "Rescatar a un gato no cambiará el mundo, pero para ese gato, su mundo habrá cambiado para siempre."
         </blockquote>
-    </div>
+    </section>
 </section>
 
 <section class="botoneracontacto">

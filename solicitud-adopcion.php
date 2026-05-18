@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <?php include 'navbar/header.php'?>
-    <div class="container">
+    <section class="container">
         <h2>Solicitud de Adopción</h2>
         <p class="<?php echo $clase_mensaje; ?>"><?php echo $mensaje_resultado; ?></p>
         <form method="POST">
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea name="mensaje" placeholder="¿Por qué quieres adoptarlo?"></textarea>
             <button type="submit">Enviar solicitud</button>
         </form>
-    </div>
+    </section>
     <?php include 'navbar/footer.php' ?>
 </body>
 </html>

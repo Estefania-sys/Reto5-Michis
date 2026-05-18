@@ -34,14 +34,14 @@ if ($pdo) {
                     <?php $nombreMostrar = Imagenes::obtenerNombre($gato); ?>
                     <?php $fotosGato = Imagenes::obtenerFotos($gato); ?>
                     <article class="card">
-                        <div class="card-img">
-                            <div class="card-carousel <?php echo count($fotosGato) === 1 ? 'single-image' : ''; ?>" id="carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
+                        <section class="card-img">
+                            <section class="card-carousel <?php echo count($fotosGato) === 1 ? 'single-image' : ''; ?>" id="carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
                                 <?php foreach ($fotosGato as $index => $foto): ?>
                                     <img src="<?php echo htmlspecialchars($foto); ?>" alt="<?php echo htmlspecialchars($nombreMostrar . ' foto ' . ($index + 1)); ?>" class="carousel-slide <?php echo $index === 0 ? 'active' : ''; ?>">
                                 <?php endforeach; ?>
                                 <button type="button" class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
                                 <button type="button" class="carousel-btn carousel-next" aria-label="Siguiente">›</button>
-                            </div>
+                            </section>
                             <span class="badge <?php echo strtolower($gato['estado']); ?>">
                                 <?php 
                                 $estados = [
@@ -52,7 +52,7 @@ if ($pdo) {
                                 echo isset($estados[$gato['estado']]) ? $estados[$gato['estado']] : ucfirst($gato['estado']);
                                 ?>
                             </span>
-                        </div>
+                        </section>
                         <a href="detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="card-link">
                             <section class="card-info">
                                 <h3><?php echo htmlspecialchars($nombreMostrar); ?></h3>

@@ -50,7 +50,7 @@ $adopciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1>📋 Panel de Control - Solicitudes de Adopción</h1>
 
         <?php if(count($adopciones) > 0): ?>
-            <div class="table-container">
+            <section class="table-container">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -82,36 +82,36 @@ $adopciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php echo date('d/m/Y', strtotime($adopcion['fecha_adopcion'])); ?>
                                 </td>
                                 <td>
-                                    <div class="cita-status">
+                                    <section class="cita-status">
                                         <?php if($adopcion['cita1_ok']): ?>
                                             <span class="cita-ok">✓</span>
                                         <?php else: ?>
                                             <span class="cita-no">✗</span>
                                         <?php endif; ?>
-                                    </div>
+                                    </section>
                                 </td>
                                 <td>
-                                    <div class="cita-status">
+                                    <section class="cita-status">
                                         <?php if($adopcion['cita2_ok']): ?>
                                             <span class="cita-ok">✓</span>
                                         <?php else: ?>
                                             <span class="cita-no">✗</span>
                                         <?php endif; ?>
-                                    </div>
+                                    </section>
                                 </td>
                                 <td>
                                     <small><?php echo htmlspecialchars(substr($adopcion['observaciones'] ?? '', 0, 50) . (strlen($adopcion['observaciones'] ?? '') > 50 ? '...' : '')); ?></small>
                                 </td>
                                 <td>
-                                    <div class="action-buttons">
+                                    <section class="action-buttons">
                                         <a href="/Reto5-Michis/detalle-gato.php?id=<?php echo $adopcion['id_gato']; ?>" class="btn-small btn-view">Ver Gato</a>
-                                    </div>
+                                    </section>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-            </div>
+            </section>
         <?php else: ?>
             <div class="empty-message">
                 <p>No hay solicitudes de adopción registradas aún.</p>

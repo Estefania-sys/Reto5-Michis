@@ -19,14 +19,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <?php include 'navbar/header.php'?>
-    <div class="login-box">
+    <section class="login-box">
         <form method="POST">
             <h2>Acceso Personal</h2>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Contraseña" required>
             <button type="submit">Entrar</button>
         </form>
-    </div>
+    </section>
     <?php include 'navbar/footer.php' ?>
 </body>
 </html>
