@@ -1,6 +1,6 @@
 <header class="navbar">
     <section class="logo">
-        <a href="/Reto5-Michis/Admin/admin-index.php"><img class="logoimg" src="/Reto5-Michis/Imagenes/Items/logoplaceholder.png" height="55" width="75" alt="Logo"></a>
+        <a href="/Reto5-Michis/Admin/admin-index.php"><img class="logoimg" src="/Reto5-Michis/Imagenes/Items/logo.png" height="55" width="55" alt="Logo"></a>
     </section>
     <nav>
         <ul>
@@ -13,3 +13,5 @@
         </ul>
     </nav>
 </header>
+
+<script src="/Reto5-Michis/traduccionscript.js"></script> <!-- Cambio de idioma -->

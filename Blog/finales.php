@@ -17,15 +17,9 @@ $posts = $blog->obtenerTodos();
     
     <main class="container">
         <header class="blog-header">
-<<<<<<< HEAD
-            <div class="blog-header-top">
-                <div>
-                    <h1>🐾 Historias Felices</h1>
-=======
             <section class="blog-header-top">
                 <section>
                     <h1>🐾 Finales Felices</h1>
->>>>>>> 864598b5d3ca8cb2692c991cbad40515b09f9b2d
                     <p>Historias de gatos que encontraron su hogar ideal gracias al voluntariado.</p>
                 </section>
                 <?php if (!empty($_SESSION['admin'])): ?>
@@ -39,6 +33,21 @@ $posts = $blog->obtenerTodos();
                 <?php endif; ?>
             </section>
         </header>
+
+        <?php
+        // Ruta del archivo
+        $rutaArchivo = 'blog.json';
+
+        // Leer el contenido del archivo como una cadena de texto (string)
+        $contenidoJson = file_get_contents($rutaArchivo);
+
+        // Convertir el string JSON a un Array Asociativo de PHP
+        $datos = json_decode($contenidoJson, true);
+
+        echo "Nombre del Adoptante: " . $datos['name'] . "<br>";
+        echo "Nombre del Gato: " . $datos['catname'] . "<br>";
+        echo "Historia: " . $datos['historia'] . "<br>";
+        ?>
         
         <section class="grid-blog">
             <?php if (!empty($errorBlog)): ?>
