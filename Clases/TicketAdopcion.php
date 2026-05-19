@@ -6,28 +6,46 @@ class TicketAdopcion {
      * Registra el interés inicial. 
      * Por defecto, las citas se inicializan en FALSE (0 en BD).
      */
-    public static function registrarInteres($pdo, $id_gato, $nombres, $apellidos, $email, $mensaje) {
-        try{// 1. Manejo del usuario adoptante (PostgreSQL ON CONFLICT)
-        $sqlUser = "INSERT INTO Usuarios (nombres, apellidos, email, rol) 
-                    VALUES (:nom, :ape, :em, 'adoptante') 
-                    ON CONFLICT (email) DO UPDATE SET nombres = EXCLUDED.nombres 
-                    RETURNING id_usuario";
-        
-        $stmtUser = $pdo->prepare($sqlUser);
-        $stmtUser->execute(['nom' => $nombres, 'ape' => $apellidos, 'em' => $email]);
-        $id_usuario = $stmtUser->fetchColumn();
+    public static function registrarInteres($pdo, $id_gato, $nombres, $apellidos, $email, $dni = null, $fecha_nacimiento = null, $direccion = null, $poblacion = null, $cp = null, $telefono = null, $mensaje) {
+        try {
+            // 1. Manejo del usuario adoptante (PostgreSQL ON CONFLICT)
+            $sqlUser = "INSERT INTO Usuarios (nombres, apellidos, email, rol, dni, fecha_nacimiento, direccion, poblacion, cp, telefono) 
+                        VALUES (:nom, :ape, :em, 'adoptante', :dni, :fnac, :dir, :pob, :cp, :tel) 
+                        ON CONFLICT (email) DO UPDATE SET 
+                            nombres = EXCLUDED.nombres,
+                            apellidos = EXCLUDED.apellidos,
+                            dni = EXCLUDED.dni,
+                            fecha_nacimiento = EXCLUDED.fecha_nacimiento,
+                            direccion = EXCLUDED.direccion,
+                            poblacion = EXCLUDED.poblacion,
+                            cp = EXCLUDED.cp,
+                            telefono = EXCLUDED.telefono
+                        RETURNING id_usuario";
 
-        // 2. Insertamos el Ticket con los nuevos campos de seguimiento
-        // Nota: Asegúrate de haber ejecutado el ALTER TABLE en tu BD para estos campos
-        $sqlAdop = "INSERT INTO Adopciones (id_usuario, id_gato, observaciones, cita1_ok, cita2_ok) 
-                    VALUES (:iu, :ig, :obs, CURRENT_DATE, false, false)";
-        
-        $stmtAdop = $pdo->prepare($sqlAdop);
-        return $stmtAdop->execute([
-            'iu' => $id_usuario, 
-            'ig' => $id_gato, 
-            'obs' => $mensaje
-        ]);
+            $stmtUser = $pdo->prepare($sqlUser);
+            $stmtUser->execute([
+                'nom' => $nombres,
+                'ape' => $apellidos,
+                'em' => $email,
+                'dni' => $dni,
+                'fnac' => $fecha_nacimiento,
+                'dir' => $direccion,
+                'pob' => $poblacion,
+                'cp' => $cp,
+                'tel' => $telefono
+            ]);
+            $id_usuario = $stmtUser->fetchColumn();
+
+            // 2. Insertamos el Ticket con los nuevos campos de seguimiento
+            $sqlAdop = "INSERT INTO Adopciones (id_usuario, id_gato, observaciones, cita1_ok, cita2_ok) 
+                        VALUES (:iu, :ig, :obs, false, false)";
+
+            $stmtAdop = $pdo->prepare($sqlAdop);
+            return $stmtAdop->execute([
+                'iu' => $id_usuario,
+                'ig' => $id_gato,
+                'obs' => $mensaje
+            ]);
         } catch (PDOException $e) {
             return false;
         }

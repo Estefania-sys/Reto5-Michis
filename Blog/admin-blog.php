@@ -1,6 +1,7 @@
 <?php
-session_start();
-if(!isset($_SESSION['admin'])) { header("Location: login.php"); exit; }
+require_once __DIR__ . '/../Clases/Admin.php';
+Admin::iniciar();
+Admin::requerirAdmin();
 
 require_once __DIR__ . '/../Clases/Conexion.php';
 require_once __DIR__ . '/BlogMichis.php';
@@ -25,11 +26,10 @@ $gatosAdoptados = $pdo->query("SELECT id_gato, nombre FROM Gatos WHERE estado = 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Publicar Final Feliz</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <?php include __DIR__ . '/../navbar/headeradmin.php'; ?>
+    <?php Admin::renderizarHeader('../'); ?>
     <main class="container">
         <section class="form-box">
             <h2>Publicar un "Final Feliz"</h2>

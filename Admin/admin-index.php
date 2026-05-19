@@ -1,11 +1,7 @@
 <?php
-session_start();
-
-// Verificar que hay sesión de admin
-if(!isset($_SESSION['admin'])) {
-    header("Location: /Reto5-Michis/login.php");
-    exit;
-}
+require_once '../Clases/Admin.php';
+Admin::iniciar();
+Admin::requerirAdmin();
 
 require_once '../Clases/Conexion.php';
 
@@ -18,8 +14,17 @@ $query = "
         u.nombres,
         u.apellidos,
         u.email,
-        g.nombre as gato_nombre,
+        u.dni,
+        u.fecha_nacimiento AS usuario_fecha_nacimiento,
+        u.direccion,
+        u.poblacion,
+        u.cp,
+        u.telefono,
         g.id_gato,
+        g.nombre AS gato_nombre,
+        g.numero_microchip,
+        g.peso_kg,
+        g.tamano,
         a.id_adopcion,
         a.fecha_adopcion,
         a.observaciones,
@@ -44,7 +49,7 @@ $adopciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="/Reto5-Michis/style.css">
 </head>
 <body>
-    <?php include '../navbar/headeradmin.php' ?>
+    <?php Admin::renderizarHeader(); ?>
 
     <div class="admin-panel">
         <h1>📋 Panel de Control - Solicitudes de Adopción</h1>
@@ -56,7 +61,13 @@ $adopciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <th>Nombre Completo</th>
                             <th>Email</th>
+                            <th>DNI</th>
+                            <th>Teléfono</th>
+                            <th>Ciudad / CP</th>
                             <th>Gato</th>
+                            <th>Microchip</th>
+                            <th>Peso</th>
+                            <th>Tamaño</th>
                             <th>Fecha de Adopción</th>
                             <th>Cita 1</th>
                             <th>Cita 2</th>
@@ -75,9 +86,15 @@ $adopciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <?php echo htmlspecialchars($adopcion['email']); ?>
                                     </a>
                                 </td>
+                                <td><?php echo htmlspecialchars($adopcion['dni'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($adopcion['telefono'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars(trim(($adopcion['poblacion'] ?? '') . ' / ' . ($adopcion['cp'] ?? ''))); ?></td>
                                 <td>
                                     <strong><?php echo htmlspecialchars($adopcion['gato_nombre']); ?></strong>
                                 </td>
+                                <td><?php echo htmlspecialchars($adopcion['numero_microchip'] ?? ''); ?></td>
+                                <td><?php echo !empty($adopcion['peso_kg']) ? htmlspecialchars($adopcion['peso_kg'] . ' kg') : ''; ?></td>
+                                <td><?php echo htmlspecialchars($adopcion['tamano'] ?? ''); ?></td>
                                 <td>
                                     <?php echo date('d/m/Y', strtotime($adopcion['fecha_adopcion'])); ?>
                                 </td>

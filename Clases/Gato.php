@@ -13,8 +13,11 @@ class Gato {
     private $notas_cuidador;
     private $estado;
     private $foto_url;
+    private $numero_microchip;
+    private $peso_kg;
+    private $tamano;
 
-    public function __construct($id, $nombre, $fecha_nacimiento, $genero, $raza, $capa_patron, $pelo_largo, $character_tags, $esterilizado, $notas_cuidador, $estado, $foto_url) {
+    public function __construct($id, $nombre, $fecha_nacimiento, $genero, $raza, $capa_patron, $pelo_largo, $character_tags, $esterilizado, $notas_cuidador, $estado, $foto_url, $numero_microchip = null, $peso_kg = null, $tamano = null) {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->fecha_nacimiento = $fecha_nacimiento;
@@ -27,6 +30,9 @@ class Gato {
         $this->notas_cuidador = $notas_cuidador;
         $this->estado = $estado;
         $this->foto_url = $foto_url;
+        $this->numero_microchip = $numero_microchip;
+        $this->peso_kg = $peso_kg;
+        $this->tamano = $tamano;
     }
 
     public static function calcularEdadDesdeNacimiento($fecha_nacimiento) {
@@ -112,7 +118,10 @@ class Gato {
             $data['esterilizado'] ?? null,
             $data['notas_cuidador'] ?? null,
             $data['estado'] ?? null,
-            $data['foto_url'] ?? null
+            $data['foto_url'] ?? null,
+            $data['numero_microchip'] ?? null,
+            $data['peso_kg'] ?? null,
+            $data['tamano'] ?? null
         );
     }
 
@@ -166,6 +175,18 @@ class Gato {
 
     public function getFotoUrl() {
         return $this->foto_url;
+    }
+
+    public function getNumeroMicrochip() {
+        return $this->numero_microchip;
+    }
+
+    public function getPesoKg() {
+        return $this->peso_kg;
+    }
+
+    public function getTamano() {
+        return $this->tamano;
     }
 }
 ?>

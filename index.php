@@ -1,3 +1,7 @@
+<?php
+require_once 'Clases/Admin.php';
+Admin::iniciar();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
 </head>
 <body>
-<?php include 'navbar/header.php'?>
+<?php Admin::renderizarHeader(); ?>
 
 <section class="contactos">
     <h1>Entre oficina y ronroneos: Mi misión</h1>

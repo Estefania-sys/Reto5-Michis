@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/../Clases/Admin.php';
+Admin::iniciar();
 require_once __DIR__ . '/BlogMichis.php';
 $blog = new BlogMichis();
 $errorBlog = $blog->getErrorMessage();
@@ -13,27 +14,19 @@ $posts = $blog->obtenerTodos();
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <?php include __DIR__ . '/../navbar/header.php'; ?>
+    <?php Admin::renderizarHeader('../'); ?>
     
     <main class="container">
         <header class="blog-header">
-<<<<<<< HEAD
             <div class="blog-header-top">
                 <div>
                     <h1>🐾 Historias Felices</h1>
-=======
-            <section class="blog-header-top">
-                <section>
-                    <h1>🐾 Finales Felices</h1>
->>>>>>> 864598b5d3ca8cb2692c991cbad40515b09f9b2d
                     <p>Historias de gatos que encontraron su hogar ideal gracias al voluntariado.</p>
                 </section>
-                <?php if (!empty($_SESSION['admin'])): ?>
+                <?php if (Admin::tieneAdminActivo()): ?>
                     <section class="blog-admin-info">
-                        <span>Bienvenido, <?php echo htmlspecialchars($_SESSION['admin']); ?></span>
                         <div class="blog-admin-actions">
                             <a href="admin-blog.php" class="btn-primary" style="max-width: 220px; margin-top: 20px; display: inline-block;">Publicar historia</a>
-                            <a href="../logout.php" class="btn-secondary" style="max-width: 220px; margin-top: 20px; display: inline-block;">Cerrar sesión</a>
                         </div>
                     </section>
                 <?php endif; ?>
