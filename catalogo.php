@@ -1,10 +1,15 @@
 <?php
+require_once 'Clases/Admin.php';
 require_once 'Clases/Conexion.php';
 require_once 'Clases/Gato.php';
 require_once 'Clases/Imagenes.php';
 
+Admin::iniciar();
 $conexion = new Conexion();
 $pdo = $conexion->getConnection();
+
+// Verificar si es admin/voluntario logueado
+$esAdmin = Admin::tieneAdminActivo();
 
 $gatos = [];
 if ($pdo) {
@@ -23,7 +28,7 @@ if ($pdo) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<?php include 'navbar/header.php'?>
+<?php Admin::renderizarHeader(); ?>
 
     <main id="catalogo" class="container">
         <h2 class="section-title">Gatitos en adopción</h2>
@@ -68,6 +73,9 @@ if ($pdo) {
                                 <?php endif; ?>
                                 <?php $tagList = !empty($gato['character_tags']) ? Gato::parsePgArray($gato['character_tags']) : []; ?>
                                 <?php if (!empty($tagList)): ?>
+                        <?php if ($esAdmin): ?>
+                            <button class="btn-editar" onclick="location.href='Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>'">Editar</button>
+                        <?php endif; ?>
                                     <p class="tags"><?php echo htmlspecialchars(implode(', ', $tagList)); ?></p>
                                 <?php endif; ?>
                                 <p class="desc"><?php echo htmlspecialchars(substr($gato['notas_cuidador'] ?? '', 0, 60)); ?>...</p>

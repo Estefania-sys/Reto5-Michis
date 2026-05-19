@@ -1,4 +1,6 @@
 <?php
+require_once 'Clases/Admin.php';
+Admin::iniciar();
 require_once 'Clases/Conexion.php';
 require_once 'Clases/Gato.php';
 require_once 'Clases/Imagenes.php';
@@ -117,6 +119,15 @@ if (!$gato) {
                             <span class="dato-valor"><?php echo htmlspecialchars(implode(', ', $tags)); ?></span>
                         </section>
                     <?php endif; ?>
+
+                    <section class="dato">
+                        <span class="dato-label">Tamaño:</span>
+                        <span class="dato-valor"><?php echo htmlspecialchars($gato['tamano'] ?? 'No disponible'); ?></span>
+                    </section>
+                    <section class="dato">
+                        <span class="dato-label">Peso:</span>
+                        <span class="dato-valor"><?php echo !empty($gato['peso_kg']) ? htmlspecialchars($gato['peso_kg'] . ' kg') : 'No disponible'; ?></span>
+                    </section>
 
                     <section class="dato">
                         <span class="dato-label">Vacunas registradas:</span>
