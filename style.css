@@ -875,6 +875,12 @@ tr:hover {
     font-weight: 600;
 }
 
+.btn-publicar-historia {
+    max-width: 220px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
 @media (max-width: 768px) {
     .blog-header {
         text-align: center;

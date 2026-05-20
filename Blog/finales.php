@@ -28,7 +28,7 @@ $posts = $blog->obtenerTodos();
                 <?php if (Admin::tieneAdminActivo()): ?>
                     <section class="blog-admin-info">
                         <section class="blog-admin-actions">
-                            <a href="admin-blog.php" class="btn-primary" style="max-width: 220px; margin-top: 20px; display: inline-block;">Publicar historia</a>
+                            <a href="admin-blog.php" class="btn-primary btn-publicar-historia">Publicar historia</a>
                         </section>
                     </section>
                 <?php endif; ?>
