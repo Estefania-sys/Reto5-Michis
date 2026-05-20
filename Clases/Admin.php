@@ -73,7 +73,7 @@ class Admin extends Persona {
         <header class="navbar">
             <section class="logo">
                 <a href="<?php echo $basePath; ?>/<?php echo $esAdmin ? 'Admin/admin-index.php' : 'index.php'; ?>">
-                    <img class="logoimg" src="<?php echo $basePath; ?>/Imagenes/Items/logoplaceholder.png" height="55" width="75" alt="Logo">
+                    <img class="logoimg" src="<?php echo $basePath; ?>/Imagenes/Items/logo.png" height="55" width="55" alt="Logo">
                 </a>
             </section>
             <nav>
