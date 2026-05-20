@@ -1,13 +1,12 @@
 <?php
 session_start();
 require_once 'Clases/Conexion.php';
-require_once 'Clases/Usuario.php';
+require_once 'Clases/Admin.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdo = (new Conexion())->getConnection();
-    $user = Usuario::login($pdo, $_POST['email'], $_POST['password']);
+    $user = Admin::login($pdo, $_POST['email'], $_POST['password']);
     if($user) {
-        $_SESSION['admin'] = $user->getNombreCompleto();
         header("Location: Admin/admin-index.php");
     }
 }

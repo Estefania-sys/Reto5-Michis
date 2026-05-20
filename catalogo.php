@@ -28,7 +28,7 @@ if ($pdo) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<?php Admin::renderizarHeader(); ?>
+<?php include 'navbar/headeradmin.php'; ?>
 
     <main id="catalogo" class="container">
         <h2 class="section-title">Gatitos en adopción</h2>

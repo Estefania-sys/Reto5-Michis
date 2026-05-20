@@ -20,7 +20,8 @@ class Admin extends Persona {
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($res) {
-            return new Usuario(
+            $_SESSION['admin'] = $res['nombres'] . ' ' . $res['apellidos'];
+            return new Admin(
                 $res['id_usuario'],
                 $res['nombres'],
                 $res['apellidos'],
@@ -55,43 +56,9 @@ class Admin extends Persona {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        unset($_SESSION['admin']);
         $_SESSION = [];
         session_destroy();
-    }
-
-    /**
-     * Renderiza el header correcto según la sesión activa
-     * @param string $basePath Ruta base del proyecto (ej: '/Reto5-Michis')
-     * @param bool $esAdmin Si es true, renderiza header admin; si es false, renderiza header público
-     */
-    public static function renderizarHeader($basePath = '/Reto5-Michis', $esAdmin = null) {
-        if ($esAdmin === null) {
-            $esAdmin = self::tieneAdminActivo();
-        }
-
-        ?>
-        <header class="navbar">
-            <section class="logo">
-                <a href="<?php echo $basePath; ?>/<?php echo $esAdmin ? 'Admin/admin-index.php' : 'index.php'; ?>">
-                    <img class="logoimg" src="<?php echo $basePath; ?>/Imagenes/Items/logo.png" height="55" width="55" alt="Logo">
-                </a>
-            </section>
-            <nav>
-                <ul>
-                    <a href="<?php echo $basePath; ?>/index.php">Inicio</a>
-                    <a href="<?php echo $basePath; ?>/catalogo.php">Adoptar</a>
-                    <a href="<?php echo $basePath; ?>/Blog/finales.php">Blog</a>
-                    <a href="<?php echo $basePath; ?>/contacto.php">Contacto</a>
-                    <?php if ($esAdmin): ?>
-                        <span>Bienvenid@, <?php echo htmlspecialchars(self::obtenerNombreAdmin()); ?></span>
-                        <a class="logoutbtn" href="<?php echo $basePath; ?>/logout.php">Cerrar Sesión</a>
-                    <?php else: ?>
-                        <a href="<?php echo $basePath; ?>/login.php" class="btn-login">Admin Login</a>
-                    <?php endif; ?>
-                </ul>
-            </nav>
-        </header>
-        <?php
     }
 
     /**

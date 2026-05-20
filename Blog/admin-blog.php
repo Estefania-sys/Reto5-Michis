@@ -29,7 +29,7 @@ $gatosAdoptados = $pdo->query("SELECT id_gato, nombre FROM Gatos WHERE estado = 
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <?php Admin::renderizarHeader('../'); ?>
+    <?php include '../navbar/headeradmin.php'; ?>
     <main class="container">
         <section class="form-box">
             <h2>Publicar un "Final Feliz"</h2>

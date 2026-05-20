@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="/Reto5-Michis/style.css">
 </head>
 <body>
-    <?php Admin::renderizarHeader(); ?>
+    <?php include '../navbar/headeradmin.php'; ?>
 
     <div class="admin-panel">
         <h1>📝 Editar Información de <?php echo htmlspecialchars($gato['nombre']); ?></h1>

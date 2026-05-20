@@ -49,7 +49,7 @@ $adopciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="/Reto5-Michis/style.css">
 </head>
 <body>
-    <?php Admin::renderizarHeader(); ?>
+    <?php include '../navbar/headeradmin.php'; ?>
 
     <div class="admin-panel">
         <h1>📋 Panel de Control - Solicitudes de Adopción</h1>

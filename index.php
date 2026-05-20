@@ -11,7 +11,7 @@ Admin::iniciar();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
 </head>
 <body>
-<?php Admin::renderizarHeader(); ?>
+<?php include 'navbar/headeradmin.php'; ?>
 
 <section class="contactos">
     <h1 class="traductor" lang="es">Entre oficina y ronroneos: Mi misión</h1>

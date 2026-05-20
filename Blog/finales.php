@@ -14,7 +14,7 @@ $posts = $blog->obtenerTodos();
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <?php Admin::renderizarHeader('../'); ?>
+    <?php include '../navbar/headeradmin.php'; ?>
     
     <main class="container">
         <header class="blog-header">

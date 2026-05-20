@@ -8,8 +8,12 @@
             <a href="/Reto5-Michis/catalogo.php">Adoptar</a>
             <a href="/Reto5-Michis/Blog/finales.php">Blog</a>
             <a href="/Reto5-Michis/contacto.php">Contacto</a>
-            <span>Bienvenid@, <?php echo $_SESSION['admin']; ?></span>
-            <a class="logoutbtn" href="/Reto5-Michis/logout.php">Cerrar Sesión</a>
+            <?php if (isset($_SESSION['admin']) && !empty($_SESSION['admin'])): ?>
+                <span>Bienvenid@, <?php echo htmlspecialchars($_SESSION['admin']); ?></span>
+                <a class="logoutbtn" href="/Reto5-Michis/logout.php">Cerrar Sesión</a>
+            <?php else: ?>
+                <a href="/Reto5-Michis/login.php" class="btn-login">Admin Login</a>
+            <?php endif; ?>
         </ul>
     </nav>
 </header>
