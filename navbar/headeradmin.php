@@ -2,6 +2,10 @@
     <section class="logo">
         <a href="/Reto5-Michis/Admin/admin-index.php"><img class="logoimg" src="/Reto5-Michis/Imagenes/Items/logo.png" height="55" width="55" alt="Logo"></a>
     </section>
+    <section class="cambio_idioma">
+        <button class="btn-lang" data-lang="es">ES</button>
+        <button class="btn-lang" data-lang="ca">CA</button>
+    </section>
     <nav>
         <ul>
             <a href="/Reto5-Michis/index.php">Inicio</a>
