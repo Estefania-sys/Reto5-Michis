@@ -10,7 +10,7 @@ $posts = $blog->obtenerTodos();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Finales Felices - Michis</title>
+    <title>Historias Felices</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>

@@ -15,15 +15,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="es">
 <head>
     <link rel="stylesheet" href="style.css">
+    <title>Inicio de Sesión</title>
 </head>
 <body>
     <?php include 'navbar/header.php'?>
     <section class="login-box">
         <form method="POST">
-            <h2>Acceso Personal</h2>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
-            <button type="submit">Entrar</button>
+            <h2 class="traductor" lang="es">Acceso Personal</h2>
+            <h2 class="traductor" lang="ca">Accés Personal</h2>
+            <input class="traductor" lang="es" type="email" name="email" placeholder="Email" required>
+            <input class="traductor" lang="ca" type="email" name="email" placeholder="Correu Electrònic" required>
+            <input class="traductor" lang="es" type="password" name="password" placeholder="Contraseña" required>
+            <input class="traductor" lang="ca" type="password" name="password" placeholder="Contrasenya" required>
+            <button class="traductor" lang="es" type="submit">Iniciar Sesión</button>
+            <button class="traductor" lang="ca" type="submit">Iniciar Sessió</button>
         </form>
     </section>
     <?php include 'navbar/footer.php' ?>

@@ -6,12 +6,14 @@ Admin::iniciar();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Huellas con Alma | Refugio de Gatos</title>
+    <title>Menú de Inicio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
+
 </head>
 <body>
 <?php include 'navbar/headeradmin.php'; ?>
+
 
 <section class="contactos">
     <h1 class="traductor" lang="es">Entre oficina y ronroneos: Mi misión</h1>

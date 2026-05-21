@@ -24,14 +24,17 @@ if ($pdo) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cat Shelter - Adopta un amigo</title>
+    <title>Adopta a un amigo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php include 'navbar/headeradmin.php'; ?>
 
     <main id="catalogo" class="container">
-        <h2 class="section-title">Gatitos en adopción</h2>
+        <h2 class="section-title">
+            <span class="traductor" lang="es">Gatitos en adopción</span>
+            <span class="traductor" lang="ca">Gatets en adopció</span>
+        </h2>
         
         <section class="grid-gatos">
             <?php if (!empty($gatos)): ?>
@@ -81,11 +84,12 @@ if ($pdo) {
                                 <p class="desc"><?php echo htmlspecialchars(substr($gato['notas_cuidador'] ?? '', 0, 60)); ?>...</p>
                             </section>
                         </a>
-                        <button class="btn-adoptar" onclick="location.href='detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>'">Conocer más</button>
+                        <button class="btn-adoptar" onclick="location.href='detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>'"><span class="traductor" lang="es">Conocer más</span><span class="traductor" lang="ca">Conèixer més</span></button>
                     </article>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p>No hay gatos disponibles en este momento.</p>
+                <p class="traductor" lang="es">No hay gatos disponibles en este momento.</p>
+                <p class="traductor" lang="ca">No hi ha gats disponibles en aquest moment.</p>
             <?php endif; ?>
         </section>
     </main>
