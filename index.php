@@ -39,9 +39,8 @@ Admin::iniciar();
     <h2 class="traductor" lang="ca">¿Ets preparat per donar-li una oportunitat?</h2>
     <p class="traductor" lang="es">Si quieres adoptar, ser casa de acogida o simplemente conocer más sobre mi labor, estaré encantada de hablar contigo.</p>
     <p class="traductor" lang="ca">Si vols adoptar, ser casa de acogida o simplemente conèixer més sobre la meva feina, estaré encantada de parlar amb tu.</p>
-    <p>
-        <a class="contactobtn" href="contacto.php"><i class="fa-solid fa-address-book"></i>  Contacta conmigo aquí</a>
-    </p>
+    <p class="traductor" lang="es"><a class="contactobtn" href="contacto.php"><i class="fa-solid fa-address-book"></i>  Contacta conmigo aquí</a></p>
+    <p class="traductor" lang="ca"><a class="contactobtn" href="contacto.php"><i class="fa-solid fa-address-book"></i>  Contacta amb mi aquí</a></p>
 </section>
 <?php include 'navbar/footer.php' ?>
 
