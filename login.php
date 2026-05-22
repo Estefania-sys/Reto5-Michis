@@ -52,15 +52,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 data-es="Iniciar Sesión" 
                 data-ca="Iniciar Sessió">Iniciar Sesión</button>
     </form>
-</section>
-
-        <form method="POST">
-            <h2>Acceso Personal</h2>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
-            <button type="submit">Entrar</button>
-        </form>
-    </section>
     <?php include 'navbar/footer.php' ?>
 </body>
 </html>
