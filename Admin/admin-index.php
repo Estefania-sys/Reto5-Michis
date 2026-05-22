@@ -5,40 +5,10 @@ Admin::requerirPersonal(); // Permite acceso a Admin y Voluntarias
 
 require_once '../Clases/Conexion.php';
 
-$pdo = (new Conexion())->getConnection();
+// Instanciamos la conexión y llamamos al método que contiene la consulta SQL
+$conexion = new Conexion();
+$adopciones = $conexion->obtenerAdopcionesCompletas();
 
-// Obtener todas las adopciones con información de usuario y gato
-$query = "
-    SELECT
-        u.id_usuario,
-        u.nombres,
-        u.apellidos,
-        u.email,
-        u.dni,
-        u.fecha_nacimiento AS usuario_fecha_nacimiento,
-        u.direccion,
-        u.poblacion,
-        u.cp,
-        u.telefono,
-        g.id_gato,
-        g.nombre AS gato_nombre,
-        g.numero_microchip,
-        g.peso_kg,
-        g.tamano,
-        a.id_adopcion,
-        a.fecha_adopcion,
-        a.observaciones,
-        a.cita1_ok,
-        a.cita2_ok
-    FROM Adopciones a
-    JOIN Usuarios u ON a.id_usuario = u.id_usuario
-    JOIN Gatos g ON a.id_gato = g.id_gato
-    ORDER BY a.fecha_adopcion DESC
-";
-
-$stmt = $pdo->prepare($query);
-$stmt->execute();
-$adopciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">

@@ -13,11 +13,8 @@ $esAdmin = Admin::tieneAdminActivo();
 
 $gatos = [];
 if ($pdo) {
-    // Mantenemos la lógica de negocio fuera de la vista
-    $sql = "SELECT * FROM Gatos WHERE estado != 'adoptado' ORDER BY nombre";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $gatos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Delegamos la consulta por completo a la clase Gato
+    $gatos = Gato::listarNoAdoptados($pdo);
 }
 ?>
 <!DOCTYPE html>
