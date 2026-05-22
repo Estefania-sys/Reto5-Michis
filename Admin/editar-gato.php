@@ -63,11 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]);
 
     if ($resultado) {
-        $mensaje = "¡Información del gato actualizada exitosamente!";
+        $mensaje = "exito";
         $clase_mensaje = "mensaje-exito";
         $gato = Gato::obtenerPorId($pdo, $id_gato);
     } else {
-        $mensaje = "Hubo un error al actualizar la información.";
+        $mensaje = "error";
         $clase_mensaje = "mensaje-error";
     }
 }
@@ -77,97 +77,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Gato - <?php echo htmlspecialchars($gato['nombre']); ?></title>
+    <title class="traductor" data-es="Editar Gato - <?php echo htmlspecialchars($gato['nombre']); ?>" data-ca="Editar Gat - <?php echo htmlspecialchars($gato['nombre']); ?>"></title>
     <link rel="stylesheet" href="/Reto5-Michis/style.css">
 </head>
 <body>
     <?php include '../navbar/headeradmin.php'; ?>
 
     <div class="admin-panel">
-        <h1>📝 Editar Información de <?php echo htmlspecialchars($gato['nombre']); ?></h1>
+        <h1>
+            <span class="traductor" data-es="📝 Editar Información de " data-ca="📝 Editar Informació de "></span><?php echo htmlspecialchars($gato['nombre']); ?>
+        </h1>
 
-        <?php if ($mensaje): ?>
-            <p class="<?php echo $clase_mensaje; ?>"><?php echo htmlspecialchars($mensaje); ?></p>
+        <?php if ($mensaje === "exito"): ?>
+            <p class="<?php echo $clase_mensaje; ?> traductor" data-es="¡Información del gato actualizada exitosamente!" data-ca="¡Informació del gat actualitzada correctament!"></p>
+        <?php elseif ($mensaje === "error"): ?>
+            <p class="<?php echo $clase_mensaje; ?> traductor" data-es="Hubo un error al actualizar la información." data-ca="Hi va haver un error al actualizar la informació."></p>
         <?php endif; ?>
 
         <form method="POST" class="edit-form">
             <div class="form-group">
-                <label for="nombre">Nombre:</label>
+                <label for="nombre" class="traductor" data-es="Nombre:" data-ca="Nom:"></label>
                 <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($gato['nombre']); ?>" required>
             </div>
 
             <div class="form-group">
-                <label for="raza">Raza:</label>
+                <label for="raza" class="traductor" data-es="Raza:" data-ca="Raça:"></label>
                 <input type="text" id="raza" name="raza" value="<?php echo htmlspecialchars($gato['raza'] ?? ''); ?>">
             </div>
 
             <div class="form-group">
-                <label for="genero">Género:</label>
+                <label for="genero" class="traductor" data-es="Género:" data-ca="Gènere:"></label>
                 <select id="genero" name="genero">
-                    <option value="">Selecciona...</option>
-                    <option value="Macho" <?php echo $gato['genero'] === 'Macho' ? 'selected' : ''; ?>>Macho</option>
-                    <option value="Hembra" <?php echo $gato['genero'] === 'Hembra' ? 'selected' : ''; ?>>Hembra</option>
+                    <option value="" class="traductor" data-es="Selecciona..." data-ca="Selecciona..."></option>
+                    <option value="Macho" class="traductor" data-es="Macho" data-ca="Mascle" <?php echo $gato['genero'] === 'Macho' ? 'selected' : ''; ?>></option>
+                    <option value="Hembra" class="traductor" data-es="Hembra" data-ca="Femella" <?php echo $gato['genero'] === 'Hembra' ? 'selected' : ''; ?>></option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="capa_patron">Patrón de color:</label>
+                <label for="capa_patron" class="traductor" data-es="Patrón de color:" data-ca="Patró de color:"></label>
                 <input type="text" id="capa_patron" name="capa_patron" value="<?php echo htmlspecialchars($gato['capa_patron'] ?? ''); ?>">
             </div>
 
             <div class="form-group">
-                <label for="pelo_largo">Tipo de pelo:</label>
+                <label for="pelo_largo" class="traductor" data-es="Tipo de pelo:" data-ca="Tipus de pèl:"></label>
                 <select id="pelo_largo" name="pelo_largo">
-                    <option value="">Selecciona...</option>
-                    <option value="Corto" <?php echo $gato['pelo_largo'] === 'Corto' ? 'selected' : ''; ?>>Corto</option>
-                    <option value="Largo" <?php echo $gato['pelo_largo'] === 'Largo' ? 'selected' : ''; ?>>Largo</option>
+                    <option value="" class="traductor" data-es="Selecciona..." data-ca="Selecciona..."></option>
+                    <option value="Corto" class="traductor" data-es="Corto" data-ca="Curt" <?php echo $gato['pelo_largo'] === 'Corto' ? 'selected' : ''; ?>></option>
+                    <option value="Largo" class="traductor" data-es="Largo" data-ca="Llarg" <?php echo $gato['pelo_largo'] === 'Largo' ? 'selected' : ''; ?>></option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="esterilizado">
+                <label for="esterilizado" class="traductor" data-es="Esterilizado" data-ca="Esterilitzat">
                     <input type="checkbox" id="esterilizado" name="esterilizado" <?php echo $gato['esterilizado'] ? 'checked' : ''; ?>>
-                    Esterilizado
+                    <span class="traductor" data-es="Esterilizado" data-ca="Esterilitzat"></span>
                 </label>
             </div>
 
             <div class="form-group">
-                <label for="estado">Estado:</label>
+                <label for="estado" class="traductor" data-es="Estado:" data-ca="Estat:"></label>
                 <select id="estado" name="estado">
-                    <option value="disponible" <?php echo $gato['estado'] === 'disponible' ? 'selected' : ''; ?>>Disponible</option>
-                    <option value="en tratamiento" <?php echo $gato['estado'] === 'en tratamiento' ? 'selected' : ''; ?>>En tratamiento</option>
-                    <option value="adoptado" <?php echo $gato['estado'] === 'adoptado' ? 'selected' : ''; ?>>Adoptado</option>
+                    <option value="disponible" class="traductor" data-es="Disponible" data-ca="Disponible" <?php echo $gato['estado'] === 'disponible' ? 'selected' : ''; ?>></option>
+                    <option value="en tratamiento" class="traductor" data-es="En tratamiento" data-ca="En tractament" <?php echo $gato['estado'] === 'en tratamiento' ? 'selected' : ''; ?>></option>
+                    <option value="adoptado" class="traductor" data-es="Adoptado" data-ca="Adoptat" <?php echo $gato['estado'] === 'adoptado' ? 'selected' : ''; ?>></option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="numero_microchip">Número de microchip:</label>
+                <label for="numero_microchip" class="traductor" data-es="Número de microchip:" data-ca="Número de microxip:"></label>
                 <input type="text" id="numero_microchip" name="numero_microchip" value="<?php echo htmlspecialchars($gato['numero_microchip'] ?? ''); ?>">
             </div>
 
             <div class="form-group">
-                <label for="peso_kg">Peso (kg):</label>
+                <label for="peso_kg" class="traductor" data-es="Peso (kg):" data-ca="Pes (kg):"></label>
                 <input type="number" id="peso_kg" name="peso_kg" step="0.1" value="<?php echo htmlspecialchars($gato['peso_kg'] ?? ''); ?>">
             </div>
 
             <div class="form-group">
-                <label for="tamano">Tamaño:</label>
+                <label for="tamano" class="traductor" data-es="Tamaño:" data-ca="Mida:"></label>
                 <select id="tamano" name="tamano">
-                    <option value="">Selecciona...</option>
-                    <option value="Pequeño" <?php echo $gato['tamano'] === 'Pequeño' ? 'selected' : ''; ?>>Pequeño</option>
-                    <option value="Mediano" <?php echo $gato['tamano'] === 'Mediano' ? 'selected' : ''; ?>>Mediano</option>
-                    <option value="Grande" <?php echo $gato['tamano'] === 'Grande' ? 'selected' : ''; ?>>Grande</option>
+                    <option value="" class="traductor" data-es="Selecciona..." data-ca="Selecciona..."></option>
+                    <option value="Pequeño" class="traductor" data-es="Pequeño" data-ca="Petit" <?php echo $gato['tamano'] === 'Pequeño' ? 'selected' : ''; ?>></option>
+                    <option value="Mediano" class="traductor" data-es="Mediano" data-ca="Mitjà" <?php echo $gato['tamano'] === 'Mediano' ? 'selected' : ''; ?>></option>
+                    <option value="Grande" class="traductor" data-es="Grande" data-ca="Gran" <?php echo $gato['tamano'] === 'Grande' ? 'selected' : ''; ?>></option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="notas_cuidador">Notas del cuidador:</label>
+                <label for="notas_cuidador" class="traductor" data-es="Notas del cuidador:" data-ca="Notes del cuidador:"></label>
                 <textarea id="notas_cuidador" name="notas_cuidador"><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></textarea>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Guardar cambios</button>
-                <a href="../catalogo.php" class="btn-secondary">Cancelar</a>
+                <button type="submit" class="btn-primary traductor" data-es="Guardar cambios" data-ca="Desar canvis"></button>
+                <a href="../catalogo.php" class="btn-secondary traductor" data-es="Cancelar" data-ca="Cancel·lar"></a>
             </div>
         </form>
     </div>

@@ -8,13 +8,13 @@
     </section>
     <nav>
         <ul>
-            <a href="/Reto5-Michis/index.php">Inicio</a>
-            <a href="/Reto5-Michis/catalogo.php">Adoptar</a>
-            <a href="/Reto5-Michis/Blog/finales.php">Blog</a>
-            <a href="/Reto5-Michis/contacto.php">Contacto</a>
-            <a href="/Reto5-Michis/login.php" class="btn-login">Admin Login</a>
+            <a href="/Reto5-Michis/index.php" class="traductor" data-es="Inicio" data-ca="Inici"></a>
+            <a href="/Reto5-Michis/catalogo.php" class="traductor" data-es="Adoptar" data-ca="Adoptar"></a>
+            <a href="/Reto5-Michis/Blog/finales.php" class="traductor" data-es="Blog" data-ca="Blog"></a>
+            <a href="/Reto5-Michis/contacto.php" class="traductor" data-es="Contacto" data-ca="Contacte"></a>
+            <a href="/Reto5-Michis/login.php" class="btn-login traductor" data-es="Admin Login" data-ca="Admin Login"></a>
         </ul>
     </nav>
 </header>
 
-<script src="/Reto5-Michis/traduccionscript.js"></script> <!-- Cambio de idioma -->
+<script src="/Reto5-Michis/traduccionscript.js"></script>
