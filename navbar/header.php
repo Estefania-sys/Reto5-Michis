@@ -3,8 +3,8 @@
         <a href="/Reto5-Michis/index.php"><img class="logoimg" src="/Reto5-Michis/Imagenes/Items/logo.png" height="55" width="55"></a>
     </section>
     <section class="cambio_idioma">
-        <button class="btn-lang" data-lang="es">ES</button>
-        <button class="btn-lang" data-lang="ca">CA</button>
+        <button class="btn-lang" data-lang="es"><img src="/Reto5-Michis/Imagenes/Items/banderaespaña.png" alt="Español" height="35" width="55"></button>
+        <button class="btn-lang" data-lang="ca"><img src="/Reto5-Michis/Imagenes/Items/banderacataluna.png" alt="Catalán" height="35" width="55"></button>
     </section>
     <nav>
         <ul>

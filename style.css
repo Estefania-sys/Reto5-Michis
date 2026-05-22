@@ -2,8 +2,8 @@
    VARIABLES Y CONFIGURACIÓN BASE
    ========================================= */
 :root {
-    --primary: #ff8c42;    /* Naranja suave */
-    --primary-dark: #e6762d;
+    --primary: #ffbc3f;    /* Naranja suave */
+    --primary-dark: orange; /* Naranja más intenso para hover */
     --secondary: #6b5b95;  /* Morado elegante */
     --bg-light: #f9f9f9;
     --text-dark: #333;
@@ -29,6 +29,14 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+}
+
+.bio-container p{
+    font-size: 18px !important;
+}
+
+.bio-container h3{
+    font-size: 25px !important;
 }
 
 /* =========================================
@@ -74,8 +82,8 @@ body {
 }
 
 .btn-login{
-    background-color:green;
-    color:white !important;
+    background-color:#ffbc3f;
+    color:#000000 !important;
     border:none;
     padding:10px;
     border-radius:10px;
@@ -83,11 +91,26 @@ body {
 }
 
 .btn-login:hover{
-    background-color:lime;
-    color:black !important;
+    background-color:orange;
     transition: 0.3s;
 }
 
+.cambio_idioma{
+    display:flex;
+    gap: 10px;
+    margin-right:110vh;
+}
+
+.btn-lang{
+    padding:10px;
+    background: none;
+    background-size: cover;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
 
 /* =========================================
    CATÁLOGO (Grid de Gatos)
@@ -369,8 +392,8 @@ body {
 }
 
 .contactobtn{
-    background-color:green;
-    color:white;
+    background-color:#ffbc3f;
+    color:black;
     border:none;
     padding:20px;
     border-radius:10px;
@@ -378,10 +401,9 @@ body {
 }
 
 .contactobtn:hover{
-    background-color:lime;
-    color:black;
+    background-color:orange;
     transition: 0.3s;
-    box-shadow: 5px 5px 10px #000000;
+    box-shadow: 2px 2px 5px #000000;
 }
 
 .contactos p{
@@ -657,18 +679,31 @@ tr:hover {
 .main-footer {
     background-color: var(--white); /* Fondo blanco como el header */
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05); /* Sombra hacia arriba */
-    margin-top: 50px;
-    padding-top: 40px;
+    margin-top: 10px;
+    padding-top: 10px;
     border-top: 1px solid #eee; /* Línea sutil de separación */
 }
-
-.footer-grid {
-    display: flex;
+.footer-content{
+    display:flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding-bottom: 30px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 20px;
+    width:100%;
+    padding-bottom:20px;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.mapa {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
 }
 
 .footer-brand .logo {
@@ -691,13 +726,13 @@ tr:hover {
 }
 
 .social-icons a{
-    font-size:40px;
-    color:green;
+    font-size:50px;
+    color:orange;
     text-decoration: none;
 }
 
 .social-icons a:hover{
-    color:#00a500;
+    color:#ff8c42;
     transition: 0.3s;
 }
 
@@ -716,15 +751,6 @@ tr:hover {
 
 .social-links a:hover {
     color: var(--primary);
-}
-
-.footer-copyright {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #fcfcfc; /* Un gris casi blanco para diferenciar el final */
-    border-top: 1px solid #f1f1f1;
-    color: var(--text-muted);
-    font-size: 0.85rem;
 }
 
 /* =========================================
@@ -838,7 +864,7 @@ tr:hover {
         align-items: center;
     }
 
-    .footer-grid {
+    .footer-content {
         flex-direction: column;
         text-align: center;
         align-items: center;
