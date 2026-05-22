@@ -4,7 +4,8 @@ Admin::iniciar();
 Admin::requerirAdmin();
 
 require_once __DIR__ . '/../Clases/Conexion.php';
-require_once __DIR__ . '/BlogMichis.php';
+require_once __DIR__ . '/../Clases/Gato.php'; // <--- Importamos la clase Gato
+require_once __DIR__ . '/../Blog/BlogMichis.php';
 
 $blog = new BlogMichis();
 $errorBlog = $blog->getErrorMessage();
@@ -13,14 +14,15 @@ $mensaje = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $blog->isAvailable()) {
     $res = $blog->crearPost($_POST['id_gato'], $_POST['titulo'], $_POST['historia'], $_POST['foto']);
     if ($res && $res->getInsertedCount() > 0) {
-        // Mensaje de éxito traducido para el frontend mediante atributos más abajo
         $mensaje = "exito"; 
     }
 }
 
-// Obtener gatos adoptados de Postgres para el desplegable
+// Obtener la conexión PDO
 $pdo = (new Conexion())->getConnection();
-$gatosAdoptados = $pdo->query("SELECT id_gato, nombre FROM Gatos WHERE estado = 'adoptado'")->fetchAll(PDO::FETCH_ASSOC);
+
+// Llamamos al nuevo método estático para obtener los gatos adoptados
+$gatosAdoptados = Gato::listarAdoptados($pdo);
 ?>
 
 <!DOCTYPE html>

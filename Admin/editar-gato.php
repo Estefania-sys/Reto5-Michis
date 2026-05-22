@@ -20,47 +20,22 @@ $mensaje = "";
 $clase_mensaje = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = $_POST['nombre'] ?? $gato['nombre'];
-    $raza = $_POST['raza'] ?? $gato['raza'];
-    $genero = $_POST['genero'] ?? $gato['genero'];
-    $capa_patron = $_POST['capa_patron'] ?? $gato['capa_patron'];
-    $pelo_largo = $_POST['pelo_largo'] ?? $gato['pelo_largo'];
-    $esterilizado = isset($_POST['esterilizado']) ? 1 : 0;
-    $estado = $_POST['estado'] ?? $gato['estado'];
-    $notas_cuidador = $_POST['notas_cuidador'] ?? $gato['notas_cuidador'];
-    $numero_microchip = $_POST['numero_microchip'] ?? $gato['numero_microchip'];
-    $peso_kg = $_POST['peso_kg'] ?? $gato['peso_kg'];
-    $tamano = $_POST['tamano'] ?? $gato['tamano'];
+    $datos_actualizados = [
+        'nombre'           => $_POST['nombre'] ?? $gato['nombre'],
+        'raza'             => $_POST['raza'] ?? $gato['raza'],
+        'genero'           => $_POST['genero'] ?? $gato['genero'],
+        'capa_patron'      => $_POST['capa_patron'] ?? $gato['capa_patron'],
+        'pelo_largo'       => $_POST['pelo_largo'] ?? $gato['pelo_largo'],
+        'esterilizado'     => isset($_POST['esterilizado']) ? 1 : 0,
+        'estado'           => $_POST['estado'] ?? $gato['estado'],
+        'notas_cuidador'   => $_POST['notas_cuidador'] ?? $gato['notas_cuidador'],
+        'numero_microchip' => $_POST['numero_microchip'] ?? $gato['numero_microchip'],
+        'peso_kg'          => $_POST['peso_kg'] ?? $gato['peso_kg'],
+        'tamano'           => $_POST['tamano'] ?? $gato['tamano']
+    ];
 
-    $sql = "UPDATE Gatos SET 
-            nombre = :nombre,
-            raza = :raza,
-            genero = :genero,
-            capa_patron = :capa_patron,
-            pelo_largo = :pelo_largo,
-            esterilizado = :esterilizado,
-            estado = :estado,
-            notas_cuidador = :notas_cuidador,
-            numero_microchip = :numero_microchip,
-            peso_kg = :peso_kg,
-            tamano = :tamano
-            WHERE id_gato = :id";
-
-    $stmt = $pdo->prepare($sql);
-    $resultado = $stmt->execute([
-        ':nombre' => $nombre,
-        ':raza' => $raza,
-        ':genero' => $genero,
-        ':capa_patron' => $capa_patron,
-        ':pelo_largo' => $pelo_largo,
-        ':esterilizado' => $esterilizado,
-        ':estado' => $estado,
-        ':notas_cuidador' => $notas_cuidador,
-        ':numero_microchip' => $numero_microchip,
-        ':peso_kg' => $peso_kg,
-        ':tamano' => $tamano,
-        ':id' => $id_gato
-    ]);
+    // Llamamos al nuevo método de la clase Gato
+    $resultado = Gato::actualizar($pdo, $id_gato, $datos_actualizados);
 
     if ($resultado) {
         $mensaje = "exito";
