@@ -30,7 +30,6 @@ if (!$gato) {
 <body>
 <?php include 'navbar/header.php'?>
 
-
     <main class="detalle-container">
         <?php
             $fotosDetalle = Imagenes::obtenerFotos($gato);
@@ -51,8 +50,7 @@ if (!$gato) {
                 <h1><?php echo htmlspecialchars($nombreMostrar); ?></h1>
                 
                 <section class="info-medica">
-                    <h3 class="traductor" lang="es">Historial Médico y Vacunas</h3>
-                    <h3 class="traductor" lang="ca">Historial Mèdic i Vacunes</h3>
+                    <h3 class="traductor" data-es="Historial Médico y Vacunas" data-ca="Historial Mèdic i Vacunes">Historial Médico y Vacunas</h3>
                     <?php if (!empty($vacunas)): ?>
                         <ul>
                             <?php foreach ($vacunas as $vacuna): ?>
@@ -68,39 +66,33 @@ if (!$gato) {
                     <?php elseif (!empty($historial)): ?>
                         <ul>
                             <?php foreach ($historial as $h): ?>
-                                <li><strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($h['fecha_revision']))); ?>:</strong> <?php echo htmlspecialchars($h['nombre_vacuna'] ?? 'Revisión general'); ?></li>
+                                <li>role="presentation"<strong><?php echo htmlspecialchars(date('d/m/Y', strtotime($h['fecha_revision']))); ?>:</strong> <?php echo htmlspecialchars($h['nombre_vacuna'] ?? 'Revisión general'); ?></li>
                             <?php endforeach; ?>
                         </ul>
                     <?php else: ?>
-                        <p class="traductor" lang="es">No hay registros médicos públicos disponibles.</p>
-                        <p class="traductor" lang="ca">No hi ha registres mèdics públics disponibles.</p>
+                        <p class="traductor" data-es="No hay registros médicos públicos disponibles." data-ca="No hi ha registres mèdics públics disponibles.">No hay registros médicos públicos disponibles.</p>
                     <?php endif; ?>
                 </section>
 
                 <section class="detalle-datos">
                     <section class="dato">
-                        <b><i><span class="dato-label"><span class="traductor" lang="es">Raza:</span></i></b>
-                        <b><i><span class="traductor" lang="ca">Raça:</span></span></i></b>
+                        <b><i><span class="dato-label"><span class="traductor" data-es="Raza:" data-ca="Raça:">Raza:</span></span></i></b>
                         <span class="dato-valor"><?php echo htmlspecialchars($gato['raza']); ?></span>
                     </section>
                     <section class="dato">
-                        <b><i><span class="dato-label"><span class="traductor" lang="es">Edad:</span></i></b>
-                        <b><i><span class="traductor" lang="ca">Edat:</span></span></i></b>
+                        <b><i><span class="dato-label"><span class="traductor" data-es="Edad:" data-ca="Edat:">Edad:</span></span></i></b>
                         <span class="dato-valor"><?php echo htmlspecialchars(Gato::calcularEdadDesdeNacimiento($gato['fecha_nacimiento'])); ?> años</span>
                     </section>
                     <section class="dato">
-                        <b><i><span class="dato-label"><span class="traductor" lang="es">Género:</span></i></b>
-                        <b><i><span class="traductor" lang="ca">Gènere:</span></span></i></b>
+                        <b><i><span class="dato-label"><span class="traductor" data-es="Género:" data-ca="Gènere:">Género:</span></span></i></b>
                         <span class="dato-valor"><?php echo htmlspecialchars($gato['genero']); ?></span>
                     </section>
                     <section class="dato">
-                        <b><i><span class="dato-label"><span class="traductor" lang="es">Esterilizado:</span></i></b>
-                        <b><i><span class="traductor" lang="ca">Esterilitzat:</span></span></i></b>
+                        <b><i><span class="dato-label"><span class="traductor" data-es="Esterilizado:" data-ca="Esterilitzat:">Esterilizado:</span></span></i></b>
                         <span class="dato-valor"><?php echo $gato['esterilizado'] ? 'Sí' : 'No'; ?></span>
                     </section>
                     <section class="dato">
-                        <b><i><span class="dato-label"><span class="traductor" lang="es">Fecha de nacimiento:</span></i></b>
-                        <b><i><span class="traductor" lang="ca">Data de naixement:</span></span></i></b>
+                        <b><i><span class="dato-label"><span class="traductor" data-es="Fecha de nacimiento:" data-ca="Data de naixement:">Fecha de nacimiento:</span></span></i></b>
                         <span class="dato-valor"><?php echo date('d/m/Y', strtotime($gato['fecha_nacimiento'])); ?></span>
                     </section>
                     <?php $capaPatron = $gato['capa_patron'] ?? ''; ?>
@@ -109,99 +101,53 @@ if (!$gato) {
 
                     <?php if ($capaPatron !== ''): ?>
                         <section class="dato">
-                            <b><i><span class="dato-label"><span class="traductor" lang="es">Patrón de color:</span></i></b>
-                            <b><i><span class="traductor" lang="ca">Patró de color:</span></span></i></b>
+                            <b><i><span class="dato-label"><span class="traductor" data-es="Patrón de color:" data-ca="Patró de color:">Patrón de color:</span></span></i></b>
                             <span class="dato-valor"><?php echo htmlspecialchars($capaPatron); ?></span>
                         </section>
                     <?php endif; ?>
 
                     <?php if ($peloLargo !== ''): ?>
                         <section class="dato">
-                            <b><i><span class="dato-label"><span class="traductor" lang="es">Pelo:</span></i></b>
-                            <b><i><span class="traductor" lang="ca">Pèl:</span></span></i></b>
+                            <b><i><span class="dato-label"><span class="traductor" data-es="Pelo:" data-ca="Pèl:">Pelo:</span></span></i></b>
                             <span class="dato-valor"><?php echo htmlspecialchars($peloLargo); ?></span>
                         </section>
                     <?php endif; ?>
 
                     <?php if (!empty($tags)): ?>
                         <section class="dato">
-                            <b><i><span class="dato-label"><span class="traductor" lang="es">Características:</span></i></b>
-                            <b><i><span class="traductor" lang="ca">Característiques:</span></span></i></b>
+                            <b><i><span class="dato-label"><span class="traductor" data-es="Características:" data-ca="Característiques:">Características:</span></span></i></b>
                             <span class="dato-valor"><?php echo htmlspecialchars(implode(', ', $tags)); ?></span>
                         </section>
                     <?php endif; ?>
 
                     <section class="dato">
-                        <b><i><span class="dato-label"><span class="traductor" lang="es">Tamaño:</span></i></b>
-                        <b><i><span class="traductor" lang="ca">Mida:</span></span></i></b>
+                        <b><i><span class="dato-label"><span class="traductor" data-es="Tamaño:" data-ca="Mida:">Tamaño:</span></span></i></b>
                         <span class="dato-valor"><?php echo htmlspecialchars($gato['tamano'] ?? 'No disponible'); ?></span>
                     </section>
                     <section class="dato">
-                        <b><i><span class="dato-label"><span class="traductor" lang="es">Peso:</span></i></b>
-                        <b><i><span class="traductor" lang="ca">Pes:</span></span></i></b>
+                        <b><i><span class="dato-label"><span class="traductor" data-es="Peso:" data-ca="Pes:">Peso:</span></span></i></b>
                         <span class="dato-valor"><?php echo !empty($gato['peso_kg']) ? htmlspecialchars($gato['peso_kg'] . ' kg') : 'No disponible'; ?></span>
                     </section>
 
                     <section class="dato">
-                        <b><i><span class="dato-label"><span class="traductor" lang="es">Vacunas registradas:</span></i></b>
-                        <b><i><span class="traductor" lang="ca">Vacunes registrades:</span></span></i></b>
+                        <b><i><span class="dato-label"><span class="traductor" data-es="Vacunas registradas:" data-ca="Vacunes registrades:">Vacunas registradas:</span></span></i></b>
                         <span class="dato-valor"><?php echo !empty($vacunas) ? 'Sí' : 'No'; ?></span>
                     </section>
                 </section>
 
-                <h3 class="traductor" lang="es">Acerca de <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?></h3>
-                <h3 class="traductor" lang="ca">Sobre <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?></h3>
+                <h3 class="traductor" data-es="Acerca de <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>" data-ca="Sobre <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>">Acerca de <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?></h3>
                 <p><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></p>
 
                 <?php $isDisponible = strtolower(trim($gato['estado'] ?? '')) === 'disponible'; ?>
                 <div class="detalle-actions">
-                    <p class="traductor" lang="es"><a href="solicitud-adopcion.php?id=<?php echo $gato['id_gato']; ?>" class="btn-primary<?php echo $isDisponible ? '' : ' btn-disabled'; ?>" <?php echo $isDisponible ? '' : 'aria-disabled="true" tabindex="-1"'; ?>>Solicitar información / Cita</a></p>
-                    <p class="traductor" lang="ca"><a href="solicitud-adopcion.php?id=<?php echo $gato['id_gato']; ?>" class="btn-primary<?php echo $isDisponible ? '' : ' btn-disabled'; ?>" <?php echo $isDisponible ? '' : 'aria-disabled="true" tabindex="-1"'; ?>>Solicitar informació / Cita</a></p>
-                    <p class="traductor" lang="es"><a href="catalogo.php" class="btn-secondary">← Volver al catálogo</a></p>
-                    <p class="traductor" lang="ca"><a href="catalogo.php" class="btn-secondary">← Tornar al catàleg</a></p>
+                    <p><a href="solicitud-adopcion.php?id=<?php echo $gato['id_gato']; ?>" class="btn-primary<?php echo $isDisponible ? '' : ' btn-disabled'; ?> traductor" <?php echo $isDisponible ? '' : 'aria-disabled="true" tabindex="-1"'; ?> data-es="Solicitar información / Cita" data-ca="Solicitar informació / Cita">Solicitar información / Cita</a></p>
+                    <p><a href="catalogo.php" class="btn-secondary traductor" data-es="← Volver al catálogo" data-ca="← Tornar al catàleg">← Volver al catálogo</a></p>
                 </div>
             </section>
         </section>
     </main>
     <?php include 'navbar/footer.php' ?>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.card-carousel').forEach(carousel => {
-                const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
-                const prevButton = carousel.querySelector('.carousel-prev');
-                const nextButton = carousel.querySelector('.carousel-next');
-                let activeIndex = 0;
-
-                const showSlide = index => {
-                    slides.forEach((slide, slideIndex) => {
-                        slide.classList.toggle('active', slideIndex === index);
-                    });
-                };
-
-                if (slides.length <= 1) {
-                    if (prevButton) prevButton.style.display = 'none';
-                    if (nextButton) nextButton.style.display = 'none';
-                    return;
-                }
-
-                if (prevButton) {
-                    prevButton.addEventListener('click', event => {
-                        event.stopPropagation();
-                        activeIndex = (activeIndex - 1 + slides.length) % slides.length;
-                        showSlide(activeIndex);
-                    });
-                }
-
-                if (nextButton) {
-                    nextButton.addEventListener('click', event => {
-                        event.stopPropagation();
-                        activeIndex = (activeIndex + 1) % slides.length;
-                        showSlide(activeIndex);
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="traduccionscript.js"></script>
 </body>
 </html>

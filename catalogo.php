@@ -13,11 +13,8 @@ $esAdmin = Admin::tieneAdminActivo();
 
 $gatos = [];
 if ($pdo) {
-    // Mantenemos la lógica de negocio fuera de la vista
-    $sql = "SELECT * FROM Gatos WHERE estado != 'adoptado' ORDER BY nombre";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $gatos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Delegamos la consulta por completo a la clase Gato
+    $gatos = Gato::listarNoAdoptados($pdo);
 }
 ?>
 <!DOCTYPE html>
@@ -34,8 +31,7 @@ if ($pdo) {
 
     <main id="catalogo" class="container">
         <h2 class="section-title">
-            <span class="traductor" lang="es">Gatitos en adopción</span>
-            <span class="traductor" lang="ca">Gatets en adopció</span>
+            <span class="traductor" data-es="Gatitos en adopción" data-ca="Gatets en adopció">Gatitos en adopción</span>
         </h2>
         
         <section class="grid-gatos">
@@ -78,59 +74,25 @@ if ($pdo) {
                                 <?php endif; ?>
                                 <?php $tagList = !empty($gato['character_tags']) ? Gato::parsePgArray($gato['character_tags']) : []; ?>
                                 <?php if (!empty($tagList)): ?>
-                        <?php if ($esAdmin): ?>
-                            <button class="btn-editar" onclick="location.href='Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>'">Editar</button>
-                        <?php endif; ?>
+                                    <?php if ($esAdmin): ?>
+                                        <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-editar">Editar</a>
+                                    <?php endif; ?>
                                     <p class="tags"><?php echo htmlspecialchars(implode(', ', $tagList)); ?></p>
                                 <?php endif; ?>
                                 <p class="desc"><?php echo htmlspecialchars(substr($gato['notas_cuidador'] ?? '', 0, 60)); ?>...</p>
                             </section>
                         </a>
-                        <button class="btn-adoptar" onclick="location.href='detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>'"><span class="traductor" lang="es">Conocer más</span><span class="traductor" lang="ca">Conèixer més</span></button>
+                        <a href="detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar"><span class="traductor" data-es="Conocer más" data-ca="Conèixer més">Conocer más</span></a>
                     </article>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p class="traductor" lang="es">No hay gatos disponibles en este momento.</p>
-                <p class="traductor" lang="ca">No hi ha gats disponibles en aquest moment.</p>
+                <p class="traductor" data-es="No hay gatos disponibles en este momento." data-ca="No hi ha gats disponibles en aquest moment.">No hay gatos disponibles en este momento.</p>
             <?php endif; ?>
         </section>
     </main>
 
     <?php include 'navbar/footer.php' ?>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.card-carousel').forEach(carousel => {
-                const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
-                const prevButton = carousel.querySelector('.carousel-prev');
-                const nextButton = carousel.querySelector('.carousel-next');
-                let activeIndex = 0;
-
-                const showSlide = index => {
-                    slides.forEach((slide, slideIndex) => {
-                        slide.classList.toggle('active', slideIndex === index);
-                    });
-                };
-
-                if (slides.length <= 1) {
-                    prevButton.style.display = 'none';
-                    nextButton.style.display = 'none';
-                    return;
-                }
-
-                prevButton.addEventListener('click', event => {
-                    event.stopPropagation();
-                    activeIndex = (activeIndex - 1 + slides.length) % slides.length;
-                    showSlide(activeIndex);
-                });
-
-                nextButton.addEventListener('click', event => {
-                    event.stopPropagation();
-                    activeIndex = (activeIndex + 1) % slides.length;
-                    showSlide(activeIndex);
-                });
-            });
-        });
-    </script>
+    <script src="traduccionscript.js"></script>
 </body>
 </html>

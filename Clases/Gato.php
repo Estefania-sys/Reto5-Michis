@@ -188,5 +188,52 @@ class Gato {
     public function getTamano() {
         return $this->tamano;
     }
+
+    /**
+     * Actualiza la información de un gato en la base de datos.
+     */
+    public static function actualizar($pdo, $id, $datos) {
+        $sql = "UPDATE Gatos SET 
+                nombre = :nombre,
+                raza = :raza,
+                genero = :genero,
+                capa_patron = :capa_patron,
+                pelo_largo = :pelo_largo,
+                esterilizado = :esterilizado,
+                estado = :estado,
+                notas_cuidador = :notas_cuidador,
+                numero_microchip = :numero_microchip,
+                peso_kg = :peso_kg,
+                tamano = :tamano
+                WHERE id_gato = :id";
+
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([
+            ':nombre' => $datos['nombre'],
+            ':raza' => $datos['raza'],
+            ':genero' => $datos['genero'],
+            ':capa_patron' => $datos['capa_patron'],
+            ':pelo_largo' => $datos['pelo_largo'],
+            ':esterilizado' => $datos['esterilizado'],
+            ':estado' => $datos['estado'],
+            ':notas_cuidador' => $datos['notas_cuidador'],
+            ':numero_microchip' => $datos['numero_microchip'],
+            ':peso_kg' => $datos['peso_kg'],
+            ':tamano' => $datos['tamano'],
+            ':id' => $id
+        ]);
+    }
+
+    /**
+     * Obtiene la lista de gatos que ya han sido adoptados.
+     * Ideal para desplegables de finales felices.
+     */
+    public static function listarAdoptados($pdo) {
+        $sql = "SELECT id_gato, nombre FROM Gatos WHERE estado = 'adoptado' ORDER BY nombre";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

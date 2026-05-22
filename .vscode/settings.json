@@ -1,3 +1,3 @@
 {
-    "kiroAgent.configureMCP": "Disabled"
+    "intelephense.environment.phpVersion": "8.4.0"
 }

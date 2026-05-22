@@ -6,14 +6,13 @@ Admin::iniciar();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Menú de Inicio</title>
+    <title>Menu de Inicio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
     <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
 <?php include 'navbar/header.php'; ?>
-
 
 <section class="contactos">
     <h1 class="traductor" lang="es">Asociación Colonias Gatos Sant Quirze Safaja</h1>
@@ -45,7 +44,7 @@ Admin::iniciar();
     <p class="traductor" lang="es"><a class="contactobtn" href="catalogo.php"><i class="fa-solid fa-cat"></i>  Nuestros Gatos</a></p>
     <p class="traductor" lang="ca"><a class="contactobtn" href="catalogo.php"><i class="fa-solid fa-cat"></i>  Els nostres gats</a></p>
 </section>
-<?php include 'navbar/footer.php' ?>
 
+<?php include 'navbar/footer.php' ?>
 </body>
 </html>

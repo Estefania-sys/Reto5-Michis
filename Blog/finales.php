@@ -10,7 +10,7 @@ $posts = $blog->obtenerTodos();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Historias Felices</title>
+    <title class="traductor" data-es="Historias Felices" data-ca="Històries Felices"></title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
     <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
@@ -22,15 +22,14 @@ $posts = $blog->obtenerTodos();
         <header class="blog-header">
             <section class="blog-header-top">
                 <section>
-                    <h1>🐾 Historias Felices</h1>
-                    <p class="traductor" lang="es">Historias de gatos que encontraron su hogar ideal gracias al voluntariado.</p>
-                    <p class="traductor" lang="ca">Històries de gats que van trobar la seva llar ideal gràcies al voluntariat.</p>
+                    <h1 class="traductor" data-es="🐾 Historias Felices" data-ca="🐾 Històries Felices"></h1>
+                    <p class="traductor" data-es="Historias de gatos que encontraron su hogar ideal gracias al voluntariado." data-ca="Històries de gats que van trobar la seva llar ideal gràcies al voluntariat."></p>
                 </section>
                 </section>
                 <?php if (Admin::tieneAdminActivo()): ?>
                     <section class="blog-admin-info">
                         <section class="blog-admin-actions">
-                            <a href="admin-blog.php" class="btn-primary btn-publicar-historia">Publicar historia</a>
+                            <a href="admin-blog.php" class="btn-primary btn-publicar-historia traductor" data-es="Publicar historia" data-ca="Publicar història"></a>
                         </section>
                     </section>
                 <?php endif; ?>
@@ -47,9 +46,10 @@ $posts = $blog->obtenerTodos();
         // Convertir el string JSON a un Array Asociativo de PHP
         $datos = json_decode($contenidoJson, true);
 
-        echo "Nombre del Adoptante: " . $datos['name'] . "<br>";
-        echo "Nombre del Gato: " . $datos['catname'] . "<br>";
-        echo "Historia: " . $datos['historia'] . "<br>";
+        // Textos del JSON traducidos mediante contenedores span
+        echo "<span class='traductor' data-es='Nombre del Adoptante: ' data-ca='Nom de l\'Adoptant: '></span>" . $datos['name'] . "<br>";
+        echo "<span class='traductor' data-es='Nombre del Gato: ' data-ca='Nom del Gat: '></span>" . $datos['catname'] . "<br>";
+        echo "<span class='traductor' data-es='Historia: ' data-ca='Història: '></span>" . $datos['historia'] . "<br>";
         ?>
         
         <section class="grid-blog">
@@ -67,13 +67,13 @@ $posts = $blog->obtenerTodos();
                             <h3><?php echo htmlspecialchars($p['titulo']); ?></h3>
                             <p><?php echo nl2br(htmlspecialchars($p['contenido'])); ?></p>
                             <?php if (!empty($p['fecha'])): ?>
-                                <time>Publicado el: <?php echo htmlspecialchars($p['fecha']->toDateTime()->format('d/m/Y')); ?></time>
+                                <time><span class="traductor" data-es="Publicado el: " data-ca="Publicat el: "></span><?php echo htmlspecialchars($p['fecha']->toDateTime()->format('d/m/Y')); ?></time>
                             <?php endif; ?>
                         </section>
                     </article>
                 <?php endforeach; ?>
             <?php elseif (empty($errorBlog)): ?>
-                <p>No hay historias publicadas todavía. Vuelve más tarde para conocer los finales felices.</p>
+                <p class="traductor" data-es="No hay historias publicadas todavía. Vuelve más tarde para conocer los finales felices." data-ca="No hi ha històries publicades encara. Torna més tard per conèixer els finals feliços."></p>
             <?php endif; ?>
         </section>
     </main>
