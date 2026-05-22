@@ -9,6 +9,7 @@ Admin::iniciar();
     <title>Contáctanos</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!-- Incluimos el CSS de Font Awesome -->
+    <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
 <?php include 'navbar/headeradmin.php'; ?>
@@ -21,8 +22,8 @@ Admin::iniciar();
 <section class="botoneracontacto">
     <p class="traductor" lang="es"><a class="contactobtn" href="mailto:correo@ejemplo.com"><i class="fa-solid fa-envelope-circle-check"></i> Envíame un Email clicando aquí a correo@ejemplo.com</a></p>
     <p class="traductor" lang="ca"><a class="contactobtn" href="mailto:correo@ejemplo.com"><i class="fa-solid fa-envelope-circle-check"></i> Envia'm un Email fent clic aquí a correo@ejemplo.com</a></p>
-    <p class="traductor" lang="es"><a class="contactobtn" href="tel:123456789"><i class="fa-solid fa-phone"></i> Llámanos clicando aquí o al número: 123 45 67 89</a></p>
-    <p class="traductor" lang="ca"><a class="contactobtn" href="tel:123456789"><i class="fa-solid fa-phone"></i> Trucar-nos fent clic aquí o al número: 123 45 67 89</a></p>
+    <p class="traductor" lang="es"><a class="contactobtn" href="tel:661169345"><i class="fa-solid fa-phone"></i> Llámanos clicando aquí o al número: 661 16 93 45</a></p>
+    <p class="traductor" lang="ca"><a class="contactobtn" href="tel:661169345"><i class="fa-solid fa-phone"></i> Trucar-nos fent clic aquí o al número: 661 16 93 45</a></p>
 </section>
 
 <?php include 'navbar/footer.php' ?>

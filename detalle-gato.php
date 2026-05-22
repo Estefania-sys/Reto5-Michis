@@ -25,6 +25,7 @@ if (!$gato) {
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($nombreMostrar); ?> - Detalle</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
 <?php include 'navbar/header.php'?>
