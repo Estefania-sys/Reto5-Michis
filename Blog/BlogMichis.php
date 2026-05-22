@@ -43,8 +43,8 @@ class BlogMichis {
         }
 
         try {
-            $cliente = new MongoDB\Client('mongodb://localhost:27017');
-            $this->coleccion = $cliente->MichisBlog->posts;
+            $Adoptante = new MongoDB\Client('mongodb://localhost:27017');
+            $this->coleccion = $Adoptante->MichisBlog->posts;
         } catch (\Throwable $e) {
             $this->errorMessage = 'No se pudo conectar a MongoDB: ' . $e->getMessage();
             error_log($this->errorMessage);
