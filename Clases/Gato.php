@@ -225,6 +225,18 @@ class Gato {
     }
 
     /**
+     * Actualiza únicamente la URL de la foto principal del gato.
+     */
+    public static function actualizarFotoUrl($pdo, $id, $fotoUrl) {
+        $sql = "UPDATE Gatos SET foto_url = :foto_url WHERE id_gato = :id";
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([
+            ':foto_url' => $fotoUrl,
+            ':id' => $id
+        ]);
+    }
+
+    /**
      * Obtiene la lista de gatos que ya han sido adoptados.
      * Ideal para desplegables de finales felices.
      */
