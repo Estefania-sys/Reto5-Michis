@@ -68,12 +68,22 @@ class BlogMichis {
     }
 
     public function obtenerTodos() {
-        if (!$this->coleccion) {
-            return [];
-        }
-
-        return $this->coleccion->find([], ['sort' => ['fecha' => -1]]);
+    if (!$this->coleccion) {
+        return [];
     }
+    // Obtiene los posts, buscandolos en MongoDB por fecha de publicación
+    // Y luego convierte esos datos a arrays
+    $cursor = $this->coleccion->find([], [
+        'sort' => ['fecha' => -1],
+        'typeMap' => [
+            'root' => 'array',
+            'document' => 'array',
+            'array' => 'array'
+        ]
+    ]);
+    // Convierte a un array de resultados
+    return $cursor->toArray();
+}
 
     public function getErrorMessage() {
         return $this->errorMessage;

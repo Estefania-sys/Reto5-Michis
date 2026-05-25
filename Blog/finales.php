@@ -16,7 +16,7 @@ $posts = $blog->obtenerTodos();
     <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
-    <?php include '../navbar/headeradmin.php'; ?>
+    <?php include '../navbar/header.php'; ?>
     
     <main class="container">
         <header class="blog-header">
@@ -24,7 +24,6 @@ $posts = $blog->obtenerTodos();
                 <section>
                     <h1 class="traductor" data-es="🐾 Historias Felices" data-ca="🐾 Històries Felices"></h1>
                     <p class="traductor" data-es="Historias de gatos que encontraron su hogar ideal gracias al voluntariado." data-ca="Històries de gats que van trobar la seva llar ideal gràcies al voluntariat."></p>
-                </section>
                 </section>
                 <?php if (Admin::tieneAdminActivo()): ?>
                     <section class="blog-admin-info">
@@ -35,22 +34,6 @@ $posts = $blog->obtenerTodos();
                 <?php endif; ?>
             </section>
         </header>
-
-        <?php
-        // Ruta del archivo
-        $rutaArchivo = 'blog.json';
-
-        // Leer el contenido del archivo como una cadena de texto (string)
-        $contenidoJson = file_get_contents($rutaArchivo);
-
-        // Convertir el string JSON a un Array Asociativo de PHP
-        $datos = json_decode($contenidoJson, true);
-
-        // Textos del JSON traducidos mediante contenedores span
-        echo "<span class='traductor' data-es='Nombre del Adoptante: ' data-ca='Nom de l\'Adoptant: '></span>" . $datos['name'] . "<br>";
-        echo "<span class='traductor' data-es='Nombre del Gato: ' data-ca='Nom del Gat: '></span>" . $datos['catname'] . "<br>";
-        echo "<span class='traductor' data-es='Historia: ' data-ca='Història: '></span>" . $datos['historia'] . "<br>";
-        ?>
         
         <section class="grid-blog">
             <?php if (!empty($errorBlog)): ?>

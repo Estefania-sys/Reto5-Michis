@@ -27,7 +27,7 @@ if ($pdo) {
     <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
-<?php include 'navbar/headeradmin.php'; ?>
+<?php include 'navbar/header.php'; ?>
 
     <main id="catalogo" class="container">
         <h2 class="section-title">

@@ -22,7 +22,7 @@
         <section class="footer-right">
             <div class="mapa">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2992.9930592176287!2d2.0988913760157926!3d41.67595547921597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4ef50b3d2bccf%3A0x342b2069240f5b3c!2sSant%20Quirze%20Safaja!5e0!3m2!1ses!2ses!4v1710000000000!5m2!1ses!2ses"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1052.9354137167531!2d2.158677292176023!3d41.71725854658735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4c296945e4337%3A0xeb773dc72f429e40!2sCarrer%20del%20Puig%20Dari%2C%2025%2C%2008189%20Sant%20Quirze%20Safaja%2C%20Barcelona!5e0!3m2!1ses!2ses!4v1779695768360!5m2!1ses!2ses"
                     width="100%"
                     height="250"
                     style="border:0;"
