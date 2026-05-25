@@ -277,7 +277,6 @@ class Imagenes {
 
         return $imagenes;
     }
-
     private static function obtenerFotoFallback($gato, $nombreCarpeta) {
         if (!empty($gato['foto_url'])) {
             $rutaFoto = __DIR__ . '/../' . $gato['foto_url'];
