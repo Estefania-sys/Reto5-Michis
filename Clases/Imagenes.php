@@ -300,5 +300,91 @@ class Imagenes {
 
         return self::obtenerImagenHomogenea('Imagenes/Gatos/default.png');
     }
+
+    // =========================================================================
+    // NUEVOS MÉTODOS PARA SUBIR Y ELIMINAR FOTOS (POO)
+    // =========================================================================
+
+    /**
+     * Sube un archivo físico a la carpeta sanitizada del gato.
+     * @param array $file Bloque individual de $_FILES (ej: $_FILES['nueva_foto'])
+     * @param string $nombreGato Nombre del gato para generar la carpeta
+     * @return string|bool Devuelve la ruta relativa que se guardará (ej: 'Imagenes/Gatos/michi/foto.png') o false.
+     */
+    // =========================================================================
+    // MÉTODOS PARA SUBIR Y ELIMINAR FOTOS (OPTIMIZADOS PARA TU CACHÉ)
+    // =========================================================================
+
+    /**
+     * Sube un archivo físico a la carpeta sanitizada del gato respetando el ID.
+     */
+    public static function subirFoto($file, $gato) {
+        if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK || empty($gato)) {
+            return false;
+        }
+
+        // Buscamos si ya existe una carpeta asignada o generamos la nueva con el esquema id_nombre
+        $folderName = self::findFolderName($gato);
+        
+        if (!$folderName) {
+            // Si no tiene carpeta, la creamos usando "id_nombre" como en tu base de datos
+            $slug = self::sanitizeForFolder($gato['nombre']);
+            $folderName = $gato['id_gato'] . '_' . $slug;
+        }
+
+        $targetFolder = self::getBaseFolder() . $folderName;
+
+        if (!file_exists($targetFolder)) {
+            mkdir($targetFolder, 0755, true);
+        }
+
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array($extension, $allowed)) {
+            return false;
+        }
+
+        $fileName = uniqid('img_', true) . '.' . $extension;
+        $absolutePath = $targetFolder . '/' . $fileName;
+
+        if (move_uploaded_file($file['tmp_name'], $absolutePath)) {
+            return 'Imagenes/Gatos/' . $folderName . '/' . $fileName;
+        }
+
+        return false;
+    }
+    /**
+     * Elimina una foto original y su correspondiente versión en caché.
+     */
+    public static function eliminarFoto($rutaRelativa) {
+        if (empty($rutaRelativa) || strpos($rutaRelativa, '..') !== false) {
+            return false;
+        }
+
+        // Si la ruta recibida es de la caché, calculamos la original primero
+        if (strpos($rutaRelativa, 'Imagenes/Gatos/cache/') === 0) {
+            $rutaOriginal = str_replace('Imagenes/Gatos/cache/', 'Imagenes/Gatos/', $rutaRelativa);
+            $rutaCache = $rutaRelativa;
+        } else {
+            $rutaOriginal = $rutaRelativa;
+            // Generamos la ruta equivalente de la caché usando tu propio método privado
+            $rutaCache = self::getCachedImagePath($rutaRelativa);
+        }
+
+        $absOriginal = __DIR__ . '/../' . $rutaOriginal;
+        $absCache = __DIR__ . '/../' . $rutaCache;
+
+        // Borrar imagen original
+        if (file_exists($absOriginal) && is_file($absOriginal)) {
+            unlink($absOriginal);
+        }
+
+        // Borrar miniatura optimizada en caché
+        if (file_exists($absCache) && is_file($absCache)) {
+            unlink($absCache);
+        }
+
+        return true;
+    }
 }
 ?>

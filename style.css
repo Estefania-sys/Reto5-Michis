@@ -883,6 +883,60 @@ tr:hover {
     display: inline-block;
 }
 
+/* =========================================================================
+   GESTIÓN DE IMÁGENES EN EL PANEL DE ADMINISTRACIÓN
+   ========================================================================= */
+.seccion-fotos-admin { 
+    margin-top: 25px; 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    border: 1px solid #ddd; 
+}
+
+.grid-fotos-borrar { 
+    display: flex; 
+    gap: 15px; 
+    flex-wrap: wrap; 
+    margin-top: 15px; 
+}
+
+.card-foto-borrar { 
+    border: 1px solid #eee; 
+    padding: 10px; 
+    text-align: center; 
+    background: #fafafa; 
+    border-radius: 6px; 
+    width: 125px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+}
+
+.card-foto-borrar img { 
+    object-fit: cover; 
+    border-radius: 4px; 
+    margin-bottom: 8px; 
+    display: block; 
+}
+
+.card-foto-borrar label { 
+    color: #de4343; 
+    font-size: 0.85rem; 
+    font-weight: bold; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 4px; 
+}
+
+.input-file-container { 
+    background: #f9f9f9; 
+    border: 2px dashed var(--primary, #ff8c42); /* Utiliza tu variable naranja suave */
+    padding: 15px; 
+    border-radius: 6px; 
+    margin-top: 10px; 
+}
+
 @media (max-width: 768px) {
     .blog-header {
         text-align: center;
