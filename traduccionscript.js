@@ -14,6 +14,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Función para actualizar los textos, placeholders e innerHTML según el idioma seleccionado.
+function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    const elements = document.querySelectorAll(".traductor");
+    
+    elements.forEach(element => {
+        const tagName = element.tagName;
+
+        // 1. Si el elemento es un INPUT o un TEXTAREA, traducimos su atributo 'placeholder'
+        if (tagName === "INPUT" || tagName === "TEXTAREA") {
+            const newPlaceholder = element.getAttribute(`data-${lang}-placeholder`);
+            if (newPlaceholder !== null) {
+                element.setAttribute("placeholder", newPlaceholder);
+            }
+        } 
+        // 2. Si es cualquier otro elemento (H1, H2, P, A, etc.), traducimos usando innerHTML
+        else {
+            const newText = element.getAttribute(`data-${lang}`);
+            if (newText !== null) {
+                element.innerHTML = newText;
+            }
+        }
+    });
+}
+
     // ----------------------------------------------------
     // LÓGICA DEL CARRUSEL DE IMÁGENES (Soporta .carousel y .card-carousel)
     // ----------------------------------------------------
@@ -54,34 +79,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
-// Función para actualizar los textos, placeholders e innerHTML según el idioma seleccionado.
-function setLanguage(lang) {
-    document.documentElement.lang = lang;
-    const elements = document.querySelectorAll(".traductor");
-    
-    elements.forEach(element => {
-        const tagName = element.tagName;
-
-        // 1. Si el elemento es un INPUT o un TEXTAREA, traducimos su atributo 'placeholder'
-        if (tagName === "INPUT" || tagName === "TEXTAREA") {
-            const newPlaceholder = element.getAttribute(`data-${lang}-placeholder`);
-            if (newPlaceholder !== null) {
-                element.setAttribute("placeholder", newPlaceholder);
-            }
-        } 
-        // 2. Si el elemento tiene atributos data-es/data-ca, traducimos usando innerHTML
-        else if (element.hasAttribute(`data-${lang}`)) {
-            const newText = element.getAttribute(`data-${lang}`);
-            if (newText !== null) {
-                element.innerHTML = newText;
-                element.style.display = "";
-            }
-        }
-        // 3. Si el elemento usa el atributo lang="es" / lang="ca", mostramos solo el idioma correcto
-        else if (element.hasAttribute("lang")) {
-            const elementLang = element.getAttribute("lang");
-            element.style.display = elementLang === lang ? "" : "none";
-        }
-    });
-}
