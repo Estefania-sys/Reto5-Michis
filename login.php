@@ -2,17 +2,25 @@
 session_start();
 require_once 'Clases/Conexion.php';
 require_once 'Clases/Admin.php';
+require_once 'Clases/Voluntaria.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdo = (new Conexion())->getConnection();
-    // Aquí se genera el Objeto Admin y se asigna la sesión automáticamente
-    $user = Admin::login($pdo, $_POST['email'], $_POST['password']);
     
-    if($user) {
+    // 1. Intentamos login como Administrador
+    $admin = Admin::login($pdo, $_POST['email'], $_POST['password']);
+    if($admin) {
+        header("Location: Admin/paneladmin.php");
+        exit();
+    }
+
+    // 2. Si no es admin, intentamos como Voluntaria
+    $voluntaria = Voluntaria::login($pdo, $_POST['email'], $_POST['password']);
+    if($voluntaria) {
         header("Location: Admin/admin-index.php");
-        exit(); // Detiene la ejecución del script garantizando la redirección
+        exit();
     } else {
-        echo "<script>alert('Credenciales incorrectas o no tienes permisos de administrador.');</script>";
+        echo "<script>alert('Credenciales incorrectas o acceso denegado.');</script>";
     }
 }
 ?>
@@ -22,6 +30,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <link rel="stylesheet" href="style.css">
     <title>Inicio de Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
+    <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
     <?php include 'navbar/header.php'?>
@@ -44,8 +54,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 data-es="Iniciar Sesión" 
                 data-ca="Iniciar Sessió">Iniciar Sesión</button>
     </form>
-</section>
-
     <?php include 'navbar/footer.php' ?>
 </body>
 </html>

@@ -14,7 +14,7 @@ class Admin extends Persona {
     }
 
     public static function login($pdo, $email, $pass) {
-        $sql = "SELECT * FROM Usuarios WHERE email = :email AND password = :pass AND rol != 'adoptante'";
+        $sql = "SELECT * FROM Usuarios WHERE email = :email AND password = :pass AND rol = 'admin'";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['email' => $email, 'pass' => $pass]);
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -52,11 +52,23 @@ class Admin extends Persona {
         return $_SESSION['admin'] ?? '';
     }
 
+    public static function tienePersonalActivo() {
+        return self::tieneAdminActivo() || (isset($_SESSION['voluntaria']) && !empty($_SESSION['voluntaria']));
+    }
+
+    public static function requerirPersonal($redirectPath = '/Reto5-Michis/login.php') {
+        if (!self::tienePersonalActivo()) {
+            header("Location: $redirectPath");
+            exit;
+        }
+    }
+
     public static function cerrarSesion() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         unset($_SESSION['admin']);
+        unset($_SESSION['voluntaria']);
         $_SESSION = [];
         session_destroy();
     }

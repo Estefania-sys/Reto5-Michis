@@ -1,7 +1,7 @@
 <?php
 require_once '../Clases/Admin.php';
 Admin::iniciar();
-Admin::requerirAdmin();
+Admin::requerirPersonal(); // Permite acceso a Admin y Voluntarias
 
 require_once '../Clases/Conexion.php';
 
