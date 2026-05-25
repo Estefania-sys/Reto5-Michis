@@ -6,6 +6,12 @@
         <button class="btn-lang" data-lang="es"><img src="/Reto5-Michis/Imagenes/Items/banderaespaña.png" alt="Español" height="35" width="55"></button>
         <button class="btn-lang" data-lang="ca"><img src="/Reto5-Michis/Imagenes/Items/banderacataluna.png" alt="Catalán" height="35" width="55"></button>
     </section>
+    <input id="menu-checkbox" class="menu-checkbox" type="checkbox" aria-label="Abrir menú">
+    <label for="menu-checkbox" class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
     <nav>
         <ul>
             <li><a href="/Reto5-Michis/index.php" class="traductor" data-es="Inicio" data-ca="Inici"></a></li>
