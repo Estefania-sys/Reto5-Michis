@@ -107,7 +107,7 @@ body {
     color: var(--primary);
 }
 
-.btn-login, .logoutbtn {
+.btn-login{
     background-color:#ffbc3f;
     color:#000000 !important;
     border:none;
@@ -116,7 +116,7 @@ body {
     text-decoration: none;
 }
 
-.btn-login:hover, .logoutbtn:hover{
+.btn-login:hover{
     background-color:orange;
     transition: 0.3s;
 }
@@ -124,13 +124,15 @@ body {
 .cambio_idioma{
     display:flex;
     gap: 10px;
-    margin-right:113vh;
+    margin-right:1.5rem;
+    align-items: center;
 }
 
 .cambio_idioma_admin{
     display:flex;
     gap: 10px;
-    margin-right:87vh;
+    margin-right:1.5rem;
+    align-items: center;
 }
 
 .btn-lang{
@@ -609,6 +611,18 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
+.logoutbtn{
+    background-color:#2ecc71;
+    border: none;
+    padding:9px;
+    border-radius: 20px;
+}
+
+.logoutbtn:hover{
+    background-color:#000000;
+    color:white;
+    transition: 0.3s;
+}
 /* Estilos para el contenedor del formulario */
 .form-container {
     padding: 40px 20px;
@@ -1068,80 +1082,242 @@ tr:hover {
         padding: 40px 20px;
     }
 }
-
-/* Contenedor de acciones del formulario */
-.form-actions {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.menu-checkbox {
+    display: none;
 }
 
-/* Agrupación de botones Guardar y Cancelar */
-.botones-principales {
-    display: flex;
-    gap: 10px; /* Espacio entre los dos botones */
+.menu-icon {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px;
 }
 
-/* Estilo para el botón de Eliminar (Peligro) */
-.btn-danger {
-    background-color: #d9534f;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px; /* Espacio entre el icono de basura y el texto */
-    transition: background-color 0.3s ease;
+.menu-icon span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-dark);
+    border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
-.btn-danger:hover {
-    background-color: #c9302c; /* Un rojo un poco más oscuro al pasar el ratón */
-    color: white;
+/* Animación del icono al abrirse */
+.menu-checkbox:checked + .menu-icon span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.menu-checkbox:checked + .menu-icon span:nth-child(2) {
+    opacity: 0;
+}
+.menu-checkbox:checked + .menu-icon span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 
-.btn-danger i {
-    font-size: 0.9em;
+@media (max-width: 768px) {
+
+    /* --- NAVBAR --- */
+    .navbar,
+    .navbaradmin {
+        flex-wrap: wrap;
+        position: relative;
+    }
+
+    .menu-icon {
+        display: flex;
+    }
+
+    .navbar ul,
+    .navbaradmin ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--white);
+        padding: 15px 20px;
+        gap: 15px;
+        border-top: 1px solid #eee;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        order: 3; /* Que aparezca debajo del logo y del icono */
+    }
+
+    /* Se abre al marcar el checkbox */
+    .menu-checkbox:checked ~ nav ul {
+        display: flex;
+    }
+
+    /* --- CAMBIO DE IDIOMA --- */
+    .cambio_idioma,
+    .cambio_idioma_admin {
+        margin-right: 0;
+        justify-content: center;
+        width: 100%;
+        padding: 6px 0;
+        border-top: 1px solid #eee;
+        order: 4;
+    }
+
+    /* --- PÁGINA DE DETALLE --- */
+    .detalle-container {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .detalle-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .detalle-img,
+    .detalle-info {
+        min-width: unset;
+        width: 100%;
+    }
+
+    /* --- SECCIÓN TÍTULO --- */
+    .section-title {
+        font-size: 1.4rem;
+        margin: 25px 0;
+    }
+
+    /* --- GRID GATOS --- */
+    .grid-gatos {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+    }
+
+    /* --- CONTACTO --- */
+    .contactos h1 {
+        font-size: 32px;
+    }
+
+    .contactos p {
+        font-size: 18px;
+    }
+
+    .botoneracontacto {
+        white-space: normal;
+    }
+
+    .contactobtn {
+        display: inline-block;
+        margin: 5px;
+        padding: 14px 20px;
+    }
+
+    /* --- FORMULARIOS --- */
+    form {
+        margin: 20px 15px;
+        padding: 20px;
+    }
+
+    /* --- PANEL ADMIN / TABLAS --- */
+    .admin-panel {
+        padding: 10px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .admin-table {
+        font-size: 12px;
+        min-width: 600px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    /* --- DASHBOARD ADMIN --- */
+    .dashboard-container {
+        padding: 30px 15px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .dash-card {
+        padding: 30px 15px;
+        gap: 12px;
+    }
+
+    .dash-card i {
+        font-size: 2.8rem;
+    }
+
+    .dash-card span {
+        font-size: 1.1rem;
+    }
+
+    /* --- BIO --- */
+    .bio-container p {
+        font-size: 15px !important;
+    }
+
+    .bio-container h3 {
+        font-size: 20px !important;
+    }
+
+    /* --- BLOG --- */
+    .grid-blog {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* --- FOOTER --- */
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-right {
+        justify-content: center;
+    }
+
+    .mapa iframe {
+        height: 200px;
+    }
 }
 
-/* Contenedor de los botones al final del formulario */
-.form-actions {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between; /* Separa los grupos de botones */
-    align-items: center;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
+/* =========================================
+   PANTALLAS MUY PEQUEÑAS (max-width: 480px)
+   ========================================= */
+@media (max-width: 480px) {
 
-.botones-principales {
-    display: flex;
-    gap: 10px;
-}
+    .grid-gatos {
+        grid-template-columns: 1fr;
+    }
 
-/* Estilo del botón eliminar */
-.btn-danger {
-    background-color: #d9534f;
-    color: white !important;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.3s;
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+    .detalle-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .contactos h1 {
+        font-size: 26px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
 }
-/* Ajuste para el botón editar en el catálogo */
-.btn-editar {
-    display: inline-block;
-    background: #f0ad4e;
-    color: white !important;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.85em;
-    margin-bottom: 5px;
+@media (max-width: 768px) {
+    form {
+        margin: 20px 15px;
+        width: calc(100% - 30px);
+        max-width: 100%;
+        box-sizing: border-box;
+    }
 }
