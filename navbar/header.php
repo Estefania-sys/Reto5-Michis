@@ -12,7 +12,7 @@
             <li><a href="/Reto5-Michis/catalogo.php" class="traductor" data-es="Adoptar" data-ca="Adoptar"></a></li>
             <li><a href="/Reto5-Michis/Blog/finales.php" class="traductor" data-es="Blog" data-ca="Blog"></a></li>
             <li><a href="/Reto5-Michis/contacto.php" class="traductor" data-es="Contacto" data-ca="Contacte"></a></li>
-            <li><a href="/Reto5-Michis/login.php" class="btn-login traductor" data-es="Iniciar Sesión" data-ca="Iniciar Sesió"></a></li>
+            <li><a href="/Reto5-Michis/login.php" class="btn-login traductor" data-es="<i class='fa-solid fa-user'></i> Iniciar Sesión" data-ca="<i class='fa-solid fa-user'></i> Iniciar Sesió"></a></li>
         </ul>
     </nav>
 </header>
