@@ -14,7 +14,26 @@ $mensaje = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $blog->isAvailable()) {
     $res = $blog->crearPost($_POST['id_gato'], $_POST['titulo'], $_POST['historia'], $_POST['foto']);
     if ($res && $res->getInsertedCount() > 0) {
-        $mensaje = "exito"; 
+        $mensaje = "exito";
+
+        // Guardar también en JSON
+        $rutaJson = __DIR__ . '/blog.json';
+        $historias = file_exists($rutaJson) 
+            ? json_decode(file_get_contents($rutaJson), true) 
+            : [];
+
+        if (!is_array($historias)) $historias = [];
+
+        $historias[] = [
+            'id_gato'   => $_POST['id_gato'],
+            'titulo'    => $_POST['titulo'],
+            'contenido' => $_POST['historia'],
+            'foto'      => $_POST['foto'],
+            'fecha'     => date('d/m/Y')
+        ];
+
+        file_put_contents($rutaJson, json_encode($historias, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    $mensaje = "exitoso!";
     }
 }
 
