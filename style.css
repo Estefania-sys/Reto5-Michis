@@ -107,7 +107,7 @@ body {
     color: var(--primary);
 }
 
-.btn-login{
+.btn-login, .logoutbtn {
     background-color:#ffbc3f;
     color:#000000 !important;
     border:none;
@@ -116,7 +116,7 @@ body {
     text-decoration: none;
 }
 
-.btn-login:hover{
+.btn-login:hover, .logoutbtn:hover{
     background-color:orange;
     transition: 0.3s;
 }
@@ -609,18 +609,6 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-.logoutbtn{
-    background-color:#2ecc71;
-    border: none;
-    padding:9px;
-    border-radius: 20px;
-}
-
-.logoutbtn:hover{
-    background-color:#000000;
-    color:white;
-    transition: 0.3s;
-}
 /* Estilos para el contenedor del formulario */
 .form-container {
     padding: 40px 20px;

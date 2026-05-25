@@ -15,7 +15,7 @@ $adopciones = $conexion->obtenerAdopcionesCompletas();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title class="traductor" data-es="Panel de Control - Adopciones" data-ca="Panell de Control - Adopcions"></title>
+    <title class="traductor" data-es="Adopciones - Administrador" data-ca="Adopcions - Administrador"></title>
     <link rel="stylesheet" href="/Reto5-Michis/style.css">
 </head>
 <body>
