@@ -35,9 +35,10 @@ class Gato {
         $this->tamano = $tamano;
     }
 
-    public static function crearGato($pdo, $datos) {
-    $sql = "INSERT INTO Gatos (nombre, raza, genero, capa_patron, pelo_largo, esterilizado, estado, notas_cuidador, numero_microchip, peso_kg, tamano, fecha_nacimiento) 
-            VALUES (:nombre, :raza, :genero, :capa_patron, :pelo_largo, :esterilizado, :estado, :notas_cuidador, :numero_microchip, :peso_kg, :tamano, :fecha_nacimiento) 
+    public static function crear($pdo, $datos) {
+    // Añadimos foto_url con un string vacío por ahora
+    $sql = "INSERT INTO Gatos (nombre, raza, genero, capa_patron, pelo_largo, esterilizado, estado, notas_cuidador, numero_microchip, peso_kg, tamano, fecha_nacimiento, foto_url) 
+            VALUES (:nombre, :raza, :genero, :capa_patron, :pelo_largo, :esterilizado, :estado, :notas_cuidador, :numero_microchip, :peso_kg, :tamano, :fecha_nacimiento, '') 
             RETURNING id_gato";
 
     $stmt = $pdo->prepare($sql);
