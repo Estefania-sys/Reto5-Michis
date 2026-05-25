@@ -79,11 +79,12 @@ if ($pdo) {
                                         <?php if ($pelo !== ''): ?>Pelo: <?php echo htmlspecialchars($pelo); ?><?php endif; ?>
                                     </p>
                                 <?php endif; ?>
+                                <?php if ($esAdmin): ?>
+                                    <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-editar">Editar</a>
+                                <?php endif; ?>
+
                                 <?php $tagList = !empty($gato['character_tags']) ? Gato::parsePgArray($gato['character_tags']) : []; ?>
                                 <?php if (!empty($tagList)): ?>
-                                    <?php if ($esAdmin): ?>
-                                        <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-editar">Editar</a>
-                                    <?php endif; ?>
                                     <p class="tags"><?php echo htmlspecialchars(implode(', ', $tagList)); ?></p>
                                 <?php endif; ?>
                                 <p class="desc"><?php echo htmlspecialchars(substr($gato['notas_cuidador'] ?? '', 0, 60)); ?>...</p>

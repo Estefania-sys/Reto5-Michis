@@ -27,29 +27,30 @@ if ($id_gato > 0) {
                     }
                 }
 
-                // 3. INTENTAR BORRAR LA CARPETA EN DISCO (Si se queda vacía tras vaciar las fotos)
-                // Usamos el mismo algoritmo de sanitización que tiene tu clase original Imagenes.php
-                $sName = trim(mb_strtolower($gato['nombre'], 'UTF-8'));
-                $sName = preg_replace('/[\s\/\\\\]+/', '_', $sName);
-                $sName = preg_replace('/[^a-z0-9_\-]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $sName));
-                $sName = preg_replace('/_+/', '_', $sName);
-                $nombreCarpeta = trim($sName, '_-');
-
-                if (!empty($nombreCarpeta)) {
+                // 3. BORRAR CARPETA FÍSICA Y TODO SU CONTENIDO
+                    $nombreCarpeta = $gato['id_gato'] . "_" . strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $gato['nombre']));
                     $rutaDirectorio = __DIR__ . '/../Imagenes/Gatos/' . $nombreCarpeta;
-                    if (file_exists($rutaDirectorio) && is_dir($rutaDirectorio)) {
-                        // Limpieza de subcarpeta opcional de caché
-                        if (file_exists($rutaDirectorio . '/cache') && is_dir($rutaDirectorio . '/cache')) {
-                            @rmdir($rutaDirectorio . '/cache');
-                        }
-                        @rmdir($rutaDirectorio); // Elimina el directorio raíz del gato si ya no tiene archivos
-                    }
-                }
 
-                // 4. ELIMINAR EL REGISTRO DE LA BASE DE DATOS
-                $sqlDelete = "DELETE FROM Gatos WHERE id_gato = :id";
-                $stmt = $pdo->prepare($sqlDelete);
-                $stmt->execute([':id' => $id_gato]);
+                    if (file_exists($rutaDirectorio) && is_dir($rutaDirectorio)) {
+                        // Función auxiliar para borrar carpetas no vacías
+                        function eliminarDirectorioCompleto($dir) {
+                            if (!file_exists($dir)) return true;
+                            if (!is_dir($dir)) return unlink($dir);
+
+                            foreach (scandir($dir) as $item) {
+                                if ($item == '.' || $item == '..') continue;
+                                if (!eliminarDirectorioCompleto($dir . DIRECTORY_SEPARATOR . $item)) return false;
+                            }
+                            return rmdir($dir);
+                        }
+
+                        eliminarDirectorioCompleto($rutaDirectorio);
+                    }
+
+                    // 4. ELIMINAR EL REGISTRO DE LA BASE DE DATOS (si no lo has hecho ya arriba)
+                    $sqlDelete = "DELETE FROM Gatos WHERE id_gato = :id";
+                    $stmt = $pdo->prepare($sqlDelete);
+                    $stmt->execute([':id' => $id_gato]);
             }
 
         } catch (Exception $e) {

@@ -1068,3 +1068,80 @@ tr:hover {
         padding: 40px 20px;
     }
 }
+
+/* Contenedor de acciones del formulario */
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Agrupación de botones Guardar y Cancelar */
+.botones-principales {
+    display: flex;
+    gap: 10px; /* Espacio entre los dos botones */
+}
+
+/* Estilo para el botón de Eliminar (Peligro) */
+.btn-danger {
+    background-color: #d9534f;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el icono de basura y el texto */
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c9302c; /* Un rojo un poco más oscuro al pasar el ratón */
+    color: white;
+}
+
+.btn-danger i {
+    font-size: 0.9em;
+}
+
+/* Contenedor de los botones al final del formulario */
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between; /* Separa los grupos de botones */
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.botones-principales {
+    display: flex;
+    gap: 10px;
+}
+
+/* Estilo del botón eliminar */
+.btn-danger {
+    background-color: #d9534f;
+    color: white !important;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+}
+/* Ajuste para el botón editar en el catálogo */
+.btn-editar {
+    display: inline-block;
+    background: #f0ad4e;
+    color: white !important;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85em;
+    margin-bottom: 5px;
+}
