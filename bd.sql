@@ -24,19 +24,19 @@ CREATE TABLE Usuarios (
 CREATE TABLE Gatos (
     id_gato SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    fecha_nacimiento DATE,
-    genero VARCHAR(10),
-    raza VARCHAR(50),
-    capa_patron VARCHAR(50),
-    pelo_largo VARCHAR(50),
+    fecha_nacimiento DATE NOT NULL,
+    genero VARCHAR(10) NOT NULL, -- 'Macho' o 'Hembra'
+    raza VARCHAR(50) NOT NULL,
+    capa_patron VARCHAR(50) NOT NULL,
+    pelo_largo VARCHAR(50) NOT NULL,
     character_tags TEXT[],
     esterilizado BOOLEAN,
     notas_cuidador TEXT,
     estado VARCHAR(20), -- 'disponible', 'adoptado', 'en tratamiento'
     foto_url VARCHAR(255),
-    numero_microchip VARCHAR(25),
-    peso_kg NUMERIC(4,1),
-    tamano VARCHAR(20)
+    numero_microchip VARCHAR(25) NOT NULL UNIQUE,
+    peso_kg NUMERIC(4,1) NOT NULL,
+    tamano VARCHAR(20) NOT NULL -- 'Pequeño', 'Mediano', 'Grande'
 );
 
 CREATE TABLE Adopciones (

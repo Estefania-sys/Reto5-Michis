@@ -1,6 +1,9 @@
-{
-    "name": "blog",
-    "catname": "marcelo",
-    "historia": "marcelo fue adoptado y es muy muy feliz"
-
-}
+[
+    {
+        "id_gato": "4",
+        "titulo": "Casita de menta",
+        "contenido": "Hola soy willirex",
+        "foto": "bravas.jpeg",
+        "fecha": "25\/05\/2026"
+    }
+]

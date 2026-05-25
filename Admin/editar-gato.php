@@ -9,7 +9,6 @@ require_once '../Clases/Imagenes.php';
 
 $pdo = (new Conexion())->getConnection();
 
-// Si hay ID, estamos editando. Si no, estamos creando.
 $id_gato = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $esNuevo = ($id_gato === 0);
 
@@ -26,51 +25,121 @@ $clase_mensaje = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $datos = [
         'nombre'           => $_POST['nombre'],
+        'fecha_nacimiento' => $_POST['fecha_nacimiento'], // Añadido
         'raza'             => $_POST['raza'],
         'genero'           => $_POST['genero'],
         'capa_patron'      => $_POST['capa_patron'],
         'pelo_largo'       => $_POST['pelo_largo'],
-        'esterilizado'     => isset($_POST['esterilizado']),
+        'esterilizado'     => isset($_POST['esterilizado']) ? 1 : 0,
         'estado'           => $_POST['estado'],
         'notas_cuidador'   => $_POST['notas_cuidador'],
-        'numero_microchip' => $_POST['numero_microchip'],
+        'numero_microchip' => $_POST['numero_microchip'], // ¡Aquí es donde da el error!
         'peso_kg'          => $_POST['peso_kg'],
-        'tamano'           => $_POST['tamano'],
-        'fecha_nacimiento' => $_POST['fecha_nacimiento']
+        'tamano'           => $_POST['tamano']
     ];
 
+    try {
+        if ($esNuevo) {
+            $nuevo_id = Gato::crear($pdo, $datos);
+            if ($nuevo_id) {
+                // Si hay fotos, las subimos (opcional según tu código)
+                header("Location: ../catalogo.php?msg=creado");
+                exit;
+            }
+        } else {
+            if (Gato::actualizar($pdo, $id_gato, $datos)) {
+                header("Location: ../catalogo.php?msg=actualizado");
+                exit;
+            }
+        }
+    } catch (PDOException $e) {
+        // Capturamos el error de la base de datos
+        if ($e->getCode() == '23505') { // Código SQL para "Unique Violation"
+            $mensaje = "Error: El número de microchip ya existe para otro gato.";
+        } else {
+            $mensaje = "Hubo un error al guardar los datos: " . $e->getMessage();
+        }
+        $clase_mensaje = "error-banner"; // Clase CSS para ponerlo en rojo
+    }
+
     if ($esNuevo) {
-        $id_generado = Gato::crearGato($pdo, $datos);
+        // 1. Creamos el registro en la BD
+        $id_generado = Gato::crear($pdo, $datos);
         if ($id_generado) {
             $id_gato = $id_generado;
-            // CREAR CARPETA PARA IMÁGENES
-            // Usamos la lógica de tu clase Imagenes para el nombre
-            $nombreCarpeta = $id_gato . "_" . strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $datos['nombre']));
-            $rutaCarpeta = "../Imagenes/Gatos/" . $nombreCarpeta;
+            // Preparamos un array con los datos mínimos que tu método subirFoto necesita
+            $datosGatoParaFoto = ['id_gato' => $id_gato, 'nombre' => $datos['nombre']];
             
-            if (!file_exists($rutaCarpeta)) {
-                mkdir($rutaCarpeta, 0777, true);
-            }
-            
-            // Actualizamos la foto_url en la BD para que apunte a esa carpeta
-            Gato::actualizarFotoUrl($pdo, $id_gato, "Imagenes/Gatos/" . $nombreCarpeta);
-            
-            // Si ha subido fotos ahora, las procesamos
+            $primeraFotoGuardada = "";
+
+            // 2. Procesamos la subida de fotos
             if (!empty($_FILES['fotos']['name'][0])) {
-                Imagenes::subirFoto($id_gato, $_FILES['fotos'], $pdo);
+                // Como $_FILES['fotos'] es un array de archivos, recorremos cada uno
+                foreach ($_FILES['fotos']['name'] as $key => $val) {
+                    $fileArray = [
+                        'name'     => $_FILES['fotos']['name'][$key],
+                        'type'     => $_FILES['fotos']['type'][$key],
+                        'tmp_name' => $_FILES['fotos']['tmp_name'][$key],
+                        'error'    => $_FILES['fotos']['error'][$key],
+                        'size'     => $_FILES['fotos']['size'][$key]
+                    ];
+                    
+                    $rutaSubida = Imagenes::subirFoto($fileArray, $datosGatoParaFoto);
+                    
+                    // Guardamos la ruta de la primera foto con éxito para la portada
+                    if ($rutaSubida && empty($primeraFotoGuardada)) {
+                        $primeraFotoGuardada = $rutaSubida;
+                    }
+                }
             }
+
+            // 3. Si se subieron fotos, actualizamos foto_url con la primera. 
+            // Si no, ponemos la ruta de la carpeta (o una por defecto)
+            if (!empty($primeraFotoGuardada)) {
+                Gato::actualizarFotoUrl($pdo, $id_gato, $primeraFotoGuardada);
+            } else {
+                // Ruta de carpeta por defecto si no hay fotos
+                $slug = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $datos['nombre']));
+                Gato::actualizarFotoUrl($pdo, $id_gato, "Imagenes/Gatos/" . $id_gato . "_" . $slug);
+            }
+
             header("Location: ../detalle-gato.php?id=$id_gato");
             exit;
         }
     } else {
-        // Lógica de actualización que ya tenías...
+        // Lógica de edición existente
         if (Gato::actualizar($pdo, $id_gato, $datos)) {
-            // (Procesar fotos y borrar las seleccionadas como ya hacias)
+            if (!empty($_FILES['fotos']['name'][0])) {
+                $datosGatoParaFoto = ['id_gato' => $id_gato, 'nombre' => $datos['nombre']];
+                foreach ($_FILES['fotos']['name'] as $key => $val) {
+                    $fileArray = [
+                        'name'     => $_FILES['fotos']['name'][$key],
+                        'type'     => $_FILES['fotos']['type'][$key],
+                        'tmp_name' => $_FILES['fotos']['tmp_name'][$key],
+                        'error'    => $_FILES['fotos']['error'][$key],
+                        'size'     => $_FILES['fotos']['size'][$key]
+                    ];
+                    $ruta = Imagenes::subirFoto($fileArray, $datosGatoParaFoto);
+                    
+                    // Si el gato no tenía foto de portada antes, le ponemos esta
+                    if ($ruta && (empty($gato['foto_url']) || strpos($gato['foto_url'], '.') === false)) {
+                        Gato::actualizarFotoUrl($pdo, $id_gato, $ruta);
+                    }
+                }
+            }
+            // Borrar fotos seleccionadas
+            if (!empty($_POST['fotos_eliminar'])) {
+                foreach ($_POST['fotos_eliminar'] as $fotoRuta) {
+                    Imagenes::eliminarFoto($fotoRuta);
+                }
+            }
             $mensaje = "Gato actualizado correctamente";
             $clase_mensaje = "mensaje-exito";
+            $gato = Gato::obtenerPorId($pdo, $id_gato);
         }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -91,6 +160,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
 
+        <div class="container">
+        <?php if (!empty($mensaje)): ?>
+            <div class="<?php echo $clase_mensaje; ?>">
+                <?php echo htmlspecialchars($mensaje); ?>
+            </div>
+        <?php endif; ?>
+
         <form action="" method="POST" enctype="multipart/form-data" class="edit-form">
             <div class="form-group">
                 <label for="nombre" class="traductor" data-es="Nombre:" data-ca="Nom:"></label>
@@ -108,6 +184,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="Macho" class="traductor" data-es="Macho" data-ca="Mascle" <?php echo $gato['genero'] === 'Macho' ? 'selected' : ''; ?>></option>
                     <option value="Hembra" class="traductor" data-es="Hembra" data-ca="Femella" <?php echo $gato['genero'] === 'Hembra' ? 'selected' : ''; ?>></option>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label class="traductor" data-es="Fecha de Nacimiento" data-ca="Data de Naixement">Fecha de Nacimiento</label>
+                <input type="date" name="fecha_nacimiento" 
+                    value="<?php echo $gato ? htmlspecialchars($gato['fecha_nacimiento'] ?? '') : ''; ?>" 
+                    required>
             </div>
 
             <div class="form-group">
@@ -139,8 +222,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-group">
-                <label for="numero_microchip" class="traductor" data-es="Número de microchip:" data-ca="Número de microxip:"></label>
-                <input type="text" id="numero_microchip" name="numero_microchip" value="<?php echo htmlspecialchars($gato['numero_microchip'] ?? ''); ?>">
+                <label for="numero_microchip" class="traductor" data-es="Número de Microchip:" data-ca="Número de Microxip:"></label>
+                <input type="text" name="numero_microchip" 
+                    value="<?php echo $gato ? htmlspecialchars($gato['numero_microchip'] ?? '') : ''; ?>" 
+                    placeholder="Introduce un número único">
             </div>
 
             <div class="form-group">
@@ -197,10 +282,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
 
-            <div class="form-actions" style="margin-top: 30px;">
-                <button type="submit" class="btn-primary traductor" data-es="Guardar cambios" data-ca="Desar canvis"></button>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary traductor" data-es="Guardar cambios" data-ca="Desar canvis">Guardar cambios</button>
                 <a href="../catalogo.php" class="btn-secondary traductor" data-es="Cancelar" data-ca="Cancel·lar">Cancelar</a>
             </div>
+
+            <?php if (!$esNuevo): ?>
+                <a href="eliminar-gato.php?id=<?php echo $id_gato; ?>" 
+                class="btn-danger" 
+                onclick="return confirm('¿Estás seguro de que quieres eliminar a este gato permanentemente? Esta acción no se puede deshacer.');">
+                    <i class="fa-solid fa-trash"></i> Eliminar Gato
+                </a>
+            <?php endif; ?>
+        </div>
         </form>
     </div>
 
