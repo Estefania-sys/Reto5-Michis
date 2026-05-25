@@ -33,7 +33,14 @@ if ($pdo) {
         <h2 class="section-title">
             <span class="traductor" data-es="Gatitos en adopción" data-ca="Gatets en adopció">Gatitos en adopción</span>
         </h2>
-        
+        <?php if ($esAdmin): ?>
+            <section class="admin-actions" style="margin-bottom: 20px; text-align: right;">
+                <a href="Admin/editar-gato.php" class="btn-primary">
+                    <i class="fa-solid fa-plus"></i> 
+                    <span class="traductor" data-es="Añadir un nuevo gato" data-ca="Afegir un nou gat">Añadir un nuevo gato</span>
+                </a>
+            </section>
+        <?php endif; ?>
         <section class="grid-gatos">
             <?php if (!empty($gatos)): ?>
                 <?php foreach ($gatos as $gato): ?>

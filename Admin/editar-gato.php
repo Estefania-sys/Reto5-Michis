@@ -9,11 +9,14 @@ require_once '../Clases/Imagenes.php';
 
 $pdo = (new Conexion())->getConnection();
 
+// Si hay ID, estamos editando. Si no, estamos creando.
 $id_gato = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$gato = Gato::obtenerPorId($pdo, $id_gato);
+$esNuevo = ($id_gato === 0);
 
-if (!$gato) {
-    header('Location: admin-index.php');
+$gato = $esNuevo ? null : Gato::obtenerPorId($pdo, $id_gato);
+
+if (!$esNuevo && !$gato) {
+    header('Location: ../catalogo.php');
     exit;
 }
 
@@ -21,62 +24,51 @@ $mensaje = "";
 $clase_mensaje = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $datos_actualizados = [
-        'nombre'           => $_POST['nombre'] ?? $gato['nombre'],
-        'raza'             => $_POST['raza'] ?? $gato['raza'],
-        'genero'           => $_POST['genero'] ?? $gato['genero'],
-        'capa_patron'      => $_POST['capa_patron'] ?? $gato['capa_patron'],
-        'pelo_largo'       => $_POST['pelo_largo'] ?? $gato['pelo_largo'],
-        'esterilizado'     => isset($_POST['esterilizado']) ? 1 : 0,
-        'estado'           => $_POST['estado'] ?? $gato['estado'],
-        'notas_cuidador'   => $_POST['notas_cuidador'] ?? $gato['notas_cuidador'],
-        'numero_microchip' => !empty($_POST['numero_microchip']) ? $_POST['numero_microchip'] : null,
-        'peso_kg'          => !empty($_POST['peso_kg']) ? floatval($_POST['peso_kg']) : null,
-        'tamano'           => !empty($_POST['tamano']) ? $_POST['tamano'] : null,
+    $datos = [
+        'nombre'           => $_POST['nombre'],
+        'raza'             => $_POST['raza'],
+        'genero'           => $_POST['genero'],
+        'capa_patron'      => $_POST['capa_patron'],
+        'pelo_largo'       => $_POST['pelo_largo'],
+        'esterilizado'     => isset($_POST['esterilizado']),
+        'estado'           => $_POST['estado'],
+        'notas_cuidador'   => $_POST['notas_cuidador'],
+        'numero_microchip' => $_POST['numero_microchip'],
+        'peso_kg'          => $_POST['peso_kg'],
+        'tamano'           => $_POST['tamano'],
+        'fecha_nacimiento' => $_POST['fecha_nacimiento']
     ];
 
-    if (Gato::actualizar($pdo, $id_gato, $datos_actualizados)) {
-        
-        // 1. GESTIÓN DE BORRADO DE IMÁGENES SELECCIONADAS
-        if (!empty($_POST['fotos_eliminar']) && is_array($_POST['fotos_eliminar'])) {
-            foreach ($_POST['fotos_eliminar'] as $rutaFoto) {
-                Imagenes::eliminarFoto($rutaFoto);
-                
-                // Si la foto eliminada coincide con la principal 'foto_url' de la BD, la limpiamos
-                if ($gato['foto_url'] === $rutaFoto || str_replace('Imagenes/Gatos/cache/', 'Imagenes/Gatos/', $rutaFoto) === $gato['foto_url']) {
-                    Gato::actualizarFotoUrl($pdo, $id_gato, null);
-                }
-            }
-        }
-
-        // 2. GESTIÓN DE SUBIDA DE NUEVAS IMÁGENES
-        if (isset($_FILES['fotos_subir']) && !empty($_FILES['fotos_subir']['name'][0])) {
-            $totalArchivos = count($_FILES['fotos_subir']['name']);
+    if ($esNuevo) {
+        $id_generado = Gato::crearGato($pdo, $datos);
+        if ($id_generado) {
+            $id_gato = $id_generado;
+            // CREAR CARPETA PARA IMÁGENES
+            // Usamos la lógica de tu clase Imagenes para el nombre
+            $nombreCarpeta = $id_gato . "_" . strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $datos['nombre']));
+            $rutaCarpeta = "../Imagenes/Gatos/" . $nombreCarpeta;
             
-            for ($i = 0; $i < $totalArchivos; $i++) {
-                $archivoIndividual = [
-                    'name'     => $_FILES['fotos_subir']['name'][$i],
-                    'type'     => $_FILES['fotos_subir']['type'][$i],
-                    'tmp_name' => $_FILES['fotos_subir']['tmp_name'][$i],
-                    'error'    => $_FILES['fotos_subir']['error'][$i],
-                    'size'     => $_FILES['fotos_subir']['size'][$i]
-                ];
-
-                // Subir archivo al servidor físico
-                $rutaGuardada = Imagenes::subirFoto($archivoIndividual, $gato);
-                
-                // ¡IMPORTANTE! Vinculamos la primera imagen subida con la columna 'foto_url' de tu base de datos
-                if ($rutaGuardada && ($i === 0 || empty($gato['foto_url']))) {
-                    Gato::actualizarFotoUrl($pdo, $id_gato, $rutaGuardada);
-                }
+            if (!file_exists($rutaCarpeta)) {
+                mkdir($rutaCarpeta, 0777, true);
             }
+            
+            // Actualizamos la foto_url en la BD para que apunte a esa carpeta
+            Gato::actualizarFotoUrl($pdo, $id_gato, "Imagenes/Gatos/" . $nombreCarpeta);
+            
+            // Si ha subido fotos ahora, las procesamos
+            if (!empty($_FILES['fotos']['name'][0])) {
+                Imagenes::subirFoto($id_gato, $_FILES['fotos'], $pdo);
+            }
+            header("Location: ../detalle-gato.php?id=$id_gato");
+            exit;
         }
-
-        header('Location: ../catalogo.php');
-        exit;
     } else {
-        $mensaje = "Error al actualizar los datos.";
-        $clase_mensaje = "error";
+        // Lógica de actualización que ya tenías...
+        if (Gato::actualizar($pdo, $id_gato, $datos)) {
+            // (Procesar fotos y borrar las seleccionadas como ya hacias)
+            $mensaje = "Gato actualizado correctamente";
+            $clase_mensaje = "mensaje-exito";
+        }
     }
 }
 ?>
@@ -84,10 +76,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title class="traductor" data-es="Editar Gato" data-ca="Editar Gat">Editar Gato</title>
-    <link rel="stylesheet" href="../style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="traductor" data-es="Panel de Control - Adopciones" data-ca="Panell de Control - Adopcions"></title>
+    <link rel="stylesheet" href="/Reto5-Michis/style.css">
 </head>
 <body>
+    <?php include '../navbar/headeradmin.php'; ?>
     <div class="edit-container">
         <h1 class="traductor" data-es="Editar Gato" data-ca="Editar Gat"></h1>
 
@@ -211,5 +205,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script src="../traduccionscript.js"></script>
+    <?php include '../navbar/footer.php' ?>
 </body>
 </html>

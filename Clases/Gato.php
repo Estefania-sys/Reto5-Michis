@@ -35,6 +35,32 @@ class Gato {
         $this->tamano = $tamano;
     }
 
+    public static function crear($pdo, $datos) {
+    // Añadimos foto_url con un string vacío por ahora
+    $sql = "INSERT INTO Gatos (nombre, raza, genero, capa_patron, pelo_largo, esterilizado, estado, notas_cuidador, numero_microchip, peso_kg, tamano, fecha_nacimiento, foto_url) 
+            VALUES (:nombre, :raza, :genero, :capa_patron, :pelo_largo, :esterilizado, :estado, :notas_cuidador, :numero_microchip, :peso_kg, :tamano, :fecha_nacimiento, '') 
+            RETURNING id_gato";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':nombre'           => $datos['nombre'],
+        ':raza'             => $datos['raza'],
+        ':genero'           => $datos['genero'],
+        ':capa_patron'      => $datos['capa_patron'],
+        ':pelo_largo'       => $datos['pelo_largo'],
+        ':esterilizado'     => $datos['esterilizado'] ? 'true' : 'false',
+        ':estado'           => $datos['estado'],
+        ':notas_cuidador'   => $datos['notas_cuidador'],
+        ':numero_microchip' => $datos['numero_microchip'],
+        ':peso_kg'          => $datos['peso_kg'],
+        ':tamano'           => $datos['tamano'],
+        ':fecha_nacimiento' => $datos['fecha_nacimiento'] ?? null
+    ]);
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['id_gato'] ?? false;
+}
+
     public static function calcularEdadDesdeNacimiento($fecha_nacimiento) {
         if (empty($fecha_nacimiento)) {
             return null;
