@@ -29,7 +29,7 @@ Admin::requerirAdmin();
 
             <a href="../Blog/admin-blog.php" class="dash-card">
                 <i class="fa-solid fa-heart"></i>
-                <span class="traductor" data-es="Finales Felices (Blog)" data-ca="Finals Feliços (Blog)"></span>
+                <span class="traductor" data-es="Historias Felices (Blog)" data-ca="Històries Feliços (Blog)"></span>
             </a>
 
             <a href="../logout.php" class="dash-card logout-card">
