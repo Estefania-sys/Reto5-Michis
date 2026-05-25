@@ -32,7 +32,6 @@
                 ></iframe>
             </div>
         </section>
-    </section>
     
     <section class="footer-bottom">
         <section class="container"></section>
