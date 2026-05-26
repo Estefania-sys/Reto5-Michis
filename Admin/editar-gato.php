@@ -25,7 +25,7 @@ $clase_mensaje = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $datos = [
         'nombre'           => $_POST['nombre'],
-        'fecha_nacimiento' => $_POST['fecha_nacimiento'], // Añadido
+        'fecha_nacimiento' => $_POST['fecha_nacimiento'],
         'raza'             => $_POST['raza'],
         'genero'           => $_POST['genero'],
         'capa_patron'      => $_POST['capa_patron'],
@@ -33,110 +33,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'esterilizado'     => isset($_POST['esterilizado']) ? 1 : 0,
         'estado'           => $_POST['estado'],
         'notas_cuidador'   => $_POST['notas_cuidador'],
-        'numero_microchip' => $_POST['numero_microchip'], // ¡Aquí es donde da el error!
+        'numero_microchip' => $_POST['numero_microchip'],
         'peso_kg'          => $_POST['peso_kg'],
         'tamano'           => $_POST['tamano']
     ];
 
     try {
         if ($esNuevo) {
-            $nuevo_id = Gato::crear($pdo, $datos);
-            if ($nuevo_id) {
-                // Si hay fotos, las subimos (opcional según tu código)
-                header("Location: ../catalogo.php?msg=creado");
-                exit;
+            // 1. Creamos el registro primero para obtener el ID
+            $id_gato = Gato::crear($pdo, $datos);
+            if ($id_gato) {
+                $mensaje = "Gato creado con éxito.";
             }
         } else {
+            // Lógica de actualización
             if (Gato::actualizar($pdo, $id_gato, $datos)) {
-                header("Location: ../catalogo.php?msg=actualizado");
-                exit;
+                $mensaje = "Gato actualizado correctamente.";
             }
         }
-    } catch (PDOException $e) {
-        // Capturamos el error de la base de datos
-        if ($e->getCode() == '23505') { // Código SQL para "Unique Violation"
-            $mensaje = "Error: El número de microchip ya existe para otro gato.";
-        } else {
-            $mensaje = "Hubo un error al guardar los datos: " . $e->getMessage();
-        }
-        $clase_mensaje = "error-banner"; // Clase CSS para ponerlo en rojo
-    }
 
-    if ($esNuevo) {
-        // 1. Creamos el registro en la BD
-        $id_generado = Gato::crear($pdo, $datos);
-        if ($id_generado) {
-            $id_gato = $id_generado;
-            // Preparamos un array con los datos mínimos que tu método subirFoto necesita
+        // 2. Procesar imágenes (Común para nuevo y edición)
+        // Usamos 'fotos' como nombre estándar
+        if ($id_gato && !empty($_FILES['fotos']['name'][0])) {
             $datosGatoParaFoto = ['id_gato' => $id_gato, 'nombre' => $datos['nombre']];
-            
             $primeraFotoGuardada = "";
 
-            // 2. Procesamos la subida de fotos
-            if (!empty($_FILES['fotos']['name'][0])) {
-                // Como $_FILES['fotos'] es un array de archivos, recorremos cada uno
-                foreach ($_FILES['fotos']['name'] as $key => $val) {
-                    $fileArray = [
-                        'name'     => $_FILES['fotos']['name'][$key],
-                        'type'     => $_FILES['fotos']['type'][$key],
-                        'tmp_name' => $_FILES['fotos']['tmp_name'][$key],
-                        'error'    => $_FILES['fotos']['error'][$key],
-                        'size'     => $_FILES['fotos']['size'][$key]
-                    ];
-                    
-                    $rutaSubida = Imagenes::subirFoto($fileArray, $datosGatoParaFoto);
-                    
-                    // Guardamos la ruta de la primera foto con éxito para la portada
-                    if ($rutaSubida && empty($primeraFotoGuardada)) {
-                        $primeraFotoGuardada = $rutaSubida;
-                    }
+            foreach ($_FILES['fotos']['name'] as $key => $val) {
+                $fileArray = [
+                    'name'     => $_FILES['fotos']['name'][$key],
+                    'type'     => $_FILES['fotos']['type'][$key],
+                    'tmp_name' => $_FILES['fotos']['tmp_name'][$key],
+                    'error'    => $_FILES['fotos']['error'][$key],
+                    'size'     => $_FILES['fotos']['size'][$key]
+                ];
+                
+                $rutaSubida = Imagenes::subirFoto($fileArray, $datosGatoParaFoto);
+                
+                if ($rutaSubida && empty($primeraFotoGuardada)) {
+                    $primeraFotoGuardada = $rutaSubida;
                 }
             }
 
-            // 3. Si se subieron fotos, actualizamos foto_url con la primera. 
-            // Si no, ponemos la ruta de la carpeta (o una por defecto)
+            // Actualizar la foto de portada si se subió algo
             if (!empty($primeraFotoGuardada)) {
                 Gato::actualizarFotoUrl($pdo, $id_gato, $primeraFotoGuardada);
-            } else {
-                // Ruta de carpeta por defecto si no hay fotos
-                $slug = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $datos['nombre']));
-                Gato::actualizarFotoUrl($pdo, $id_gato, "Imagenes/Gatos/" . $id_gato . "_" . $slug);
             }
+        }
 
+        // 3. Redirección final tras procesar todo
+        if ($esNuevo) {
             header("Location: ../detalle-gato.php?id=$id_gato");
-            exit;
+        } else {
+            header("Location: ../catalogo.php?msg=actualizado");
         }
-    } else {
-        // Lógica de edición existente
-        if (Gato::actualizar($pdo, $id_gato, $datos)) {
-            if (!empty($_FILES['fotos']['name'][0])) {
-                $datosGatoParaFoto = ['id_gato' => $id_gato, 'nombre' => $datos['nombre']];
-                foreach ($_FILES['fotos']['name'] as $key => $val) {
-                    $fileArray = [
-                        'name'     => $_FILES['fotos']['name'][$key],
-                        'type'     => $_FILES['fotos']['type'][$key],
-                        'tmp_name' => $_FILES['fotos']['tmp_name'][$key],
-                        'error'    => $_FILES['fotos']['error'][$key],
-                        'size'     => $_FILES['fotos']['size'][$key]
-                    ];
-                    $ruta = Imagenes::subirFoto($fileArray, $datosGatoParaFoto);
-                    
-                    // Si el gato no tenía foto de portada antes, le ponemos esta
-                    if ($ruta && (empty($gato['foto_url']) || strpos($gato['foto_url'], '.') === false)) {
-                        Gato::actualizarFotoUrl($pdo, $id_gato, $ruta);
-                    }
-                }
-            }
-            // Borrar fotos seleccionadas
-            if (!empty($_POST['fotos_eliminar'])) {
-                foreach ($_POST['fotos_eliminar'] as $fotoRuta) {
-                    Imagenes::eliminarFoto($fotoRuta);
-                }
-            }
-            $mensaje = "Gato actualizado correctamente";
-            $clase_mensaje = "mensaje-exito";
-            $gato = Gato::obtenerPorId($pdo, $id_gato);
+        exit;
+
+    } catch (PDOException $e) {
+        if ($e->getCode() == '23505') {
+            $mensaje = "Error: El número de microchip ya existe.";
+        } else {
+            $mensaje = "Error: " . $e->getMessage();
         }
+        $clase_mensaje = "error-banner";
     }
 }
 
@@ -251,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="seccion-fotos-admin">
                 <label style="font-weight: bold;" class="traductor" data-es="Añadir nuevas imágenes al álbum:" data-ca="Afegir noves imatges a l'àlbum:"></label>
                 <div class="input-file-container">
-                    <input type="file" name="fotos_subir[]" id="fotos_subir" multiple accept="image/*">
+                    <input type="file" name="fotos[]" id="fotos_subir" multiple accept="image/*">
                 </div>
             </div>
 
