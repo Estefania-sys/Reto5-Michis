@@ -613,14 +613,16 @@ tr:hover {
 }
 
 .logoutbtn{
-    background-color:#e90808;
-    border: none;
-    padding:9px;
-    border-radius: 20px;
+    background-color:#ffa600;
+    color:#000000 !important;
+    border:none;
+    padding:8px 14px;
+    border-radius:10px;
+    text-decoration: none;
 }
 
 .logoutbtn:hover{
-    background-color:#000000;
+    background-color:#ffc760;
     color:white;
     transition: 0.3s;
 }
