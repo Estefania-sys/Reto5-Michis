@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Gato</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <?php include '../navbar/headeradmin.php'; ?>
@@ -190,15 +190,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <textarea name="notas_cuidador" rows="6" class="dato-valor" style="width: 100%; height: auto;"><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></textarea>
 
                 <div class="detalle-actions">
-                    <button type="submit" class="btn-primary traductor" data-es="Guardar Cambios" data-ca="Desar Canvis">Guardar Cambios</button>
-                    <a href="../detalle-gato.php?id=<?php echo $id_gato; ?>" class="btn-secondary traductor" data-es="Cancelar" data-ca="Cancel·lar">Cancelar</a>
+                    <button type="submit" class="btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span class="traductor" data-es="Guardar Cambios" data-ca="Desar Canvis">Guardar Cambios</span>
+                    </button>
+                    <a href="../detalle-gato.php?id=<?php echo $id_gato; ?>" class="btn-secondary">
+                        <i class="fa-solid fa-times"></i>
+                        <span class="traductor" data-es="Cancelar" data-ca="Cancel·lar">Cancelar</span>
+                    </a>
                 </div>
 
                 <?php if (!$esNuevo): ?>
                 <a href="eliminar-gato.php?id=<?php echo $id_gato; ?>" 
-                class="btn-danger" 
-                onclick="return confirm('¿Estás seguro de que quieres eliminar a este gato permanentemente? Esta acción no se puede deshacer.');">
-                    <i class="fa-solid fa-trash"></i> Eliminar Gato
+                    class="btn-tertiary" 
+                    onclick="return confirm('¿Estás seguro de que quieres eliminar a este gato permanentemente? Esta acción no se puede deshacer.');">
+                        <i class="fa-solid fa-trash"></i>
+                        <span class="traductor" data-es="Eliminar Gato" data-ca="Eliminar Gat">Eliminar Gato</span>
                 </a>
                 <?php endif; ?>
             </section>
