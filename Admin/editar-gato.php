@@ -78,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Gato</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
     <?php include '../navbar/headeradmin.php'; ?>
@@ -86,35 +87,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <section class="detalle-header">
             <section class="detalle-img">
                 <section class="info-medica">
-                    <h3 class="traductor" data-es="Gestión de Fotos" data-ca="Gestió de Fotos">Gestión de Fotos</h3>
+                    <h3 class="traductor" data-es="Gestión de Fotos" data-ca="Gestió de Fotos">Gestión de Fotos</h3><br>
                     <div class="dato">
-                        <b><i><span class="traductor" data-es="Añadir:" data-ca="Afegir:">Añadir:</span></i></b>
+                        <b><span class="traductor" data-es="Añadir fotos:" data-ca="Afegir fotos:">Añadir fotos:</span></b>
                         <input type="file" name="fotos[]" multiple accept="image/*">
                     </div>
-                </section>
+                
 
                 <?php 
-                $fotos = $esNuevo ? [] : Imagenes::obtenerFotos($gato);
-                if (!empty($fotos)): ?>
-                    <section class="detalle-datos">
-                        <div class="grid-catalog">
-                            <?php foreach ($fotos as $f): 
-                                $src = is_array($f) ? $f['src'] : $f;
-                                if (strpos($src, 'default.png') !== false) continue;
-                            ?>
-                                <div class="gato-card">
-                                    <img src="../<?php echo htmlspecialchars($src); ?>" class="gato-img">
-                                    <div class="gato-info">
+                    $fotosGuardadas = $esNuevo ? [] : Imagenes::obtenerFotos($gato);
+                    if (!empty($fotosGuardadas)):
+                    ?>
+                        <div class="seccion-fotos-admin">
+                            <label class="traductor" data-es="Imágenes actuales en el servidor:" data-ca="Imatges actuals al servidor:"></label>
+                            <p class="traductor" data-es="Marca las casillas de las fotos que desees eliminar permanentemente:" data-ca="Marca les caselles de las fotos que vulguis eliminar permanentment:"></p>
+                            
+                            <div class="grid-fotos-borrar">
+                                <?php foreach ($fotosGuardadas as $foto): 
+                                    $srcFinal = is_array($foto) ? $foto['src'] : $foto;
+                                    
+                                    if (strpos($srcFinal, 'default.png') !== false) continue;
+                                ?>
+                                    <div class="card-foto-borrar">
+                                        <img src="../<?php echo htmlspecialchars($srcFinal); ?>" width="100" height="100">
                                         <label>
-                                            <input type="checkbox" name="fotos_eliminar[]" value="<?php echo htmlspecialchars($src); ?>"> 
+                                            <input type="checkbox" name="fotos_eliminar[]" value="<?php echo htmlspecialchars($srcFinal); ?>"> 
                                             <span class="traductor" data-es="Borrar" data-ca="Esborrar">Borrar</span>
                                         </label>
                                     </div>
-                                </div>
-                            <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                    </section>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </section>
             </section>
 
             <section class="detalle-info">
