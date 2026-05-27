@@ -44,7 +44,7 @@ $posts = $blog->obtenerTodos();
                 <?php foreach ($posts as $p): ?>
                     <article class="blog-card">
                         <section class="blog-card-img">
-                            <img src="../Imagenes/Gatos/<?php echo htmlspecialchars($p['foto']); ?>" alt="Foto final feliz">
+                            <img src="../<?php echo htmlspecialchars($p['foto']); ?>" alt="Foto final feliz">
                         </section>
                         <section class="blog-card-info">
                             <h3><?php echo htmlspecialchars($p['titulo']); ?></h3>

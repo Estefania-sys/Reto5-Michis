@@ -5,5 +5,19 @@
         "contenido": "Hola soy willirex",
         "foto": "bravas.jpeg",
         "fecha": "25\/05\/2026"
+    },
+    {
+        "id_gato": "4",
+        "titulo": "Lorem Ipsum",
+        "contenido": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin erat sapien, dignissim iaculis ipsum sit amet, porttitor rutrum lectus. Sed in nisl lectus. Morbi malesuada nisi ac est ornare, vel dictum nibh varius. Fusce malesuada sapien a elit elementum sagittis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec vulputate ex ac sapien venenatis, id vestibulum ante facilisis. Morbi eleifend pharetra velit vel eleifend. Ut volutpat ultricies nibh, non fringilla massa semper in. Quisque quis tempor quam. In iaculis viverra mattis. In hac habitasse platea dictumst.\r\n\r\nPhasellus pulvinar bibendum libero nec tristique. Pellentesque justo felis, finibus sed venenatis vitae, commodo ac purus. Suspendisse potenti. Morbi in elit diam. Proin dapibus feugiat libero, at ullamcorper leo sodales faucibus. Nam scelerisque gravida faucibus. Duis imperdiet, mauris pulvinar ornare rutrum, ante ligula tincidunt justo, vel vehicula sem ex sed ligula. Donec efficitur dui nibh, a dictum ante convallis a. Quisque interdum lectus quis lorem lacinia, non aliquet erat rutrum. Vivamus viverra lectus ut dictum condimentum. Nulla ac elementum tellus.",
+        "foto": "mia_felz.png",
+        "fecha": "27\/05\/2026"
+    },
+    {
+        "id_gato": "11",
+        "titulo": "Prueba de Imagen en Blog",
+        "contenido": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et rutrum nisl. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam egestas mattis diam, ac commodo elit elementum non. Pellentesque ut egestas nulla. Sed in lobortis ex, vel vulputate odio. Suspendisse pretium lectus risus, a mollis risus dignissim et. Duis vehicula in ipsum in eleifend. Pellentesque blandit semper porta. Donec imperdiet, ex mollis iaculis cursus, arcu nibh luctus ligula, vel rutrum lacus ex sed massa. Ut ullamcorper sem vel elit posuere, sed mattis lectus ornare. Sed eget laoreet ante. Nunc luctus consequat neque eu lobortis. Donec gravida lacinia nulla vel accumsan. Maecenas tristique nunc in imperdiet ornare. Donec eleifend pretium nunc at iaculis. Sed quis egestas urna, nec aliquam diam.",
+        "foto": "Imagenes\/Gatos\/11_lucy\/img_6a16abed2aa1f6.66252608.png",
+        "fecha": "27\/05\/2026"
     }
 ]
