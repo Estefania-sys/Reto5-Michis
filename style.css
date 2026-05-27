@@ -326,7 +326,7 @@ body {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background: var(--primary);
+    background: #ffbc3f;
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -338,7 +338,8 @@ body {
 
 .btn-primary{
     width: 100%;
-    padding: 12px;
+    padding: 15px;
+    font-size: 0.95rem;
     border: none;
     border-radius: 8px;
     background: limegreen;
@@ -357,7 +358,7 @@ body {
 }
 
 .btn-adoptar:hover, button:hover {
-    background: var(--primary-dark);
+    background: orange;
 }
 
 .btn-adoptar:active,
@@ -448,6 +449,12 @@ body {
 
 .detalle-datos p {
     margin-bottom: 10px;
+}
+
+.botoneraseparacion {
+    display:flex;
+    flex-direction:column;
+    gap: 5px;
 }
 
 /* =========================================

@@ -186,24 +186,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <textarea name="notas_cuidador" rows="6" class="dato-valor" style="width: 100%; height: auto;"><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></textarea>
 
                 <div class="detalle-actions">
-                    <button type="submit" class="btn-primary">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        <span class="traductor" data-es="Guardar Cambios" data-ca="Desar Canvis">Guardar Cambios</span>
-                    </button>
-                    <a href="../detalle-gato.php?id=<?php echo $id_gato; ?>" class="btn-secondary">
-                        <i class="fa-solid fa-times"></i>
-                        <span class="traductor" data-es="Cancelar" data-ca="Cancel·lar">Cancelar</span>
-                    </a>
+                    <section class="botoneraseparacion">
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span class="traductor" data-es="Guardar Cambios" data-ca="Desar Canvis">Guardar Cambios</span>
+                        </button>
+                        <a href="../detalle-gato.php?id=<?php echo $id_gato; ?>" class="btn-secondary">
+                            <i class="fa-solid fa-times"></i>
+                            <span class="traductor" data-es="Cancelar" data-ca="Cancel·lar">Cancelar</span>
+                        </a>
+                        <?php if (!$esNuevo): ?>
+                        <a href="eliminar-gato.php?id=<?php echo $id_gato; ?>" 
+                            class="btn-tertiary" 
+                            onclick="return confirm('¿Estás seguro de que quieres eliminar a este gato permanentemente? Esta acción no se puede deshacer.');">
+                                <i class="fa-solid fa-trash"></i>
+                                <span class="traductor" data-es="Eliminar Gato" data-ca="Eliminar Gat">Eliminar Gato</span>
+                        </a>
+                        <?php endif; ?>
+                    </section>
                 </div>
 
-                <?php if (!$esNuevo): ?>
-                <a href="eliminar-gato.php?id=<?php echo $id_gato; ?>" 
-                    class="btn-tertiary" 
-                    onclick="return confirm('¿Estás seguro de que quieres eliminar a este gato permanentemente? Esta acción no se puede deshacer.');">
-                        <i class="fa-solid fa-trash"></i>
-                        <span class="traductor" data-es="Eliminar Gato" data-ca="Eliminar Gat">Eliminar Gato</span>
-                </a>
-                <?php endif; ?>
             </section>
         </section>
     </main>
