@@ -17,7 +17,7 @@ class Imagenes {
             return null;
         }
         $s = trim(mb_strtolower($nombre, 'UTF-8'));
-        $s = preg_replace('/[\s\/\\]+/', '_', $s);
+        $s = preg_replace('/[\s\/\\\]+/', '_', $s);
         $s = preg_replace('/[^a-z0-9_\-]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $s));
         $s = preg_replace('/_+/', '_', $s);
         $s = trim($s, '_-');
