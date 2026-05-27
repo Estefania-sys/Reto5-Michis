@@ -83,8 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include '../navbar/headeradmin.php'; ?>
 
     <main class="detalle-container">
-        <form action="" method="POST" enctype="multipart/form-data" class="detalle-header">
-            
+        <section class="detalle-header">
             <section class="detalle-img">
                 <section class="info-medica">
                     <h3 class="traductor" data-es="Gestión de Fotos" data-ca="Gestió de Fotos">Gestión de Fotos</h3>
@@ -123,8 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="text" name="nombre" value="<?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>" required placeholder="Nombre" style="font: inherit; border: none; border-bottom: 2px solid var(--primary); width: 100%; background: transparent;">
                 </h1>
 
-                <section class="info-medica">
-                    <h3 class="traductor" data-es="Información Técnica" data-ca="Informació Tècnica">Información Técnica</h3>
+                <section class="detalle-datos">
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Microchip:" data-ca="Microxip:">Microchip:</span></i></b>
                         <input type="text" name="numero_microchip" value="<?php echo htmlspecialchars($gato['numero_microchip'] ?? ''); ?>" class="dato-valor">
@@ -133,9 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <b><i><span class="traductor" data-es="Esterilizado:" data-ca="Esterilitzat:">Esterilizado:</span></i></b>
                         <input type="checkbox" name="esterilizado" <?php echo (isset($gato['esterilizado']) && ($gato['esterilizado'] == 1 || strtolower($gato['esterilizado']) === 'sí')) ? 'checked' : ''; ?>>
                     </div>
-                </section>
-
-                <section class="detalle-datos">
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Raza:" data-ca="Raça:">Raza:</span></i></b>
                         <input type="text" name="raza" value="<?php echo htmlspecialchars($gato['raza'] ?? ''); ?>" class="dato-valor">
@@ -200,9 +195,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 onclick="return confirm('¿Estás seguro de que quieres eliminar a este gato permanentemente? Esta acción no se puede deshacer.');">
                     <i class="fa-solid fa-trash"></i> Eliminar Gato
                 </a>
-            <?php endif; ?>
+                <?php endif; ?>
             </section>
-        </form>
+        </section>
     </main>
 
     <?php include '../navbar/footer.php'; ?>

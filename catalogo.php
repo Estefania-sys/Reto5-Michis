@@ -81,7 +81,7 @@ if ($pdo) {
                                     </p>
                                 <?php endif; ?>
                                 <?php if ($esAdmin): ?>
-                                    <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-editar">Editar</a>
+                                    <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar">Editar</a>
                                 <?php endif; ?>
 
                                 <?php $tagList = !empty($gato['character_tags']) ? Gato::parsePgArray($gato['character_tags']) : []; ?>
