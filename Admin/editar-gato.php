@@ -9,7 +9,6 @@ require_once '../Clases/Imagenes.php';
 
 $pdo = (new Conexion())->getConnection();
 
-// Si hay ID, estamos editando. Si no, estamos creando.
 $id_gato = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $esNuevo = ($id_gato === 0);
 
@@ -20,191 +19,193 @@ if (!$esNuevo && !$gato) {
     exit;
 }
 
-$mensaje = "";
-$clase_mensaje = "";
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $datos = [
         'nombre'           => $_POST['nombre'],
+        'fecha_nacimiento' => $_POST['fecha_nacimiento'],
         'raza'             => $_POST['raza'],
         'genero'           => $_POST['genero'],
         'capa_patron'      => $_POST['capa_patron'],
         'pelo_largo'       => $_POST['pelo_largo'],
-        'esterilizado'     => isset($_POST['esterilizado']),
+        'esterilizado'     => isset($_POST['esterilizado']) ? 1 : 0,
         'estado'           => $_POST['estado'],
         'notas_cuidador'   => $_POST['notas_cuidador'],
         'numero_microchip' => $_POST['numero_microchip'],
         'peso_kg'          => $_POST['peso_kg'],
-        'tamano'           => $_POST['tamano'],
-        'fecha_nacimiento' => $_POST['fecha_nacimiento']
+        'tamano'           => $_POST['tamano']
     ];
 
-    if ($esNuevo) {
-        $id_generado = Gato::crearGato($pdo, $datos);
-        if ($id_generado) {
-            $id_gato = $id_generado;
-            // CREAR CARPETA PARA IMÁGENES
-            // Usamos la lógica de tu clase Imagenes para el nombre
-            $nombreCarpeta = $id_gato . "_" . strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $datos['nombre']));
-            $rutaCarpeta = "../Imagenes/Gatos/" . $nombreCarpeta;
-            
-            if (!file_exists($rutaCarpeta)) {
-                mkdir($rutaCarpeta, 0777, true);
+    try {
+        if ($esNuevo) {
+            $id_gato = Gato::crear($pdo, $datos);
+        } else {
+            Gato::actualizar($pdo, $id_gato, $datos);
+            if (!empty($_POST['fotos_eliminar'])) {
+                foreach ($_POST['fotos_eliminar'] as $ruta) {
+                    Imagenes::eliminarFoto($ruta);
+                }
             }
-            
-            // Actualizamos la foto_url en la BD para que apunte a esa carpeta
-            Gato::actualizarFotoUrl($pdo, $id_gato, "Imagenes/Gatos/" . $nombreCarpeta);
-            
-            // Si ha subido fotos ahora, las procesamos
-            if (!empty($_FILES['fotos']['name'][0])) {
-                Imagenes::subirFoto($id_gato, $_FILES['fotos'], $pdo);
+        }
+
+        if ($id_gato && !empty($_FILES['fotos']['name'][0])) {
+            $datosGatoParaFoto = ['id_gato' => $id_gato, 'nombre' => $datos['nombre']];
+            foreach ($_FILES['fotos']['name'] as $key => $val) {
+                if ($_FILES['fotos']['error'][$key] == 0) {
+                    $fileArray = [
+                        'name'     => $_FILES['fotos']['name'][$key],
+                        'type'     => $_FILES['fotos']['type'][$key],
+                        'tmp_name' => $_FILES['fotos']['tmp_name'][$key],
+                        'error'    => $_FILES['fotos']['error'][$key],
+                        'size'     => $_FILES['fotos']['size'][$key]
+                    ];
+                    $rutaSubida = Imagenes::subirFoto($fileArray, $datosGatoParaFoto);
+                    if ($rutaSubida) Gato::actualizarFotoUrl($pdo, $id_gato, $rutaSubida);
+                }
             }
-            header("Location: ../detalle-gato.php?id=$id_gato");
-            exit;
         }
-    } else {
-        // Lógica de actualización que ya tenías...
-        if (Gato::actualizar($pdo, $id_gato, $datos)) {
-            // (Procesar fotos y borrar las seleccionadas como ya hacias)
-            $mensaje = "Gato actualizado correctamente";
-            $clase_mensaje = "mensaje-exito";
-        }
+        header("Location: ../detalle-gato.php?id=$id_gato");
+        exit;
+    } catch (Exception $e) {
+        $mensaje = "Error: " . $e->getMessage();
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title class="traductor" data-es="Panel de Control - Adopciones" data-ca="Panell de Control - Adopcions"></title>
-    <link rel="stylesheet" href="/Reto5-Michis/style.css">
+    <title>Editar Gato</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <?php include '../navbar/headeradmin.php'; ?>
-    <div class="edit-container">
-        <h1 class="traductor" data-es="Editar Gato" data-ca="Editar Gat"></h1>
 
-        <?php if (!empty($mensaje)): ?>
-            <div class="alert <?php echo $clase_mensaje; ?>">
-                <?php echo $mensaje; ?>
-            </div>
-        <?php endif; ?>
-
-        <form action="" method="POST" enctype="multipart/form-data" class="edit-form">
-            <div class="form-group">
-                <label for="nombre" class="traductor" data-es="Nombre:" data-ca="Nom:"></label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="raza" class="traductor" data-es="Raza:" data-ca="Raça:"></label>
-                <input type="text" id="raza" name="raza" value="<?php echo htmlspecialchars($gato['raza'] ?? ''); ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="genero" class="traductor" data-es="Género:" data-ca="Gènere:"></label>
-                <select id="genero" name="genero">
-                    <option value="Macho" class="traductor" data-es="Macho" data-ca="Mascle" <?php echo $gato['genero'] === 'Macho' ? 'selected' : ''; ?>></option>
-                    <option value="Hembra" class="traductor" data-es="Hembra" data-ca="Femella" <?php echo $gato['genero'] === 'Hembra' ? 'selected' : ''; ?>></option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="capa_patron" class="traductor" data-es="Capa/Patrón:" data-ca="Capa/Patró:"></label>
-                <input type="text" id="capa_patron" name="capa_patron" value="<?php echo htmlspecialchars($gato['capa_patron'] ?? ''); ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="pelo_largo" class="traductor" data-es="Pelo largo:" data-ca="Pèl llarg:"></label>
-                <select id="pelo_largo" name="pelo_largo">
-                    <option value="sí" class="traductor" data-es="Sí" data-ca="Sí" <?php echo strtolower($gato['pelo_largo'] ?? '') === 'sí' ? 'selected' : ''; ?>></option>
-                    <option value="no" class="traductor" data-es="No" data-ca="No" <?php echo strtolower($gato['pelo_largo'] ?? '') === 'no' ? 'selected' : ''; ?>></option>
-                </select>
-            </div>
-
-            <div class="form-group checkbox-group">
-                <label for="esterilizado" class="traductor" data-es="Esterilizado:" data-ca="Esterilitzat:"></label>
-                <input type="checkbox" id="esterilizado" name="esterilizado" value="1" <?php echo (!empty($gato['esterilizado']) && ($gato['esterilizado'] == 1 || strtolower($gato['esterilizado']) === 'sí')) ? 'checked' : ''; ?>>
-            </div>
-
-            <div class="form-group">
-                <label for="estado" class="traductor" data-es="Estado:" data-ca="Estat:"></label>
-                <select id="estado" name="estado">
-                    <option value="Disponible" class="traductor" data-es="Disponible" data-ca="Disponible" <?php echo $gato['estado'] === 'Disponible' ? 'selected' : ''; ?>></option>
-                    <option value="Acogida" class="traductor" data-es="En acogida" data-ca="En acollida" <?php echo $gato['estado'] === 'Acogida' ? 'selected' : ''; ?>></option>
-                    <option value="Adoptado" class="traductor" data-es="Adoptado" data-ca="Adoptat" <?php echo $gato['estado'] === 'Adoptado' ? 'selected' : ''; ?>></option>
-                    <option value="Reservado" class="traductor" data-es="Reservado" data-ca="Reservat" <?php echo $gato['estado'] === 'Reservado' ? 'selected' : ''; ?>></option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="numero_microchip" class="traductor" data-es="Número de microchip:" data-ca="Número de microxip:"></label>
-                <input type="text" id="numero_microchip" name="numero_microchip" value="<?php echo htmlspecialchars($gato['numero_microchip'] ?? ''); ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="peso_kg" class="traductor" data-es="Peso (kg):" data-ca="Pes (kg):"></label>
-                <input type="number" step="0.01" id="peso_kg" name="peso_kg" value="<?php echo htmlspecialchars($gato['peso_kg'] ?? ''); ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="tamano" class="traductor" data-es="Tamaño:" data-ca="Mida:"></label>
-                <select id="tamano" name="tamano">
-                    <option value="" class="traductor" data-es="Selecciona..." data-ca="Selecciona..."></option>
-                    <option value="Pequeño" class="traductor" data-es="Pequeño" data-ca="Petit" <?php echo $gato['tamano'] === 'Pequeño' ? 'selected' : ''; ?>></option>
-                    <option value="Mediano" class="traductor" data-es="Mediano" data-ca="Mitjà" <?php echo $gato['tamano'] === 'Mediano' ? 'selected' : ''; ?>></option>
-                    <option value="Grande" class="traductor" data-es="Grande" data-ca="Gran" <?php echo $gato['tamano'] === 'Grande' ? 'selected' : ''; ?>></option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="notas_cuidador" class="traductor" data-es="Notas del cuidador:" data-ca="Notes del cuidador:"></label>
-                <textarea id="notas_cuidador" name="notas_cuidador"><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></textarea>
-            </div>
-
-            <div class="seccion-fotos-admin">
-                <label style="font-weight: bold;" class="traductor" data-es="Añadir nuevas imágenes al álbum:" data-ca="Afegir noves imatges a l'àlbum:"></label>
-                <div class="input-file-container">
-                    <input type="file" name="fotos_subir[]" id="fotos_subir" multiple accept="image/*">
-                </div>
-            </div>
-
-            <?php 
-            $fotosGuardadas = Imagenes::obtenerFotos($gato);
-            if (!empty($fotosGuardadas)):
-            ?>
-                <div class="seccion-fotos-admin">
-                    <label style="font-weight: bold;" class="traductor" data-es="Imágenes actuales en el servidor:" data-ca="Imatges actuals al servidor:"></label>
-                    <p style="font-size:0.85rem; color:#666;" class="traductor" data-es="Marca las casillas de las fotos que desees eliminar permanentemente:" data-ca="Marca les caselles de las fotos que vulguis eliminar permanentment:"></p>
-                    
-                    <div class="grid-fotos-borrar">
-                        <?php foreach ($fotosGuardadas as $foto): 
-                            $srcFinal = is_array($foto) ? $foto['src'] : $foto;
-                            
-                            // Omitimos la foto por defecto para evitar que el usuario intente borrarla
-                            if (strpos($srcFinal, 'default.png') !== false) continue;
-                        ?>
-                            <div class="card-foto-borrar">
-                                <img src="../<?php echo htmlspecialchars($srcFinal); ?>" width="100" height="100">
-                                <label>
-                                    <input type="checkbox" name="fotos_eliminar[]" value="<?php echo htmlspecialchars($srcFinal); ?>"> 
-                                    <span class="traductor" data-es="Borrar" data-ca="Esborrar">Borrar</span>
-                                </label>
-                            </div>
-                        <?php endforeach; ?>
+    <main class="detalle-container">
+        <form action="" method="POST" enctype="multipart/form-data" class="detalle-header">
+            
+            <section class="detalle-img">
+                <section class="info-medica">
+                    <h3 class="traductor" data-es="Gestión de Fotos" data-ca="Gestió de Fotos">Gestión de Fotos</h3>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Añadir:" data-ca="Afegir:">Añadir:</span></i></b>
+                        <input type="file" name="fotos[]" multiple accept="image/*">
                     </div>
+                </section>
+
+                <?php 
+                $fotos = $esNuevo ? [] : Imagenes::obtenerFotos($gato);
+                if (!empty($fotos)): ?>
+                    <section class="detalle-datos">
+                        <div class="grid-catalog">
+                            <?php foreach ($fotos as $f): 
+                                $src = is_array($f) ? $f['src'] : $f;
+                                if (strpos($src, 'default.png') !== false) continue;
+                            ?>
+                                <div class="gato-card">
+                                    <img src="../<?php echo htmlspecialchars($src); ?>" class="gato-img">
+                                    <div class="gato-info">
+                                        <label>
+                                            <input type="checkbox" name="fotos_eliminar[]" value="<?php echo htmlspecialchars($src); ?>"> 
+                                            <span class="traductor" data-es="Borrar" data-ca="Esborrar">Borrar</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </section>
+                <?php endif; ?>
+            </section>
+
+            <section class="detalle-info">
+                <h1>
+                    <input type="text" name="nombre" value="<?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>" required placeholder="Nombre" style="font: inherit; border: none; border-bottom: 2px solid var(--primary); width: 100%; background: transparent;">
+                </h1>
+
+                <section class="info-medica">
+                    <h3 class="traductor" data-es="Información Técnica" data-ca="Informació Tècnica">Información Técnica</h3>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Microchip:" data-ca="Microxip:">Microchip:</span></i></b>
+                        <input type="text" name="numero_microchip" value="<?php echo htmlspecialchars($gato['numero_microchip'] ?? ''); ?>" class="dato-valor">
+                    </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Esterilizado:" data-ca="Esterilitzat:">Esterilizado:</span></i></b>
+                        <input type="checkbox" name="esterilizado" <?php echo (isset($gato['esterilizado']) && ($gato['esterilizado'] == 1 || strtolower($gato['esterilizado']) === 'sí')) ? 'checked' : ''; ?>>
+                    </div>
+                </section>
+
+                <section class="detalle-datos">
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Raza:" data-ca="Raça:">Raza:</span></i></b>
+                        <input type="text" name="raza" value="<?php echo htmlspecialchars($gato['raza'] ?? ''); ?>" class="dato-valor">
+                    </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Género:" data-ca="Gènere:">Género:</span></i></b>
+                        <select name="genero" class="dato-valor">
+                            <option value="Macho" <?php echo ($gato['genero'] ?? '') === 'Macho' ? 'selected' : ''; ?>>Macho</option>
+                            <option value="Hembra" <?php echo ($gato['genero'] ?? '') === 'Hembra' ? 'selected' : ''; ?>>Hembra</option>
+                        </select>
+                    </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Nacimiento:" data-ca="Naixement:">Nacimiento:</span></i></b>
+                        <input type="date" name="fecha_nacimiento" value="<?php echo $gato['fecha_nacimiento'] ?? ''; ?>" required class="dato-valor">
+                    </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Estado:" data-ca="Estat:">Estado:</span></i></b>
+                        <select name="estado" class="dato-valor">
+                            <option value="Disponible" <?php echo (strtolower($gato['estado'] ?? '') === 'disponible') ? 'selected' : ''; ?>>Disponible</option>
+                            <option value="Acogida" <?php echo (strtolower($gato['estado'] ?? '') === 'acogida') ? 'selected' : ''; ?>>Acogida</option>
+                            <option value="Reservado" <?php echo (strtolower($gato['estado'] ?? '') === 'reservado') ? 'selected' : ''; ?>>Reservado</option>
+                            <option value="Adoptado" <?php echo (strtolower($gato['estado'] ?? '') === 'adoptado') ? 'selected' : ''; ?>>Adoptado</option>
+                        </select>
+                    </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Peso (kg):" data-ca="Pes (kg):">Peso (kg):</span></i></b>
+                        <input type="number" step="0.1" name="peso_kg" value="<?php echo htmlspecialchars($gato['peso_kg'] ?? ''); ?>" class="dato-valor">
+                    </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Tamaño:" data-ca="Mida:">Tamaño:</span></i></b>
+                        <select name="tamano" class="dato-valor">
+                            <option value="Pequeño" <?php echo ($gato['tamano'] ?? '') === 'Pequeño' ? 'selected' : ''; ?>>Pequeño</option>
+                            <option value="Mediano" <?php echo ($gato['tamano'] ?? '') === 'Mediano' ? 'selected' : ''; ?>>Mediano</option>
+                            <option value="Grande" <?php echo ($gato['tamano'] ?? '') === 'Grande' ? 'selected' : ''; ?>>Grande</option>
+                        </select>
+                    </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Capa:" data-ca="Capa:">Capa:</span></i></b>
+                        <input type="text" name="capa_patron" value="<?php echo htmlspecialchars($gato['capa_patron'] ?? ''); ?>" class="dato-valor">
+                    </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Pelo:" data-ca="Pèl:">Pelo:</span></i></b>
+                        <select name="pelo_largo" class="dato-valor">
+                            <option value="Corto" <?php echo ($gato['pelo_largo'] ?? '') === 'Corto' ? 'selected' : ''; ?>>Corto</option>
+                            <option value="Semilargo" <?php echo ($gato['pelo_largo'] ?? '') === 'Semilargo' ? 'selected' : ''; ?>>Semilargo</option>
+                            <option value="Largo" <?php echo ($gato['pelo_largo'] ?? '') === 'Largo' ? 'selected' : ''; ?>>Largo</option>
+                        </select>
+                    </div>
+                </section>
+
+                <h3 class="traductor" data-es="Notas del Cuidador" data-ca="Notes del Cuidador">Notas del Cuidador</h3>
+                <textarea name="notas_cuidador" rows="6" class="dato-valor" style="width: 100%; height: auto;"><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></textarea>
+
+                <div class="detalle-actions">
+                    <button type="submit" class="btn-primary traductor" data-es="Guardar Cambios" data-ca="Desar Canvis">Guardar Cambios</button>
+                    <a href="../detalle-gato.php?id=<?php echo $id_gato; ?>" class="btn-secondary traductor" data-es="Cancelar" data-ca="Cancel·lar">Cancelar</a>
                 </div>
+
+                <?php if (!$esNuevo): ?>
+                <a href="eliminar-gato.php?id=<?php echo $id_gato; ?>" 
+                class="btn-danger" 
+                onclick="return confirm('¿Estás seguro de que quieres eliminar a este gato permanentemente? Esta acción no se puede deshacer.');">
+                    <i class="fa-solid fa-trash"></i> Eliminar Gato
+                </a>
             <?php endif; ?>
-
-            <div class="form-actions" style="margin-top: 30px;">
-                <button type="submit" class="btn-primary traductor" data-es="Guardar cambios" data-ca="Desar canvis"></button>
-                <a href="../catalogo.php" class="btn-secondary traductor" data-es="Cancelar" data-ca="Cancel·lar">Cancelar</a>
-            </div>
+            </section>
         </form>
-    </div>
+    </main>
 
+    <?php include '../navbar/footer.php'; ?>
     <script src="../traduccionscript.js"></script>
-    <?php include '../navbar/footer.php' ?>
 </body>
 </html>
