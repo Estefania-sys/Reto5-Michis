@@ -17,8 +17,11 @@ $posts = $blog->obtenerTodos();
     <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
-    <?php include '../navbar/header.php'; ?>
-    
+    <?php if(Admin::tieneAdminActivo()): ?>
+        <?php include __DIR__ . '/../navbar/headeradmin.php'; ?>
+    <?php else: ?>
+        <?php include __DIR__ . '/../navbar/header.php'; ?>
+    <?php endif; ?>
     <main class="container">
         <header class="blog-header">
             <section class="blog-header-top">
