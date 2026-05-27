@@ -10,6 +10,11 @@ $pdo = $conexion->getConnection();
 
 // Verificar si es admin/voluntario logueado
 $esAdmin = Admin::tieneAdminActivo();
+if($esAdmin){
+   include 'navbar/headeradmin.php';
+} else {
+    include 'navbar/header.php';
+}
 
 $gatos = [];
 if ($pdo) {
@@ -28,7 +33,6 @@ if ($pdo) {
     <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
-<?php include 'navbar/header.php'; ?>
 
     <main id="catalogo" class="container">
         <h2 class="section-title">
@@ -80,9 +84,6 @@ if ($pdo) {
                                         <?php if ($pelo !== ''): ?>Pelo: <?php echo htmlspecialchars($pelo); ?><?php endif; ?>
                                     </p>
                                 <?php endif; ?>
-                                <?php if ($esAdmin): ?>
-                                    <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar">Editar</a>
-                                <?php endif; ?>
 
                                 <?php $tagList = !empty($gato['character_tags']) ? Gato::parsePgArray($gato['character_tags']) : []; ?>
                                 <?php if (!empty($tagList)): ?>
@@ -91,6 +92,9 @@ if ($pdo) {
                                 <p class="desc"><?php echo htmlspecialchars(substr($gato['notas_cuidador'] ?? '', 0, 60)); ?>...</p>
                             </section>
                         </a>
+                        <?php if ($esAdmin): ?>
+                                    <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar">Editar</a>
+                                <?php endif; ?>
                         <a href="detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar"><span class="traductor" data-es="Conocer más" data-ca="Conèixer més">Conocer más</span></a>
                     </article>
                 <?php endforeach; ?>
