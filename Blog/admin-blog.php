@@ -4,44 +4,74 @@ Admin::iniciar();
 Admin::requerirAdmin();
 
 require_once __DIR__ . '/../Clases/Conexion.php';
-require_once __DIR__ . '/../Clases/Gato.php'; // <--- Importamos la clase Gato
+require_once __DIR__ . '/../Clases/Gato.php'; 
 require_once __DIR__ . '/../Blog/BlogMichis.php';
+require_once __DIR__ . '/../Clases/Imagenes.php';
 
 $blog = new BlogMichis();
 $errorBlog = $blog->getErrorMessage();
 $mensaje = "";
 
+// Obtener la conexión PDO para listar los gatos
+$pdo = (new Conexion())->getConnection();
+$gatosAdoptados = Gato::listarAdoptados($pdo);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $blog->isAvailable()) {
-    $res = $blog->crearPost($_POST['id_gato'], $_POST['titulo'], $_POST['historia'], $_POST['foto']);
-    if ($res && $res->getInsertedCount() > 0) {
-        $mensaje = "exito";
+    $idGatoSeleccionado = $_POST['id_gato'];
+    $nombreGatoSeleccionado = "";
 
-        // Guardar también en JSON
-        $rutaJson = __DIR__ . '/blog.json';
-        $historias = file_exists($rutaJson) 
-            ? json_decode(file_get_contents($rutaJson), true) 
-            : [];
+    // 2. Buscamos el nombre del gato seleccionado en el array para estructurarlo como lo pide Imagenes.php
+    foreach ($gatosAdoptados as $g) {
+        if ((string)$g['id_gato'] === (string)$idGatoSeleccionado) {
+            $nombreGatoSeleccionado = $g['nombre'];
+            break;
+        }
+    }
 
-        if (!is_array($historias)) $historias = [];
+    // Estructura que requiere tu método findFolderName / subirFoto
+    $gatoData = [
+        'id_gato' => $idGatoSeleccionado,
+        'nombre'  => $nombreGatoSeleccionado
+    ];
 
-        $historias[] = [
-            'id_gato'   => $_POST['id_gato'],
-            'titulo'    => $_POST['titulo'],
-            'contenido' => $_POST['historia'],
-            'foto'      => $_POST['foto'],
-            'fecha'     => date('d/m/Y')
-        ];
+    $rutaFotoGuardada = false;
 
-        file_put_contents($rutaJson, json_encode($historias, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    $mensaje = "exitoso!";
+    // 3. Procesamos el archivo físico usando tu clase Imagenes
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        $rutaFotoGuardada = Imagenes::subirFoto($_FILES['foto'], $gatoData);
+    }
+
+    if ($rutaFotoGuardada !== false) {
+        // 4. Si la foto se subió con éxito, pasamos '$rutaFotoGuardada' a MongoDB en vez de $_POST['foto']
+        $res = $blog->crearPost($idGatoSeleccionado, $_POST['titulo'], $_POST['historia'], $rutaFotoGuardada);
+        
+        if ($res && $res->getInsertedCount() > 0) {
+            $mensaje = "exito";
+
+            // Guardar también en JSON
+            $rutaJson = __DIR__ . '/blog.json';
+            $historias = file_exists($rutaJson) 
+                ? json_decode(file_get_contents($rutaJson), true) 
+                : [];
+
+            if (!is_array($historias)) $historias = [];
+
+            $historias[] = [
+                'id_gato'   => $idGatoSeleccionado,
+                'titulo'    => $_POST['titulo'],
+                'contenido' => $_POST['historia'],
+                'foto'      => $rutaFotoGuardada, // <--- Guardamos la ruta física generada en el JSON
+                'fecha'     => date('d/m/Y')
+            ];
+
+            file_put_contents($rutaJson, json_encode($historias, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        } else {
+            $errorBlog = "No se pudo insertar la historia en la base de datos.";
+        }
+    } else {
+        $errorBlog = "Error al subir o procesar la imagen física del gato.";
     }
 }
-
-// Obtener la conexión PDO
-$pdo = (new Conexion())->getConnection();
-
-// Llamamos al nuevo método estático para obtener los gatos adoptados
-$gatosAdoptados = Gato::listarAdoptados($pdo);
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +95,7 @@ $gatosAdoptados = Gato::listarAdoptados($pdo);
             <?php endif; ?>
 
             <?php if ($blog->isAvailable()): ?>
-                <form method="POST" class="estilo-formulario">
+                <form method="POST" class="estilo-formulario" enctype="multipart/form-data">
                     <section class="grupo-input">
                         <label class="traductor" data-es="Selecciona al Gato:" data-ca="Selecciona el Gat:"></label>
                         <select name="id_gato" required>
@@ -86,8 +116,8 @@ $gatosAdoptados = Gato::listarAdoptados($pdo);
                     </section>
 
                     <section class="grupo-input">
-                        <label class="traductor" data-es="Nombre del archivo de imagen (Ej: luna_feliz.jpg):" data-ca="Nom del fitxer de imatge (Ex: luna_feliz.jpg):"></label>
-                        <input type="text" name="foto" required>
+                        <label class="traductor" data-es="Imagen:" data-ca="Imatge:"></label>
+                        <input type="file" name="foto" accept="image/*" required>
                     </section>
 
                     <button type="submit" class="btn-primary traductor" data-es="Publicar en el Blog" data-ca="Publicar al Blog"></button>
