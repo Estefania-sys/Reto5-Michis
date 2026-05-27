@@ -30,7 +30,7 @@ if ($pdo) {
     <title>Gatos en adopción</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
-    <link rel="icon" href="Imagenes/Items/logoconfondo.jpg">
+    <link rel="icon" href="/Imagenes/Items/logoconfondo.jpg">
 </head>
 <body>
 
@@ -84,18 +84,19 @@ if ($pdo) {
                                         <?php if ($pelo !== ''): ?>Pelo: <?php echo htmlspecialchars($pelo); ?><?php endif; ?>
                                     </p>
                                 <?php endif; ?>
-
                                 <?php $tagList = !empty($gato['character_tags']) ? Gato::parsePgArray($gato['character_tags']) : []; ?>
                                 <?php if (!empty($tagList)): ?>
                                     <p class="tags"><?php echo htmlspecialchars(implode(', ', $tagList)); ?></p>
                                 <?php endif; ?>
                                 <p class="desc"><?php echo htmlspecialchars(substr($gato['notas_cuidador'] ?? '', 0, 60)); ?>...</p>
                             </section>
+                        <section class="botoneraseparacion">
                         </a>
                         <?php if ($esAdmin): ?>
-                                    <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar">Editar</a>
+                                    <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar"><i class="fas fa-edit"></i> Editar</a>
                                 <?php endif; ?>
                         <a href="detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar"><span class="traductor" data-es="Conocer más" data-ca="Conèixer més">Conocer más</span></a>
+                        </section>
                     </article>
                 <?php endforeach; ?>
             <?php else: ?>
