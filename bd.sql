@@ -49,15 +49,15 @@ CREATE TABLE Adopciones (
 
 CREATE TABLE Vacunas (
     id_vacuna SERIAL PRIMARY KEY,
-    nombre_vacuna VARCHAR(100) NOT NULL,
-    fecha_vacuna DATE NOT NULL
+    nombre_vacuna VARCHAR(100),
+    fecha_vacuna DATE
 );
 
 CREATE TABLE Historial_Medico (
     id_historial SERIAL PRIMARY KEY,
     id_gato INTEGER REFERENCES Gatos(id_gato),
     id_vacuna INTEGER REFERENCES Vacunas(id_vacuna),
-    fecha_revision DATE NOT NULL
+    fecha_revision DATE
 );
 -----------------------------------------------------------
 INSERT INTO Usuarios (nombres, apellidos, email, password, rol, dni, fecha_nacimiento, direccion, poblacion, cp, telefono) VALUES

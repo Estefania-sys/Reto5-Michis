@@ -5,6 +5,7 @@ Admin::requerirAdmin();
 
 require_once '../Clases/Conexion.php';
 require_once '../Clases/Gato.php';
+require_once '../Clases/HistorialMedico.php';
 require_once '../Clases/Imagenes.php';
 
 $pdo = (new Conexion())->getConnection();
@@ -20,35 +21,36 @@ if (!$esNuevo && !$gato) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // 1. Limpiamos y formateamos las etiquetas para PostgreSQL
-    $tagsRaw = $_POST['character_tags'] ?? '';
-    // Convertimos a array, quitamos espacios y filtramos vacíos
-    $tagsArray = array_filter(array_map('trim', explode(',', $tagsRaw)));
-    // Formateamos como string de array de Postgres: {"tag1","tag2"}
-    $pgTags = '{' . implode(',', $tagsArray) . '}';
-
-    $datos = [
-        'nombre'           => $_POST['nombre'],
-        'fecha_nacimiento' => $_POST['fecha_nacimiento'],
-        'raza'             => $_POST['raza'],
-        'genero'           => $_POST['genero'],
-        'capa_patron'      => $_POST['capa_patron'],
-        'pelo_largo'       => $_POST['pelo_largo'],
-        'esterilizado'     => isset($_POST['esterilizado']) ? 1 : 0,
-        'estado'           => $_POST['estado'],
-        'notas_cuidador'   => $_POST['notas_cuidador'],
-        'numero_microchip' => $_POST['numero_microchip'],
-        'peso_kg'          => $_POST['peso_kg'],
-        'tamano'           => $_POST['tamano'],
-        'character_tags'   => $pgTags
-    ];
+    // Iniciamos la transacción ANTES de cualquier operación
+    $pdo->beginTransaction();
 
     try {
+        // Formateo de etiquetas para PostgreSQL
+        $tagsRaw = $_POST['character_tags'] ?? '';
+        $tagsArray = array_filter(array_map('trim', explode(',', $tagsRaw)));
+        $pgTags = '{' . implode(',', $tagsArray) . '}';
+
+        $datos = [
+            'nombre'           => $_POST['nombre'],
+            'fecha_nacimiento' => $_POST['fecha_nacimiento'],
+            'raza'             => $_POST['raza'],
+            'genero'           => $_POST['genero'],
+            'capa_patron'      => $_POST['capa_patron'],
+            'pelo_largo'       => $_POST['pelo_largo'],
+            'esterilizado'     => isset($_POST['esterilizado']) ? 'true' : 'false',
+            'estado'           => $_POST['estado'],
+            'notas_cuidador'   => $_POST['notas_cuidador'],
+            'numero_microchip' => !empty($_POST['numero_microchip']) ? $_POST['numero_microchip'] : null,
+            'peso_kg'          => $_POST['peso_kg'],
+            'tamano'           => $_POST['tamano'],
+            'character_tags'   => $pgTags
+        ];
+
         if ($esNuevo) {
             $id_gato = Gato::crear($pdo, $datos);
-            if ($id_nuevo) {
-                $id_gato = $id_nuevo; // Actualizamos la variable para las fotos y el redireccionamiento
+            // IMPORTANTE: Si crear falla o devuelve false, lanza una excepción para ir al catch
+            if (!$id_gato) {
+                throw new Exception("No se pudo crear el gato en la base de datos.");
             }
         } else {
             Gato::actualizar($pdo, $id_gato, $datos);
@@ -59,28 +61,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        if ($id_gato && !empty($_FILES['fotos']['name'][0])) {
-            $datosGatoParaFoto = ['id_gato' => $id_gato, 'nombre' => $datos['nombre']];
-            foreach ($_FILES['fotos']['name'] as $key => $val) {
-                if ($_FILES['fotos']['error'][$key] == 0) {
-                    $fileArray = [
-                        'name'     => $_FILES['fotos']['name'][$key],
-                        'type'     => $_FILES['fotos']['type'][$key],
-                        'tmp_name' => $_FILES['fotos']['tmp_name'][$key],
-                        'error'    => $_FILES['fotos']['error'][$key],
-                        'size'     => $_FILES['fotos']['size'][$key]
-                    ];
-                    $rutaSubida = Imagenes::subirFoto($fileArray, $datosGatoParaFoto);
-                    if ($rutaSubida) Gato::actualizarFotoUrl($pdo, $id_gato, $rutaSubida);
-                }
+        // --- GESTIÓN MÉDICA ---
+        if (!empty($_POST['nuevo_diagnostico'])) {
+            $id_vacuna = !empty($_POST['id_vacuna']) ? $_POST['id_vacuna'] : null;
+            HistorialMedico::agregarEntrada($pdo, $id_gato, $_POST['nuevo_diagnostico'], $id_vacuna);
+        }
+
+        // --- GESTIÓN DE FOTO PRINCIPAL ---
+        // Ajustamos al nombre del input HTML 'fotos[]' y corregimos parámetros
+        if (isset($_FILES['fotos']) && !empty($_FILES['fotos']['name'][0])) {
+            $fileArray = [
+                'name'     => $_FILES['fotos']['name'][0],
+                'type'     => $_FILES['fotos']['type'][0],
+                'tmp_name' => $_FILES['fotos']['tmp_name'][0],
+                'error'    => $_FILES['fotos']['error'][0],
+                'size'     => $_FILES['fotos']['size'][0]
+            ];
+            
+            // Pasamos el array con los datos del gato necesarios para la carpeta
+            $gatoRef = ['id_gato' => $id_gato, 'nombre' => $_POST['nombre']];
+            $rutaFoto = Imagenes::subirFoto($fileArray, $gatoRef);
+            
+            if ($rutaFoto) {
+                Gato::actualizarFotoUrl($pdo, $id_gato, $rutaFoto);
             }
         }
+
+        $pdo->commit();
         header("Location: ../detalle-gato.php?id=$id_gato");
         exit;
+
     } catch (Exception $e) {
-        $mensaje = "Error: " . $e->getMessage();
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        // AÑADE ESTO PARA DEBUREAR:
+        die("Error al guardar: " . $e->getMessage()); 
     }
 }
+
+    // Obtener vacunas disponibles para el desplegable
+    $stmtV = $pdo->query("SELECT * FROM Vacunas ORDER BY nombre_vacuna ASC");
+    $todasLasVacunas = $stmtV->fetchAll(PDO::FETCH_ASSOC);
+
+    $nombreMostrar = $esNuevo ? "Nuevo Gato" : ($gato['nombre'] ?? 'Gato');
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <?php include '../navbar/headeradmin.php'; ?>
-    <form id="form-gato" method="POST" enctype="multipart/form-data" style="display: none;"></form>
+    <form id="form-gato" action="editar-gato.php<?php echo !$esNuevo ? '?id='.$id_gato : ''; ?>" method="POST" enctype="multipart/form-data" style="display: none;"></form>
     <main class="detalle-container">
         <section class="detalle-header">
             <section class="detalle-img">
@@ -207,6 +231,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             ?>" 
                             class="dato-valor" placeholder="Ej: Cariñoso, Juguetón, Tranquilo">
                     </div>
+                    <h3 class="traductor" data-es="Añadir entrada Médica" data-ca="Afegir entrada Mèdica">Añadir entrada Médica</h3>
+                    <div class="dato">
+                        <label>Diagnóstico / Revisión:</label>
+                        <input type="text" name="nuevo_diagnostico" form="form-gato" placeholder="Ej: Revisión anual o Vacunación">
+                    </div>
+                    <div class="dato">
+                        <label>Asociar Vacuna:</label>
+                        <select name="id_vacuna" form="form-gato">
+                            <option value="">-- Ninguna --</option>
+                            <?php foreach ($todasLasVacunas as $v): ?>
+                                <option value="<?php echo $v['id_vacuna']; ?>">
+                                    <?php echo htmlspecialchars($v['nombre_vacuna']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
                 </section>
 
                 <h3 class="traductor" data-es="Notas del Cuidador" data-ca="Notes del Cuidador">Notas del Cuidador</h3>
