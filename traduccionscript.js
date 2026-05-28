@@ -37,7 +37,7 @@ function setLanguage(lang) {
             }
         }
     });
-}
+}   
 
     // ----------------------------------------------------
     // LÓGICA DEL CARRUSEL DE IMÁGENES (Soporta .carousel y .card-carousel)

@@ -44,9 +44,11 @@ body {
    ========================================= */
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    padding: 0.5rem 3.5%;
+    padding: 0.45rem 3%;
+    flex-wrap: nowrap;
+    gap: 8px;
     background: var(--white);
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: sticky;
@@ -54,11 +56,15 @@ body {
     z-index: 1000;
 }
 
+.navbar nav {
+    margin-left: auto;
+}
+
 .navbaradmin{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 3.5%;
+    padding: 0.45rem 3%;
     background: var(--white);
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: sticky;
@@ -67,7 +73,7 @@ body {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
     color: var(--primary);
     display: flex;
@@ -78,8 +84,9 @@ body {
 .navbar ul{
     display: flex;
     list-style: none;
-    gap: 20px;
+    gap: 14px;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 .navbaradmin ul{
@@ -94,13 +101,14 @@ body {
     align-items:center;
 }
 
-
-
 .navbar a, .navbaradmin a {
     text-decoration: none;
     color: var(--text-dark);
     font-weight: 500;
     transition: color 0.3s;
+    font-size: 0.95rem;
+    padding: 6px 8px;
+    white-space: nowrap;
 }
 
 .navbar a:hover, .navbaradmin a:hover {
@@ -123,15 +131,15 @@ body {
 
 .cambio_idioma{
     display:flex;
-    gap: 10px;
-    margin-right:100vh;
+    gap: 8px;
+    margin-right: 0;
+    margin-left: 3.6vh;
     align-items: center;
 }
-
 .cambio_idioma_admin{
     display:flex;
-    gap: 10px;
-    margin-right:76vh;
+    gap: 8px;
+    margin-right: 75.5vh;
     align-items: center;
 }
 
@@ -205,7 +213,7 @@ body {
     display: none;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Esto hace que la foto no se estire */
+    object-fit: cover;
     transition: opacity 0.3s ease;
 }
 
@@ -631,7 +639,6 @@ label {
     background-color: #dc3545;
 }
 
-
 /* =========================================
    TABLAS Y ADMIN
    ========================================= */
@@ -671,6 +678,7 @@ tr:hover {
     color:white;
     transition: 0.3s;
 }
+
 /* Estilos para el contenedor del formulario */
 .form-container {
     padding: 40px 20px;
@@ -744,7 +752,7 @@ tr:hover {
 
 .grupo-input input:focus, 
 .grupo-input textarea:focus {
-    border-color: #ff6b6b; /* Color acorde al logo de michis */
+    border-color: #ff6b6b;
     outline: none;
 }
 
@@ -759,12 +767,13 @@ tr:hover {
    FOOTER ESTILO HEADER
    ========================================= */
 .main-footer {
-    background-color: var(--white); /* Fondo blanco como el header */
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05); /* Sombra hacia arriba */
+    background-color: var(--white);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid #eee; /* Línea sutil de separación */
+    border-top: 1px solid #eee;
 }
+
 .footer-content{
     display:flex;
     justify-content: space-between;
@@ -841,27 +850,6 @@ tr:hover {
     text-decoration: none;
 }
 
-@media (max-width: 900px) {
-    .footer-right {
-        justify-content: center;
-    }
-
-    .footer-content {
-        align-items: center;
-    }
-}
-
-@media (max-width: 600px) {
-    .footer-content {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .footer-right {
-        justify-content: center;
-    }
-}
-
 .social-icons a:hover{
     color:#ff8c42;
     transition: 0.3s;
@@ -887,7 +875,6 @@ tr:hover {
 /* =========================================
    ESTILOS PARA EL BLOG DE FINALES FELICES
    ========================================= */
-
 .blog-header {
     text-align: center;
     margin-bottom: 40px;
@@ -921,7 +908,7 @@ tr:hover {
 .blog-card-img img {
     width: 100%;
     height: 250px;
-    object-fit: cover; /* Esto hace que las fotos no se deformen */
+    object-fit: cover;
 }
 
 .blog-card-info {
@@ -946,12 +933,6 @@ tr:hover {
     font-size: 0.8rem;
     color: #999;
     font-style: italic;
-}
-
-/* Ajuste para móviles */
-.blog-header {
-    text-align: center;
-    margin-bottom: 40px;
 }
 
 .blog-header-top {
@@ -1035,31 +1016,10 @@ tr:hover {
 
 .input-file-container { 
     background: #f9f9f9; 
-    border: 2px dashed var(--primary, #ff8c42); /* Utiliza tu variable naranja suave */
+    border: 2px dashed var(--primary, #ff8c42);
     padding: 15px; 
     border-radius: 6px; 
     margin-top: 10px; 
-}
-
-@media (max-width: 768px) {
-    .blog-header {
-        text-align: center;
-    }
-
-    .blog-header-top {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .blog-admin-info {
-        align-items: center;
-    }
-
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-    }
 }
 
 /* =========================================
@@ -1122,14 +1082,9 @@ tr:hover {
     background-color: #dc3545;
 }
 
-@media (max-width: 768px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-    .dash-card {
-        padding: 40px 20px;
-    }
-}
+/* =========================================
+   MENÚ HAMBURGUESA
+   ========================================= */
 .menu-checkbox {
     display: none;
 }
@@ -1162,6 +1117,37 @@ tr:hover {
     transform: translateY(-7px) rotate(-45deg);
 }
 
+
+/* =========================================
+   RESPONSIVE — BREAKPOINTS UNIFICADOS
+   =========================================
+
+   Orden:
+   1. max-width: 900px  → footer intermedio
+   2. max-width: 768px  → móvil/tablet (bloque único)
+   3. max-width: 480px  → pantallas muy pequeñas
+   4. min-width: 769px and max-width: 1280px → portátiles
+   ========================================= */
+
+
+/* =========================================
+   FOOTER INTERMEDIO (max-width: 900px)
+   ========================================= */
+@media (max-width: 900px) {
+    .footer-right {
+        justify-content: center;
+    }
+
+    .footer-content {
+        align-items: center;
+    }
+}
+
+
+/* =========================================
+   MÓVIL / TABLET (max-width: 768px)
+   — Bloque único, sin duplicados
+   ========================================= */
 @media (max-width: 768px) {
 
     /* --- NAVBAR --- */
@@ -1185,18 +1171,37 @@ tr:hover {
         gap: 15px;
         border-top: 1px solid #eee;
         box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        order: 3; /* Que aparezca debajo del logo y del icono */
+        order: 3;
     }
 
-    /* Se abre al marcar el checkbox */
-    .menu-checkbox:checked ~ nav ul {
+    /* Selector robusto para el menú hamburguesa */
+    .menu-checkbox:checked ~ nav ul,
+    .menu-checkbox:checked + .menu-icon + nav ul {
         display: flex;
+    }
+
+    /* Order explícito para evitar conflictos entre breakpoints */
+    .navbar > .logo,
+    .navbaradmin > .logo {
+        order: 0;
+    }
+
+    .navbar > .menu-icon,
+    .navbaradmin > .menu-icon {
+        order: 1;
+    }
+
+    .navbar > nav,
+    .navbaradmin > nav {
+        order: 3;
+        width: 100%;
     }
 
     /* --- CAMBIO DE IDIOMA --- */
     .cambio_idioma,
     .cambio_idioma_admin {
         margin-right: 0;
+        margin-left: 0;
         justify-content: center;
         width: 100%;
         padding: 6px 0;
@@ -1252,10 +1257,14 @@ tr:hover {
         padding: 14px 20px;
     }
 
-    /* --- FORMULARIOS --- */
+    /* --- FORMULARIOS ---
+       width + box-sizing para no sobreescribir
+       el max-width: 500px del estilo base */
     form {
         margin: 20px 15px;
         padding: 20px;
+        width: calc(100% - 30px);
+        box-sizing: border-box;
     }
 
     /* --- PANEL ADMIN / TABLAS --- */
@@ -1310,6 +1319,19 @@ tr:hover {
     }
 
     /* --- BLOG --- */
+    .blog-header {
+        text-align: center;
+    }
+
+    .blog-header-top {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .blog-admin-info {
+        align-items: center;
+    }
+
     .grid-blog {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -1330,6 +1352,7 @@ tr:hover {
         height: 200px;
     }
 }
+
 
 /* =========================================
    PANTALLAS MUY PEQUEÑAS (max-width: 480px)
@@ -1361,11 +1384,98 @@ tr:hover {
         font-size: 1.2rem;
     }
 }
-@media (max-width: 768px) {
+
+
+/* ==================================================
+   PORTÁTILES ~1280px / 720p
+   (min-width: 769px and max-width: 1280px)
+   ================================================== */
+@media (min-width: 769px) and (max-width: 1280px) {
+
+    /* Contenedor principal */
+    .container {
+        max-width: 1100px;
+        padding: 18px;
+    }
+
+    /* Navbar */
+    .navbar,
+    .navbaradmin {
+        padding: 0.6rem 3%;
+    }
+
+    .logo {
+        font-size: 1.35rem;
+    }
+
+    /* Solo .cambio_idioma; .cambio_idioma_admin ya no necesita override */
+    .cambio_idioma {
+        margin-left: 2rem;
+    }
+
+    /* Navbar admin: compactar para que el nombre largo no desborde */
+    .navbaradmin {
+        gap: 6px;
+    }
+
+    .navbaradmin ul {
+        gap: 10px;
+    }
+
+    .navbaradmin a {
+        font-size: 0.85rem;
+        padding: 6px 6px;
+    }
+
+    /* Grid de gatos */
+    .grid-gatos {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 24px;
+    }
+
+    .card-img {
+        height: 200px;
+    }
+
+    .card-info {
+        padding: 18px;
+    }
+
+    /* Página de detalle */
+    .detalle-container {
+        max-width: 960px;
+        margin: 30px auto;
+        padding: 24px;
+    }
+
+    .detalle-header {
+        gap: 30px;
+    }
+
+    /* Dashboard */
+    .dashboard-grid {
+        gap: 24px;
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 880px;
+    }
+
+    .dash-card {
+        padding: 60px 18px;
+    }
+
+    /* Blog */
+    .blog-card-img img {
+        height: 220px;
+    }
+
+    /* Formularios */
     form {
-        margin: 20px 15px;
-        width: calc(100% - 30px);
-        max-width: 100%;
-        box-sizing: border-box;
+        margin: 30px auto;
+        padding: 24px;
+    }
+
+    /* Footer */
+    .footer-content {
+        gap: 18px;
     }
 }
