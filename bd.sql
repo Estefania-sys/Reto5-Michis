@@ -13,7 +13,7 @@ CREATE TABLE Usuarios (
     email VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255),
     rol VARCHAR(50) NOT NULL, -- 'admin', 'voluntario', 'adoptante'
-    dni VARCHAR(20) NOT NULL UNIQUE,
+    dni VARCHAR(20) UNIQUE,
     fecha_nacimiento DATE,
     direccion VARCHAR(255),
     poblacion VARCHAR(100),
