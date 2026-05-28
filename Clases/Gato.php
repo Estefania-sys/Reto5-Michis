@@ -36,29 +36,52 @@ class Gato {
     }
 
     public static function crear($pdo, $datos) {
-    // Añadimos foto_url con un string vacío por ahora
-    $sql = "INSERT INTO Gatos (nombre, raza, genero, capa_patron, pelo_largo, esterilizado, estado, notas_cuidador, numero_microchip, peso_kg, tamano, fecha_nacimiento, foto_url) 
-            VALUES (:nombre, :raza, :genero, :capa_patron, :pelo_largo, :esterilizado, :estado, :notas_cuidador, :numero_microchip, :peso_kg, :tamano, :fecha_nacimiento, '') 
+    // 1. Preparamos la consulta SQL incluyendo TODAS las columnas necesarias
+    // He añadido 'character_tags' que faltaba en tu INSERT anterior
+    $sql = "INSERT INTO Gatos (
+                nombre, raza, genero, capa_patron, pelo_largo, 
+                esterilizado, estado, notas_cuidador, numero_microchip, 
+                peso_kg, tamano, fecha_nacimiento, character_tags, foto_url
+            ) 
+            VALUES (
+                :nombre, :raza, :genero, :capa_patron, :pelo_largo, 
+                :esterilizado, :estado, :notas_cuidador, :numero_microchip, 
+                :peso_kg, :tamano, :fecha_nacimiento, :character_tags, ''
+            ) 
             RETURNING id_gato";
 
+    // 2. Procesamos las etiquetas (tags) para el formato ARRAY de PostgreSQL
+    $tagsRaw = $datos['character_tags'] ?? '';
+    // Si ya viene formateado como {a,b} lo dejamos, si no, lo convertimos
+    if (is_string($tagsRaw) && strpos($tagsRaw, '{') !== 0) {
+        $tagsArray = array_filter(array_map('trim', explode(',', $tagsRaw)));
+        $pgTags = '{' . implode(',', $tagsArray) . '}';
+    } else {
+        $pgTags = $tagsRaw ?: '{}';
+    }
+
     $stmt = $pdo->prepare($sql);
+    
+    // 3. Ejecutamos vinculando cada marcador con su valor
     $stmt->execute([
         ':nombre'           => $datos['nombre'],
         ':raza'             => $datos['raza'],
         ':genero'           => $datos['genero'],
         ':capa_patron'      => $datos['capa_patron'],
         ':pelo_largo'       => $datos['pelo_largo'],
+        // PostgreSQL prefiere booleanos reales o strings 'true'/'false'
         ':esterilizado'     => $datos['esterilizado'] ? 'true' : 'false',
-        ':estado'           => $datos['estado'],
+        ':estado'           => strtolower($datos['estado']), // Normalizamos a minúsculas como en bd.sql
         ':notas_cuidador'   => $datos['notas_cuidador'],
-        ':numero_microchip' => $datos['numero_microchip'],
+        ':numero_microchip' => !empty($datos['numero_microchip']) ? $datos['numero_microchip'] : null,
         ':peso_kg'          => $datos['peso_kg'],
         ':tamano'           => $datos['tamano'],
-        ':fecha_nacimiento' => $datos['fecha_nacimiento'] ?? null
+        ':fecha_nacimiento' => $datos['fecha_nacimiento'],
+        ':character_tags'   => $pgTags
     ]);
 
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result['id_gato'] ?? false;
+    // Retornamos el ID generado por PostgreSQL
+    return $stmt->fetchColumn();
 }
 
     public static function calcularEdadDesdeNacimiento($fecha_nacimiento) {

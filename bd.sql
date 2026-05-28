@@ -12,13 +12,13 @@ CREATE TABLE Usuarios (
     apellidos VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255),
-    rol VARCHAR(50), -- 'admin', 'voluntario', 'adoptante'
-    dni VARCHAR(20),
+    rol VARCHAR(50) NOT NULL, -- 'admin', 'voluntario', 'adoptante'
+    dni VARCHAR(20) UNIQUE,
     fecha_nacimiento DATE,
     direccion VARCHAR(255),
     poblacion VARCHAR(100),
     cp VARCHAR(10),
-    telefono VARCHAR(25)
+    telefono VARCHAR(25) NOT NULL
 );
 
 CREATE TABLE Gatos (
@@ -29,12 +29,12 @@ CREATE TABLE Gatos (
     raza VARCHAR(50) NOT NULL,
     capa_patron VARCHAR(50) NOT NULL,
     pelo_largo VARCHAR(50) NOT NULL,
-    character_tags TEXT[],
-    esterilizado BOOLEAN,
+    character_tags TEXT[] NOT NULL,
+    esterilizado BOOLEAN NOT NULL,
     notas_cuidador TEXT,
-    estado VARCHAR(20), -- 'disponible', 'adoptado', 'en tratamiento'
-    foto_url VARCHAR(255),
-    numero_microchip VARCHAR(25) NOT NULL UNIQUE,
+    estado VARCHAR(20) NOT NULL, -- 'disponible', 'adoptado', 'en tratamiento'
+    foto_url VARCHAR(255) NOT NULL,
+    numero_microchip VARCHAR(25) UNIQUE,
     peso_kg NUMERIC(4,1) NOT NULL,
     tamano VARCHAR(20) NOT NULL -- 'Pequeño', 'Mediano', 'Grande'
 );
@@ -43,21 +43,21 @@ CREATE TABLE Adopciones (
     id_adopcion SERIAL PRIMARY KEY,
     id_usuario INTEGER REFERENCES Usuarios(id_usuario),
     id_gato INTEGER REFERENCES Gatos(id_gato),
-    fecha_adopcion DATE DEFAULT CURRENT_DATE,
+    fecha_adopcion DATE DEFAULT CURRENT_DATE NOT NULL,
     observaciones TEXT
 );
 
 CREATE TABLE Vacunas (
     id_vacuna SERIAL PRIMARY KEY,
     nombre_vacuna VARCHAR(100) NOT NULL,
-    fecha_vacuna DATE
+    fecha_vacuna DATE NOT NULL
 );
 
 CREATE TABLE Historial_Medico (
     id_historial SERIAL PRIMARY KEY,
     id_gato INTEGER REFERENCES Gatos(id_gato),
     id_vacuna INTEGER REFERENCES Vacunas(id_vacuna),
-    fecha_revision DATE
+    fecha_revision DATE NOT NULL
 );
 -----------------------------------------------------------
 INSERT INTO Usuarios (nombres, apellidos, email, password, rol, dni, fecha_nacimiento, direccion, poblacion, cp, telefono) VALUES
