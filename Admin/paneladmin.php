@@ -32,9 +32,9 @@ Admin::requerirAdmin();
                 <span class="traductor" data-es="Historias Felices (Blog)" data-ca="Històries Feliços (Blog)"></span>
             </a>
 
-            <a href="../logout.php" class="dash-card logout-card">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span class="traductor" data-es="Cerrar Sesión" data-ca="Tancar Sessió"></span>
+            <a href="admin-users.php" class="dash-card">
+                <i class="fa-solid fa-users-cog"></i>
+                <span class="traductor" data-es="Administrar Usuarios" data-ca="Administrar Usuaris"></span>
             </a>
         </div>
     </main>
