@@ -47,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($esNuevo) {
             $id_gato = Gato::crear($pdo, $datos);
+            if ($id_nuevo) {
+                $id_gato = $id_nuevo; // Actualizamos la variable para las fotos y el redireccionamiento
+            }
         } else {
             Gato::actualizar($pdo, $id_gato, $datos);
             if (!empty($_POST['fotos_eliminar'])) {
@@ -194,7 +197,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Características:" data-ca="Característiques:">Características:</span></i></b>
-                        <input type="text" name="character_tags" form="form-gato" value="<?php echo htmlspecialchars($gato['character_tags'] ?? ''); ?>" class="dato-valor" placeholder="Ej: Cariñoso, Juguetón, Tranquilo">
+                        <input type="text" name="character_tags" form="form-gato" 
+                                    value="<?php 
+                                    if (!$esNuevo && !empty($gato['character_tags'])) {
+                                        // Convertimos el {tag1,tag2} de la BD a "tag1, tag2" para el input
+                                        $tagsArray = Gato::parsePgArray($gato['character_tags']);
+                                        echo htmlspecialchars(implode(', ', $tagsArray));
+                                    }
+                            ?>" 
+                            class="dato-valor" placeholder="Ej: Cariñoso, Juguetón, Tranquilo">
                     </div>
                 </section>
 
