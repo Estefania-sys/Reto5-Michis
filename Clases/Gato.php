@@ -230,7 +230,9 @@ class Gato {
                 notas_cuidador = :notas_cuidador,
                 numero_microchip = :numero_microchip,
                 peso_kg = :peso_kg,
-                tamano = :tamano
+                tamano = :tamano,
+                character_tags = :character_tags,
+                fecha_nacimiento = :fecha_nacimiento
                 WHERE id_gato = :id";
 
         $stmt = $pdo->prepare($sql);
@@ -246,6 +248,8 @@ class Gato {
             ':numero_microchip' => $datos['numero_microchip'],
             ':peso_kg' => $datos['peso_kg'],
             ':tamano' => $datos['tamano'],
+            ':character_tags' => $datos['character_tags'],
+            ':fecha_nacimiento' => $datos['fecha_nacimiento'],
             ':id' => $id
         ]);
     }

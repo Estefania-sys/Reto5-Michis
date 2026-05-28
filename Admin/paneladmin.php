@@ -1,7 +1,7 @@
 <?php
 require_once '../Clases/Admin.php';
 Admin::iniciar();
-Admin::requerirAdmin();
+Admin::requerirPersonal();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,11 +31,18 @@ Admin::requerirAdmin();
                 <i class="fa-solid fa-heart"></i>
                 <span class="traductor" data-es="Historias Felices (Blog)" data-ca="Històries Feliços (Blog)"></span>
             </a>
-
+            <?php if(isset($_SESSION['admin']) && !empty($_SESSION['admin'])): ?>
             <a href="admin-users.php" class="dash-card">
-                <i class="fa-solid fa-users-cog"></i>
-                <span class="traductor" data-es="Administrar Usuarios" data-ca="Administrar Usuaris"></span>
+                <i class="fa-solid fa-users"></i>
+                <span class="traductor" data-es="Gestionar Usuarios" data-ca="Gestionar Usuaris"></span>
             </a>
+            <?php endif; ?>
+            <?php if(isset($_SESSION['voluntaria']) && !empty($_SESSION['voluntaria'])): ?>
+            <a href="../logout.php" class="dash-card logout-card">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="traductor" data-es="Cerrar Sesión" data-ca="Tancar Sessió"></span>
+            </a>
+            <?php endif; ?>
         </div>
     </main>
 
