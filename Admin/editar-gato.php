@@ -20,6 +20,14 @@ if (!$esNuevo && !$gato) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // 1. Limpiamos y formateamos las etiquetas para PostgreSQL
+    $tagsRaw = $_POST['character_tags'] ?? '';
+    // Convertimos a array, quitamos espacios y filtramos vacíos
+    $tagsArray = array_filter(array_map('trim', explode(',', $tagsRaw)));
+    // Formateamos como string de array de Postgres: {"tag1","tag2"}
+    $pgTags = '{' . implode(',', $tagsArray) . '}';
+
     $datos = [
         'nombre'           => $_POST['nombre'],
         'fecha_nacimiento' => $_POST['fecha_nacimiento'],
@@ -32,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'notas_cuidador'   => $_POST['notas_cuidador'],
         'numero_microchip' => $_POST['numero_microchip'],
         'peso_kg'          => $_POST['peso_kg'],
-        'tamano'           => $_POST['tamano']
+        'tamano'           => $_POST['tamano'],
+        'character_tags'   => $pgTags
     ];
 
     try {
@@ -82,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <?php include '../navbar/headeradmin.php'; ?>
-
+    <form id="form-gato" method="POST" enctype="multipart/form-data" style="display: none;"></form>
     <main class="detalle-container">
         <section class="detalle-header">
             <section class="detalle-img">
@@ -90,9 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <h3 class="traductor" data-es="Gestión de Fotos" data-ca="Gestió de Fotos">Gestión de Fotos</h3><br>
                     <div class="dato">
                         <b><span class="traductor" data-es="Añadir fotos:" data-ca="Afegir fotos:">Añadir fotos:</span></b>
-                        <input type="file" name="fotos[]" multiple accept="image/*">
+                        <input type="file" name="fotos[]" form="form-gato" multiple accept="image/*">
                     </div>
-                
 
                 <?php 
                     $fotosGuardadas = $esNuevo ? [] : Imagenes::obtenerFotos($gato);
@@ -124,36 +132,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <section class="detalle-info">
                 <h1>
-                    <input type="text" name="nombre" value="<?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>" required placeholder="Nombre" style="font: inherit; border: none; border-bottom: 2px solid var(--primary); width: 100%; background: transparent;">
+                    <input type="text" name="nombre" form="form-gato" value="<?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>" required placeholder="Nombre" style="font: inherit; border: none; border-bottom: 2px solid var(--primary); width: 100%; background: transparent;">
                 </h1>
 
                 <section class="detalle-datos">
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Microchip:" data-ca="Microxip:">Microchip:</span></i></b>
-                        <input type="text" name="numero_microchip" value="<?php echo htmlspecialchars($gato['numero_microchip'] ?? ''); ?>" class="dato-valor">
+                        <input type="text" name="numero_microchip" form="form-gato" value="<?php echo htmlspecialchars($gato['numero_microchip'] ?? ''); ?>" class="dato-valor">
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Esterilizado:" data-ca="Esterilitzat:">Esterilizado:</span></i></b>
-                        <input type="checkbox" name="esterilizado" <?php echo (isset($gato['esterilizado']) && ($gato['esterilizado'] == 1 || strtolower($gato['esterilizado']) === 'sí')) ? 'checked' : ''; ?>>
+                        <input type="checkbox" name="esterilizado" form="form-gato" <?php echo (isset($gato['esterilizado']) && ($gato['esterilizado'] == 1 || strtolower($gato['esterilizado']) === 'sí')) ? 'checked' : ''; ?>>
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Raza:" data-ca="Raça:">Raza:</span></i></b>
-                        <input type="text" name="raza" value="<?php echo htmlspecialchars($gato['raza'] ?? ''); ?>" class="dato-valor">
+                        <input type="text" name="raza" form="form-gato" value="<?php echo htmlspecialchars($gato['raza'] ?? ''); ?>" class="dato-valor">
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Género:" data-ca="Gènere:">Género:</span></i></b>
-                        <select name="genero" class="dato-valor">
+                        <select name="genero" form="form-gato" class="dato-valor">
                             <option value="Macho" <?php echo ($gato['genero'] ?? '') === 'Macho' ? 'selected' : ''; ?>>Macho</option>
                             <option value="Hembra" <?php echo ($gato['genero'] ?? '') === 'Hembra' ? 'selected' : ''; ?>>Hembra</option>
                         </select>
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Nacimiento:" data-ca="Naixement:">Nacimiento:</span></i></b>
-                        <input type="date" name="fecha_nacimiento" value="<?php echo $gato['fecha_nacimiento'] ?? ''; ?>" required class="dato-valor">
+                        <input type="date" name="fecha_nacimiento" form="form-gato" value="<?php echo $gato['fecha_nacimiento'] ?? ''; ?>" required class="dato-valor">
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Estado:" data-ca="Estat:">Estado:</span></i></b>
-                        <select name="estado" class="dato-valor">
+                        <select name="estado" class="dato-valor" form="form-gato">
                             <option value="Disponible" <?php echo (strtolower($gato['estado'] ?? '') === 'disponible') ? 'selected' : ''; ?>>Disponible</option>
                             <option value="Acogida" <?php echo (strtolower($gato['estado'] ?? '') === 'acogida') ? 'selected' : ''; ?>>Acogida</option>
                             <option value="Reservado" <?php echo (strtolower($gato['estado'] ?? '') === 'reservado') ? 'selected' : ''; ?>>Reservado</option>
@@ -162,11 +170,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Peso (kg):" data-ca="Pes (kg):">Peso (kg):</span></i></b>
-                        <input type="number" step="0.1" name="peso_kg" value="<?php echo htmlspecialchars($gato['peso_kg'] ?? ''); ?>" class="dato-valor">
+                        <input type="number" step="0.1" name="peso_kg" form="form-gato" value="<?php echo htmlspecialchars($gato['peso_kg'] ?? ''); ?>" class="dato-valor">
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Tamaño:" data-ca="Mida:">Tamaño:</span></i></b>
-                        <select name="tamano" class="dato-valor">
+                        <select name="tamano" form="form-gato" class="dato-valor">
                             <option value="Pequeño" <?php echo ($gato['tamano'] ?? '') === 'Pequeño' ? 'selected' : ''; ?>>Pequeño</option>
                             <option value="Mediano" <?php echo ($gato['tamano'] ?? '') === 'Mediano' ? 'selected' : ''; ?>>Mediano</option>
                             <option value="Grande" <?php echo ($gato['tamano'] ?? '') === 'Grande' ? 'selected' : ''; ?>>Grande</option>
@@ -174,24 +182,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Capa:" data-ca="Capa:">Capa:</span></i></b>
-                        <input type="text" name="capa_patron" value="<?php echo htmlspecialchars($gato['capa_patron'] ?? ''); ?>" class="dato-valor">
+                        <input type="text" name="capa_patron" form="form-gato" value="<?php echo htmlspecialchars($gato['capa_patron'] ?? ''); ?>" class="dato-valor">
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Pelo:" data-ca="Pèl:">Pelo:</span></i></b>
-                        <select name="pelo_largo" class="dato-valor">
+                        <select name="pelo_largo" form="form-gato" class="dato-valor">
                             <option value="Corto" <?php echo ($gato['pelo_largo'] ?? '') === 'Corto' ? 'selected' : ''; ?>>Corto</option>
                             <option value="Semilargo" <?php echo ($gato['pelo_largo'] ?? '') === 'Semilargo' ? 'selected' : ''; ?>>Semilargo</option>
                             <option value="Largo" <?php echo ($gato['pelo_largo'] ?? '') === 'Largo' ? 'selected' : ''; ?>>Largo</option>
                         </select>
                     </div>
+                    <div class="dato">
+                        <b><i><span class="traductor" data-es="Características:" data-ca="Característiques:">Características:</span></i></b>
+                        <input type="text" name="character_tags" form="form-gato" value="<?php echo htmlspecialchars($gato['character_tags'] ?? ''); ?>" class="dato-valor" placeholder="Ej: Cariñoso, Juguetón, Tranquilo">
+                    </div>
                 </section>
 
                 <h3 class="traductor" data-es="Notas del Cuidador" data-ca="Notes del Cuidador">Notas del Cuidador</h3>
-                <textarea name="notas_cuidador" rows="6" class="dato-valor" style="width: 100%; height: auto;"><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></textarea>
+                <textarea name="notas_cuidador" form="form-gato" rows="4" class="dato-valor" style="width: 100%; height: auto;"><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></textarea>
 
                 <div class="detalle-actions">
                     <section class="botoneraseparacion">
-                        <button type="submit" class="btn-primary">
+                        <button type="submit" form="form-gato" class="btn-primary">
                             <i class="fa-solid fa-floppy-disk"></i>
                             <span class="traductor" data-es="Guardar Cambios" data-ca="Desar Canvis">Guardar Cambios</span>
                         </button>
