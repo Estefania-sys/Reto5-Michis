@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 2. Si no es admin, intentamos como Voluntaria
     $voluntaria = Voluntaria::login($pdo, $_POST['email'], $_POST['password']);
     if($voluntaria) {
-        header("Location: Admin/admin-index.php");
+        header("Location: Admin/paneladmin.php");
         exit();
     } else {
         echo "<script>alert('Credenciales incorrectas o acceso denegado.');</script>";

@@ -22,6 +22,9 @@
             <?php if (isset($_SESSION['admin']) && !empty($_SESSION['admin'])): ?>
                 <span class="traductor" data-es="Bienvenid@, <?php echo htmlspecialchars($_SESSION['admin']); ?>" data-ca="Benvingut/da, <?php echo htmlspecialchars($_SESSION['admin']); ?>"></span>
                 <li><a class="logoutbtn traductor" href="/Reto5-Michis/logout.php" data-es="<i class='fa-solid fa-right-from-bracket'></i> Cerrar Sesión" data-ca="<i class='fa-solid fa-right-from-bracket'></i> Tancar Sessió"></a></li>
+            <?php elseif (isset($_SESSION['voluntaria']) && !empty($_SESSION['voluntaria'])): ?>
+                <span class="traductor" data-es="Bienvenid@, <?php echo htmlspecialchars($_SESSION['voluntaria']); ?>" data-ca="Benvingut/da, <?php echo htmlspecialchars($_SESSION['voluntaria']); ?>"></span>
+                <li><a class="logoutbtn traductor" href="/Reto5-Michis/logout.php" data-es="<i class='fa-solid fa-right-from-bracket'></i> Cerrar Sesión" data-ca="<i class='fa-solid fa-right-from-bracket'></i> Tancar Sessió"></a></li>
             <?php else: ?>
                 <li><a href="/Reto5-Michis/login.php" class="btn-login traductor" data-es="Iniciar Sesión" data-ca="Iniciar Sesió"></a></li>
             <?php endif; ?>
