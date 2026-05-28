@@ -19,24 +19,32 @@ $mensaje_resultado = "";
 $clase_mensaje = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombres = $_POST['nombres'];
-    $apellidos = $_POST['apellidos'];
-    $email = $_POST['email'];
-    $dni = $_POST['dni'] ?? null;
-    $fecha_nacimiento = $_POST['fecha_nacimiento'] ?? null;
-    $direccion = $_POST['direccion'] ?? null;
-    $poblacion = $_POST['poblacion'] ?? null;
-    $cp = $_POST['cp'] ?? null;
-    $telefono = $_POST['telefono'] ?? null;
-    $mensaje = $_POST['mensaje'];
-    $id_gato_form = $_POST['id_gato'];
+    // Recuperar y sanear campos recibidos
+    $nombres = trim($_POST['nombres'] ?? '');
+    $apellidos = trim($_POST['apellidos'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $dni = trim($_POST['dni'] ?? '');
+    $fecha_nacimiento = trim($_POST['fecha_nacimiento'] ?? '');
+    $direccion = trim($_POST['direccion'] ?? '');
+    $poblacion = trim($_POST['poblacion'] ?? '');
+    $cp = trim($_POST['cp'] ?? '');
+    $telefono = trim($_POST['telefono'] ?? '');
+    $mensaje = trim($_POST['mensaje'] ?? '');
+    $id_gato_form = $_POST['id_gato'] ?? 0;
 
-    if (TicketAdopcion::registrarInteres($pdo, $id_gato_form, $nombres, $apellidos, $email, $dni, $fecha_nacimiento, $direccion, $poblacion, $cp, $telefono, $mensaje)) {
-        $mensaje_resultado = "¡Solicitud enviada! Nos pondremos en contacto contigo pronto.";
-        $clase_mensaje = "mensaje-exito";
-    } else {
-        $mensaje_resultado = "Hubo un error al procesar tu solicitud.";
+    // Validación: campos obligatorios para registro público
+    if ($dni === '' || $fecha_nacimiento === '' || $direccion === '' || $poblacion === '' || $cp === '' || $telefono === '') {
+        $error = "Todos los campos son obligatorios.";
+        $mensaje_resultado = $error;
         $clase_mensaje = "mensaje-error";
+    } else {
+        if (TicketAdopcion::registrarInteres($pdo, $id_gato_form, $nombres, $apellidos, $email, $dni, $fecha_nacimiento, $direccion, $poblacion, $cp, $telefono, $mensaje)) {
+            $mensaje_resultado = "¡Solicitud enviada! Nos pondremos en contacto contigo pronto.";
+            $clase_mensaje = "mensaje-exito";
+        } else {
+            $mensaje_resultado = "Hubo un error al procesar tu solicitud.";
+            $clase_mensaje = "mensaje-error";
+        }
     }
 }
 ?>
@@ -86,17 +94,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input class="traductor" type="text" name="apellidos" required
                    data-es-placeholder="Tus Apellidos" data-ca-placeholder="Els teus Cognoms" placeholder="Tus Apellidos">
                    
-            <input class="traductor" type="email" name="email" required
-                   data-es-placeholder="Correo electrónico" data-ca-placeholder="Correu electrònic" placeholder="Correo electrónico">
-                   
-            <input class="traductor" type="text" name="poblacion" 
-                   data-es-placeholder="Población" data-ca-placeholder="Població" placeholder="Población">
-                   
-            <input class="traductor" type="text" name="cp" 
-                   data-es-placeholder="Código postal" data-ca-placeholder="Codi postal" placeholder="Código postal">
-                   
-            <input class="traductor" type="tel" name="telefono" 
-                   data-es-placeholder="Teléfono" data-ca-placeholder="Telèfon" placeholder="Teléfono">
+                 <input class="traductor" type="email" name="email" required
+                     data-es-placeholder="Correo electrónico" data-ca-placeholder="Correu electrònic" placeholder="Correo electrónico">
+
+                 <input class="traductor" type="text" name="dni" required
+                     data-es-placeholder="DNI" data-ca-placeholder="DNI" placeholder="DNI">
+
+                 <input class="traductor" type="date" name="fecha_nacimiento" required
+                     data-es-placeholder="Fecha de nacimiento" data-ca-placeholder="Data de naixement" placeholder="Fecha de nacimiento">
+
+                 <input class="traductor" type="text" name="direccion" required
+                     data-es-placeholder="Dirección" data-ca-placeholder="Adreça" placeholder="Dirección">
+
+                 <input class="traductor" type="text" name="poblacion" required
+                     data-es-placeholder="Población" data-ca-placeholder="Població" placeholder="Población">
+
+                 <input class="traductor" type="text" name="cp" required
+                     data-es-placeholder="Código postal" data-ca-placeholder="Codi postal" placeholder="Código postal">
+
+                 <input class="traductor" type="tel" name="telefono" required
+                     data-es-placeholder="Teléfono" data-ca-placeholder="Telèfon" placeholder="Teléfono">
                    
             <textarea class="traductor" name="mensaje" 
                       data-es-placeholder="¿De qué quieres solicitar información o por qué quieres adoptarlo?" 
