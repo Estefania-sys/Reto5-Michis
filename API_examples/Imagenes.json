@@ -1,0 +1,9 @@
+{
+  "id_gato": 10,
+  "nombre": "Loki",
+  "imagenes": [
+    "Imagenes/Gatos/10_loki/1.jpg",
+    "Imagenes/Gatos/10_loki/2.jpg",
+    "Imagenes/Gatos/cache/10_loki/1.jpg"
+  ]
+}

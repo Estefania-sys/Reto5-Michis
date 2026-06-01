@@ -1,0 +1,12 @@
+{
+  "id": 123,
+  "nombres": "María",
+  "apellidos": "García",
+  "email": "maria.garcia@example.com",
+  "dni": "12345678A",
+  "fecha_nacimiento": "1988-05-10",
+  "direccion": "Calle Falsa 123",
+  "poblacion": "Ciudad",
+  "cp": "28001",
+  "telefono": "+34123456789"
+}

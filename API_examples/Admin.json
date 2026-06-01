@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "nombres": "Admin",
+  "apellidos": "Principal",
+  "email": "admin@example.com",
+  "rol": "admin",
+  "dni": null,
+  "fecha_nacimiento": null,
+  "direccion": null,
+  "poblacion": null,
+  "cp": null,
+  "telefono": null
+}

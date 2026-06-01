@@ -1,0 +1,12 @@
+{
+  "id": 77,
+  "nombres": "Ana",
+  "apellidos": "Lopez",
+  "email": "ana.lopez@example.com",
+  "dni": "23456789C",
+  "fecha_nacimiento": "1985-03-22",
+  "direccion": "Av. Sol 45",
+  "poblacion": "Sevilla",
+  "cp": "41001",
+  "telefono": "+34911223344"
+}

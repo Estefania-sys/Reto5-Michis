@@ -1,0 +1,16 @@
+[
+  {
+    "id_gato": 10,
+    "nombre": "Loki",
+    "estado": "disponible",
+    "foto_url": "Imagenes/Gatos/10_loki/1.jpg",
+    "edad": 3
+  },
+  {
+    "id_gato": 11,
+    "nombre": "Lucy",
+    "estado": "adoptado",
+    "foto_url": "Imagenes/Gatos/11_lucy/1.jpg",
+    "edad": 2
+  }
+]

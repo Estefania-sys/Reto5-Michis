@@ -1,0 +1,18 @@
+{
+  "id_adopcion": 42,
+  "id_usuario": 77,
+  "id_gato": 10,
+  "observaciones": "Interesado en adoptar. Prefiere contacto por email.",
+  "cita1_ok": false,
+  "cita2_ok": false,
+  "fecha_adopcion": null,
+  "usuario": {
+    "nombres": "Ana",
+    "apellidos": "Lopez",
+    "email": "ana.lopez@example.com"
+  },
+  "gato": {
+    "id_gato": 10,
+    "nombre": "Loki"
+  }
+}
