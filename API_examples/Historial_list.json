@@ -1,0 +1,18 @@
+[
+  {
+    "id_historial": 5,
+    "id_gato": 10,
+    "fecha_revision": "2025-05-10",
+    "diagnostico": "Revisión rutinaria, OK",
+    "id_vacuna": 2,
+    "vacuna_nombre": "Triple felina"
+  },
+  {
+    "id_historial": 3,
+    "id_gato": 10,
+    "fecha_revision": "2024-03-12",
+    "diagnostico": "Vacunación realizada",
+    "id_vacuna": 1,
+    "vacuna_nombre": "Rabia"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "id_gato": 10,
+  "nombre": "Loki",
+  "fecha_nacimiento": "2022-11-01",
+  "edad": 3,
+  "genero": "macho",
+  "raza": "Común Europeo",
+  "capa_patron": "atigrado",
+  "pelo_largo": false,
+  "character_tags": ["juguetón", "sociable"],
+  "esterilizado": true,
+  "notas_cuidador": "Le gusta jugar con pelotas",
+  "estado": "disponible",
+  "foto_url": "Imagenes/Gatos/10_loki/1.jpg",
+  "numero_microchip": "ES1234567890",
+  "peso_kg": 4.2,
+  "tamano": "mediano"
+}

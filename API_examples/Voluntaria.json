@@ -1,0 +1,13 @@
+{
+  "id": 2,
+  "nombres": "Lucía",
+  "apellidos": "Martínez",
+  "email": "lucia@example.com",
+  "rol": "voluntario",
+  "dni": "87654321B",
+  "fecha_nacimiento": "1990-07-15",
+  "direccion": "C/ Luna 5",
+  "poblacion": "Barcelona",
+  "cp": "08001",
+  "telefono": "+34987654321"
+}
