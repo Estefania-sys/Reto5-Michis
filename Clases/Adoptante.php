@@ -1,4 +1,5 @@
 <?php
+require_once 'Persona.php';
 // Clase para ADOPTANTES (Sin login)
 class Adoptante extends Persona { 
   // Persona, clase padre

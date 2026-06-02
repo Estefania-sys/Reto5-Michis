@@ -34,4 +34,4 @@ class Persona {
     public function getCp() { return $this->cp; }
     public function getTelefono() { return $this->telefono; }
 }
-?>
+?> 

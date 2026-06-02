@@ -1,40 +1,14 @@
 <?php
-class Voluntaria {
-    private $id;
-    private $nombres;
-    private $apellidos;
-    private $email;
-    private $dni;
-    private $fecha_nacimiento;
-    private $direccion;
-    private $poblacion;
-    private $cp;
-    private $telefono;
+require_once 'Persona.php';
+class Voluntaria extends Persona {
     private $rol;
 
     public function __construct($id, $nombres, $apellidos, $email, $rol, $dni = null, $fecha_nacimiento = null, $direccion = null, $poblacion = null, $cp = null, $telefono = null) {
-        $this->id = $id;
-        $this->nombres = $nombres;
-        $this->apellidos = $apellidos;
-        $this->email = $email;
-        $this->dni = $dni;
-        $this->fecha_nacimiento = $fecha_nacimiento;
-        $this->direccion = $direccion;
-        $this->poblacion = $poblacion;
-        $this->cp = $cp;
-        $this->telefono = $telefono;
-        $this->rol = $rol;
-    }
+    // Usamos el constructor de la clase madre Persona
+    parent::__construct($id, $nombres, $apellidos, $email, $dni, $fecha_nacimiento, $direccion, $poblacion, $cp, $telefono);
+    $this->rol = $rol;
+  }
 
-    public function getId() { return $this->id; }
-    public function getNombreCompleto() { return $this->nombres . " " . $this->apellidos; }
-    public function getEmail() { return $this->email; }
-    public function getDni() { return $this->dni; }
-    public function getFechaNacimiento() { return $this->fecha_nacimiento; }
-    public function getDireccion() { return $this->direccion; }
-    public function getPoblacion() { return $this->poblacion; }
-    public function getCp() { return $this->cp; }
-    public function getTelefono() { return $this->telefono; }
     public function getRol() { return $this->rol; }
 
     public static function login($pdo, $email, $pass) {
