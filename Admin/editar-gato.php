@@ -54,9 +54,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } else {
             Gato::actualizar($pdo, $id_gato, $datos);
-            if (!empty($_POST['fotos_eliminar'])) {
-                foreach ($_POST['fotos_eliminar'] as $ruta) {
-                    Imagenes::eliminarFoto($ruta);
+            if (isset($_POST['fotos_eliminar']) && is_array($_POST['fotos_eliminar'])) {
+                foreach ($_POST['fotos_eliminar'] as $rutaCompleta) {
+                    // Limpiamos la ruta por si acaso
+                    $rutaCompleta = trim($rutaCompleta);
+                    
+                    // 1. Intentar borrar el archivo físico primero
+                    $exitoFisico = Imagenes::eliminarFoto($rutaCompleta);
+                    
+                    // 2. Preparar la ruta para la BD (quitamos el prefijo Imagenes/Gatos/)
+                    $rutaBD = str_replace('Imagenes/Gatos/', '', $rutaCompleta);
+
+                    // 3. Borrado de la base de datos (lo ejecutamos siempre para asegurar limpieza)
+                    $sql_del = "DELETE FROM fotos_gatos WHERE id_gato = ? AND ruta = ?";
+                    $stmt_del = $conn->prepare($sql_del);
+                    $stmt_del->bind_param("is", $id_gato, $rutaBD);
+                    $stmt_del->execute();
+                    
+                    // DEBUG: Descomenta la siguiente línea si quieres ver qué está pasando si falla
+                    // echo "Intentando borrar: $rutaCompleta | En BD: $rutaBD | Resultado Físico: " . ($exitoFisico ? 'SI' : 'NO') . "<br>";
                 }
             }
         }
@@ -146,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="card-foto-borrar">
                                         <img src="../<?php echo htmlspecialchars($srcFinal); ?>" width="100" height="100">
                                         <label>
-                                            <input type="checkbox" name="fotos_eliminar[]" value="<?php echo htmlspecialchars($srcFinal); ?>"> 
+                                            <input type="checkbox" name="fotos_eliminar[]" value="<?php echo htmlspecialchars($srcFinal); ?>">
                                             <span class="traductor" data-es="Borrar" data-ca="Esborrar">Borrar</span>
                                         </label>
                                     </div>

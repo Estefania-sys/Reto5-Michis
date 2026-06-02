@@ -352,38 +352,25 @@ class Imagenes {
 
         return false;
     }
+    
     /**
      * Elimina una foto original y su correspondiente versión en caché.
      */
     public static function eliminarFoto($rutaRelativa) {
-        if (empty($rutaRelativa) || strpos($rutaRelativa, '..') !== false) {
-            return false;
+        if (empty($rutaRelativa)) return false;
+
+        // Localizamos la raíz del proyecto (un nivel arriba de donde está Imagenes.php)
+        $root = realpath(dirname(__FILE__) . '/../');
+        $rutaFinal = $root . '/' . ltrim($rutaRelativa, '/');
+
+        if (file_exists($rutaFinal) && is_file($rutaFinal)) {
+            if (@unlink($rutaFinal)) {
+                // Si hay cache, intentar borrarla también
+                $rutaCache = str_replace('Imagenes/Gatos/', 'Imagenes/Gatos/cache/', $rutaFinal);
+                if (file_exists($rutaCache)) @unlink($rutaCache);
+                return true;
+            }
         }
-
-        // Si la ruta recibida es de la caché, calculamos la original primero
-        if (strpos($rutaRelativa, 'Imagenes/Gatos/cache/') === 0) {
-            $rutaOriginal = str_replace('Imagenes/Gatos/cache/', 'Imagenes/Gatos/', $rutaRelativa);
-            $rutaCache = $rutaRelativa;
-        } else {
-            $rutaOriginal = $rutaRelativa;
-            // Generamos la ruta equivalente de la caché usando tu propio método privado
-            $rutaCache = self::getCachedImagePath($rutaRelativa);
-        }
-
-        $absOriginal = __DIR__ . '/../' . $rutaOriginal;
-        $absCache = __DIR__ . '/../' . $rutaCache;
-
-        // Borrar imagen original
-        if (file_exists($absOriginal) && is_file($absOriginal)) {
-            unlink($absOriginal);
-        }
-
-        // Borrar miniatura optimizada en caché
-        if (file_exists($absCache) && is_file($absCache)) {
-            unlink($absCache);
-        }
-
-        return true;
+        return false;
     }
 }
-?>
