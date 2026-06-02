@@ -83,7 +83,7 @@ if (!$gato) {
                     </section>
                     <section class="dato">
                         <b><i><span class="dato-label"><span class="traductor" data-es="Edad:" data-ca="Edat:">Edad:</span></span></i></b>
-                        <span class="dato-valor"><?php echo htmlspecialchars(Gato::calcularEdadDesdeNacimiento($gato['fecha_nacimiento'])); ?> años</span>
+                        <span class="dato-valor"><?php echo htmlspecialchars(Gato::calcularEdadDesdeNacimiento($gato['fecha_nacimiento'])); ?></span>
                     </section>
                     <section class="dato">
                         <b><i><span class="dato-label"><span class="traductor" data-es="Género:" data-ca="Gènere:">Género:</span></span></i></b>

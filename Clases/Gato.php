@@ -86,15 +86,22 @@ class Gato {
 
     public static function calcularEdadDesdeNacimiento($fecha_nacimiento) {
         if (empty($fecha_nacimiento)) {
-            return null;
+            return "Fecha no disponible";
         }
 
-        try {
-            $nacimiento = new DateTime($fecha_nacimiento);
-            $hoy = new DateTime();
-            return $hoy->diff($nacimiento)->y;
-        } catch (Exception $e) {
-            return null;
+        // Sintaxis W3Schools para manejo de fechas
+        $fechaNac = new DateTime($fecha_nacimiento);
+        $hoy = new DateTime();
+        $intervalo = $hoy->diff($fechaNac);
+
+        // Lógica de visualización inteligente
+        if ($intervalo->y < 1) {
+            if ($intervalo->m < 1) {
+                return $intervalo->d . ($intervalo->d == 1 ? " día" : " días");
+            }
+            return $intervalo->m . ($intervalo->m == 1 ? " mes" : " meses");
+        } else {
+            return $intervalo->y . ($intervalo->y == 1 ? " año" : " años");
         }
     }
 

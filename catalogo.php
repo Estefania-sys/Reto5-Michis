@@ -83,7 +83,7 @@ if ($pdo) {
                         <a href="detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="card-link">
                             <section class="card-info">
                                 <h3><?php echo htmlspecialchars($nombreMostrar); ?></h3>
-                                <p class="raza"><?php echo htmlspecialchars($gato['raza'] ?? ''); ?> • <?php echo htmlspecialchars(Gato::calcularEdadDesdeNacimiento($gato['fecha_nacimiento'] ?? '')); ?> años</p>
+                                <p class="raza"><?php echo htmlspecialchars($gato['raza'] ?? ''); ?> • <?php echo htmlspecialchars(Gato::calcularEdadDesdeNacimiento($gato['fecha_nacimiento'] ?? '')); ?></p>
                                 <?php $capa = $gato['capa_patron'] ?? ''; ?>
                                 <?php $pelo = $gato['pelo_largo'] ?? ''; ?>
                                 <?php if ($capa !== '' || $pelo !== ''): ?>
