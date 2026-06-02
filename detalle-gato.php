@@ -128,7 +128,7 @@ if (!$gato) {
                     </section>
                     <section class="dato">
                         <b><i><span class="dato-label"><span class="traductor" data-es="Peso:" data-ca="Pes:">Peso:</span></span></i></b>
-                        <span class="dato-valor"><?php echo !empty($gato['peso_kg']) ? htmlspecialchars($gato['peso_kg'] . ' kg') : 'No disponible'; ?></span>
+                        <span class="dato-valor"><?php echo !empty($gato['peso_kg']) ? htmlspecialchars(number_format((float)$gato['peso_kg'], 3, ',', '.')) . ' kg' : 'No disponible'; ?></span>
                     </section>
 
                     <section class="dato">

@@ -53,12 +53,21 @@ if ($pdo) {
                     <?php $fotosGato = Imagenes::obtenerFotos($gato); ?>
                     <article class="card">
                         <section class="card-img">
-                            <section class="card-carousel <?php echo count($fotosGato) === 1 ? 'single-image' : ''; ?>" id="carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
-                                <?php foreach ($fotosGato as $index => $foto): ?>
-                                    <img src="<?php echo htmlspecialchars($foto); ?>" alt="<?php echo htmlspecialchars($nombreMostrar . ' foto ' . ($index + 1)); ?>" class="carousel-slide <?php echo $index === 0 ? 'active' : ''; ?>">
-                                <?php endforeach; ?>
-                                <button type="button" class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
-                                <button type="button" class="carousel-btn carousel-next" aria-label="Siguiente">›</button>
+                            <section class="card-carousel <?php echo (empty($fotosGato) || count($fotosGato) === 1) ? 'single-image' : ''; ?>" id="carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
+                                <?php if (!empty($fotosGato)): ?>
+                                    <?php foreach ($fotosGato as $index => $foto): ?>
+                                        <img src="<?php echo htmlspecialchars($foto); ?>" alt="<?php echo htmlspecialchars($nombreMostrar . ' foto ' . ($index + 1)); ?>" class="carousel-slide <?php echo $index === 0 ? 'active' : ''; ?>">
+                                    <?php endforeach; ?>
+                                    
+                                    <?php if (count($fotosGato) > 1): ?>
+                                        <button type="button" class="carousel-btn carousel-prev" aria-label="Anterior">‹</button>
+                                        <button type="button" class="carousel-btn carousel-next" aria-label="Siguiente">›</button>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <div class="carousel-slide active">
+                                        <i class="fa-solid fa-cat"></i>
+                                    </div>
+                                <?php endif; ?>
                             </section>
                             <span class="badge <?php echo strtolower($gato['estado']); ?>">
                                 <?php 

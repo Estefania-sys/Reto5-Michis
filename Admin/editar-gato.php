@@ -213,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Peso (kg):" data-ca="Pes (kg):">Peso (kg):</span></i></b>
-                        <input type="number" step="0.1" name="peso_kg" form="form-gato" value="<?php echo htmlspecialchars($gato['peso_kg'] ?? ''); ?>" class="dato-valor">
+                        <input type="number" placeholder="Ejemplo: 2,567" min="0" step="0.001" lang="es-ES" inputmode="decimal" name="peso_kg" form="form-gato" value="<?php echo htmlspecialchars($gato['peso_kg'] ?? ''); ?>" class="dato-valor">
                     </div>
                     <div class="dato">
                         <b><i><span class="traductor" data-es="Tamaño:" data-ca="Mida:">Tamaño:</span></i></b>
