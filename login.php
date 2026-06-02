@@ -4,18 +4,21 @@ require_once 'Clases/Conexion.php';
 require_once 'Clases/Admin.php';
 require_once 'Clases/Voluntaria.php';
 
+
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pdo = (new Conexion())->getConnection();
+    $email = $_POST['email'];
+    $pass = $_POST['password'];
     
     // 1. Intentamos login como Administrador
-    $admin = Admin::login($pdo, $_POST['email'], $_POST['password']);
+    $admin = Admin::login($pdo, $email, $pass);
     if($admin) {
         header("Location: Admin/paneladmin.php");
         exit();
     }
 
     // 2. Si no es admin, intentamos como Voluntaria
-    $voluntaria = Voluntaria::login($pdo, $_POST['email'], $_POST['password']);
+    $voluntaria = Voluntaria::login($pdo, $email, $pass);
     if($voluntaria) {
         header("Location: Admin/paneladmin.php");
         exit();

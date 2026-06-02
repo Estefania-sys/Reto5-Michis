@@ -66,7 +66,7 @@ INSERT INTO Usuarios (nombres, apellidos, email, password, rol, dni, fecha_nacim
 ('Elena', 'Rodríguez Martínez', 'admin@refugio.com', 'admin_hash_123', 'admin', '12345678A', '1985-04-12', 'Calle del Refugio 12', 'Valencia', '46001', '963000111'),
 
 -- 2 Trabajadoras (Voluntarias)
-('Marta', 'García López', 'marta.vol@refugio.com', 'marta_pass_456', 'voluntario', '23456789B', '1990-08-22', 'Avenida de los Gatos 8', 'Valencia', '46002', '612345678'),
+('Marta', 'García López', 'marta.vol@refugio.com', 'marta_pass_456', 'voluntaria', '23456789B', '1990-08-22', 'Avenida de los Gatos 8', 'Valencia', '46002', '612345678'),
 
 -- 3 Adoptantes
 ('Carlos', 'Sánchez Villa', 'carlos.sv@email.com', NULL, 'adoptante', '34567890C', '1988-02-14', 'Calle Naranjos 21', 'Valencia', '46003', '651234567'),

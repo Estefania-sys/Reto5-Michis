@@ -1,7 +1,18 @@
 <?php
 require_once '../Clases/Admin.php';
-Admin::iniciar();
-Admin::requerirPersonal();
+require_once '../Clases/Voluntaria.php';
+require_once '../Clases/Conexion.php';
+
+// Iniciamos la sesión una sola vez
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Verificamos si NO hay ninguna de las dos sesiones activas
+if (!Admin::tieneAdminActivo() && !Voluntaria::tieneVoluntariaActiva()) {
+    header("Location: ../login.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">

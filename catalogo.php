@@ -1,5 +1,6 @@
 <?php
 require_once 'Clases/Admin.php';
+require_once 'Clases/Voluntaria.php';
 require_once 'Clases/Conexion.php';
 require_once 'Clases/Gato.php';
 require_once 'Clases/Imagenes.php';
@@ -10,7 +11,8 @@ $pdo = $conexion->getConnection();
 
 // Verificar si es admin/voluntario logueado
 $esAdmin = Admin::tieneAdminActivo();
-if($esAdmin){
+$esVoluntaria = Voluntaria::tieneVoluntariaActiva();
+if($esAdmin || $esVoluntaria) {
    include 'navbar/headeradmin.php';
 } else {
     include 'navbar/header.php';
@@ -22,7 +24,7 @@ if ($pdo) {
     $gatos = Gato::listarNoAdoptados($pdo);
 
     // 2. Si el usuario es admin/voluntario, traemos también los adoptados
-    if ($esAdmin) {
+    if ($esAdmin || $esVoluntaria) {
         // Usamos el método de Gato.php que ahora devuelve todas las columnas (*)
         $gatosAdoptados = Gato::listarAdoptados($pdo);
         
@@ -47,7 +49,7 @@ if ($pdo) {
         <h2 class="section-title">
             <span class="traductor" data-es="Gatitos en adopción" data-ca="Gatets en adopció">Gatitos en adopción</span>
         </h2>
-        <?php if ($esAdmin): ?>
+        <?php if ($esAdmin || $esVoluntaria): ?>
             <section class="admin-actions" style="margin-bottom: 20px; text-align: right;">
                 <a href="Admin/editar-gato.php" class="btn-primary">
                     <i class="fa-solid fa-plus"></i> 

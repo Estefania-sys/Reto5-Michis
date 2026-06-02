@@ -1,12 +1,22 @@
 <?php
 require_once '../Clases/Admin.php';
-Admin::iniciar();
-Admin::requerirAdmin();
-
+require_once '../Clases/Voluntaria.php';
 require_once '../Clases/Conexion.php';
-require_once '../Clases/Gato.php';
+
+require_once '../Clases/Gato.php'; 
 require_once '../Clases/HistorialMedico.php';
 require_once '../Clases/Imagenes.php';
+
+// Iniciamos sesión
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Verificamos que sea ADMIN o VOLUNTARIA. Si no es ninguno, al login.
+if (!Admin::tieneAdminActivo() && !Voluntaria::tieneVoluntariaActiva()) {
+    header("Location: ../login.php");
+    exit;
+}
 
 $pdo = (new Conexion())->getConnection();
 
@@ -67,9 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // 3. Borrado de la base de datos (lo ejecutamos siempre para asegurar limpieza)
                     $sql_del = "DELETE FROM fotos_gatos WHERE id_gato = ? AND ruta = ?";
-                    $stmt_del = $conn->prepare($sql_del);
-                    $stmt_del->bind_param("is", $id_gato, $rutaBD);
-                    $stmt_del->execute();
+                    $stmt_del = $pdo->prepare($sql_del);
+                    $stmt_del->execute([$id_gato, $rutaBD]);
                     
                     // DEBUG: Descomenta la siguiente línea si quieres ver qué está pasando si falla
                     // echo "Intentando borrar: $rutaCompleta | En BD: $rutaBD | Resultado Físico: " . ($exitoFisico ? 'SI' : 'NO') . "<br>";

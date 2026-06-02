@@ -63,17 +63,6 @@ class Admin extends Persona {
         return $_SESSION['admin'] ?? '';
     }
 
-    public static function tienePersonalActivo() { //Voluntaria
-        return isset($_SESSION['voluntaria']) && !empty($_SESSION['voluntaria']);
-    }
-
-    public static function requerirPersonal($redirectPath = '/Reto5-Michis/login.php') { //Voluntaria
-        if (!self::tienePersonalActivo()) {
-            header("Location: $redirectPath");
-            exit;
-        }
-    }
-
     public static function cerrarSesion() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
