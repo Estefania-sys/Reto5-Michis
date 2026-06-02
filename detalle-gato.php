@@ -57,7 +57,7 @@ if (!$gato) {
                         <ul>
                             <?php foreach ($vacunas as $vacuna): ?>
                                 <li>
-                                    <strong>Fecha de alta: </strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($vacuna['fecha_revision']))); ?><br>
+                                    <strong>Fecha de registro: </strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($vacuna['fecha_revision']))); ?><br>
                                     <?php echo htmlspecialchars($vacuna['nombre_vacuna']); ?>
                                     <?php if (!empty($vacuna['fecha_vacuna'])): ?>
                                         (Fecha de revisión: <?php echo htmlspecialchars(date('d/m/Y', strtotime($vacuna['fecha_vacuna']))); ?>)
@@ -138,7 +138,7 @@ if (!$gato) {
                 </section>
 
                 <br><h3 class="traductor" data-es="Acerca de <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>" data-ca="Sobre <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?>">Acerca de <?php echo htmlspecialchars($gato['nombre'] ?? ''); ?></h3>
-                <p><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></p>
+                <p><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></p><br>
 
                 <?php $isDisponible = strtolower(trim($gato['estado'] ?? '')) === 'disponible'; ?>
                 <div class="detalle-actions">
