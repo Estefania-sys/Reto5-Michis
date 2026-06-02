@@ -113,7 +113,7 @@ if ($pdo) {
                             </section>
                         <section class="botoneraseparacion">
                         </a>
-                        <?php if ($esAdmin): ?>
+                        <?php if ($esAdmin || $esVoluntaria): ?>
                                     <a href="Admin/editar-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar"><i class="fas fa-edit"></i> Editar</a>
                                 <?php endif; ?>
                         <a href="detalle-gato.php?id=<?php echo htmlspecialchars($gato['id_gato']); ?>" class="btn-adoptar"><span class="traductor" data-es="Conocer más" data-ca="Conèixer més">Conocer más</span></a>

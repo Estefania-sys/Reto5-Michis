@@ -1,6 +1,11 @@
 <?php
 require_once 'Clases/Admin.php';
+require_once 'Clases/Voluntaria.php'; // Añadimos la clase
 Admin::iniciar();
+
+$esAdmin = Admin::tieneAdminActivo(); // Definimos si es admin
+$esVoluntaria = Voluntaria::tieneVoluntariaActiva(); // Definimos si es voluntaria
+
 require_once 'Clases/Conexion.php';
 require_once 'Clases/Gato.php';
 require_once 'Clases/Imagenes.php';
@@ -130,7 +135,18 @@ if (!$gato) {
                         <b><i><span class="dato-label"><span class="traductor" data-es="Peso:" data-ca="Pes:">Peso:</span></span></i></b>
                         <span class="dato-valor"><?php echo !empty($gato['peso_kg']) ? htmlspecialchars(number_format((float)$gato['peso_kg'], 3, ',', '.')) . ' kg' : 'No disponible'; ?></span>
                     </section>
-
+                    <?php if ($esAdmin || $esVoluntaria): ?>
+                        <section class="dato">
+                            <b><i><span class="dato-label"><span class="traductor" data-es="Microchip:" data-ca="Microchip:">Microchip</span></span></i></b>
+                            <span class="dato-valor">
+                                <?php 
+                                    echo !empty($gato['numero_microchip']) 
+                                        ? htmlspecialchars($gato['numero_microchip']) 
+                                        : "No tiene microchip aún"; 
+                                ?>
+                            </span>
+                        </section>
+                    <?php endif; ?>
                     <section class="dato">
                         <b><i><span class="dato-label"><span class="traductor" data-es="Vacunas registradas:" data-ca="Vacunes registrades:">Vacunas registradas:</span></span></i></b>
                         <span class="dato-valor"><?php echo !empty($vacunas) ? 'Sí' : 'No'; ?></span>
