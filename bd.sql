@@ -57,7 +57,8 @@ CREATE TABLE Historial_Medico (
     id_historial SERIAL PRIMARY KEY,
     id_gato INTEGER REFERENCES Gatos(id_gato),
     id_vacuna INTEGER REFERENCES Vacunas(id_vacuna),
-    fecha_revision DATE
+    fecha_revision DATE,
+    diagnostico TEXT
 );
 -----------------------------------------------------------
 INSERT INTO Usuarios (nombres, apellidos, email, password, rol, dni, fecha_nacimiento, direccion, poblacion, cp, telefono) VALUES

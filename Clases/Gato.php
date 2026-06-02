@@ -301,7 +301,8 @@ class Gato {
      * Ideal para desplegables de finales felices.
      */
     public static function listarAdoptados($pdo) {
-        $sql = "SELECT id_gato, nombre FROM Gatos WHERE estado = 'adoptado' ORDER BY nombre";
+        // Cambiamos "id_gato, nombre" por "*" para que el objeto tenga todos los datos
+        $sql = "SELECT * FROM Gatos WHERE estado = 'adoptado' ORDER BY nombre";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

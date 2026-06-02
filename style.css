@@ -1638,6 +1638,23 @@ main.pagina-usuarios {
     background: var(--primary-dark);
 }
 
+.card.gato-adoptado {
+    border: 1px solid #ccc;
+    background-color: #f0f0f0; /* Fondo ligeramente gris */
+}
+
+.card.gato-adoptado .card-img img {
+    filter: grayscale(100%); /* Efecto Blanco y Negro */
+    opacity: 0.8;            /* Un poco más tenue */
+    transition: filter 0.3s ease;
+}
+
+/* Al pasar el ratón, la foto recupera el color (opcional) */
+.card.gato-adoptado:hover .card-img img {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
 /* === TABLET y DESKTOP (≥ 900px): 2 columnas === */
 @media (min-width: 900px) {
     main.pagina-usuarios {

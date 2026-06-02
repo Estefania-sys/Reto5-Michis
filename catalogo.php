@@ -18,8 +18,17 @@ if($esAdmin){
 
 $gatos = [];
 if ($pdo) {
-    // Delegamos la consulta por completo a la clase Gato
+    // 1. Siempre obtenemos los gatos que no han sido adoptados
     $gatos = Gato::listarNoAdoptados($pdo);
+
+    // 2. Si el usuario es admin/voluntario, traemos también los adoptados
+    if ($esAdmin) {
+        // Usamos el método de Gato.php que ahora devuelve todas las columnas (*)
+        $gatosAdoptados = Gato::listarAdoptados($pdo);
+        
+        // Los unimos al final de la lista principal
+        $gatos = array_merge($gatos, $gatosAdoptados);
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -51,7 +60,8 @@ if ($pdo) {
                 <?php foreach ($gatos as $gato): ?>
                     <?php $nombreMostrar = Imagenes::obtenerNombre($gato); ?>
                     <?php $fotosGato = Imagenes::obtenerFotos($gato); ?>
-                    <article class="card">
+                    <?php $esAdoptado = ($gato['estado'] === 'adoptado'); ?>
+                    <article class="card <?php echo $esAdoptado ? 'gato-adoptado' : ''; ?>">
                         <section class="card-img">
                             <section class="card-carousel <?php echo (empty($fotosGato) || count($fotosGato) === 1) ? 'single-image' : ''; ?>" id="carousel-<?php echo htmlspecialchars($gato['id_gato']); ?>">
                                 <?php if (!empty($fotosGato)): ?>

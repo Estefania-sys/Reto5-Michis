@@ -48,15 +48,26 @@ class Admin extends Persona {
         return isset($_SESSION['admin']) && !empty($_SESSION['admin']);
     }
 
+     /**
+     * Verifica si el usuario es admin, si no redirige a login
+     * @param string $redirectPath Ruta a la que redirigir si no es admin
+     */
+    public static function requerirAdmin($redirectPath = '/Reto5-Michis/login.php') {
+        if (!self::tieneAdminActivo()) {
+            header("Location: $redirectPath");
+            exit;
+        }
+    }
+
     public static function obtenerNombreAdmin() {
         return $_SESSION['admin'] ?? '';
     }
 
-    public static function tienePersonalActivo() {
-        return self::tieneAdminActivo() || (isset($_SESSION['voluntaria']) && !empty($_SESSION['voluntaria']));
+    public static function tienePersonalActivo() { //Voluntaria
+        return isset($_SESSION['voluntaria']) && !empty($_SESSION['voluntaria']);
     }
 
-    public static function requerirPersonal($redirectPath = '/Reto5-Michis/login.php') {
+    public static function requerirPersonal($redirectPath = '/Reto5-Michis/login.php') { //Voluntaria
         if (!self::tienePersonalActivo()) {
             header("Location: $redirectPath");
             exit;
@@ -73,15 +84,5 @@ class Admin extends Persona {
         session_destroy();
     }
 
-    /**
-     * Verifica si el usuario es admin, si no redirige a login
-     * @param string $redirectPath Ruta a la que redirigir si no es admin
-     */
-    public static function requerirAdmin($redirectPath = '/Reto5-Michis/login.php') {
-        if (!self::tieneAdminActivo()) {
-            header("Location: $redirectPath");
-            exit;
-        }
-    }
 }
 ?>
