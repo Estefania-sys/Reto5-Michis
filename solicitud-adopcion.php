@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST">
             <input type="hidden" name="id_gato" value="<?php echo $id_gato; ?>">
             
-            <div>
+            <section>
                 <label class="traductor" for="tipo-solicitud" 
                        data-es="¿En qué estás interesado/a?" 
                        data-ca="¿En què estàs interessat/a?">¿En qué estás interesado/a?</label>
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             data-es="Quiero presentar una solicitud de adopción" 
                             data-ca="Vull presentar una sol·licitud d'adopció">Quiero presentar una solicitud de adopción</option>
                 </select>
-            </div>
+            </section>
             
             <input class="traductor" type="text" name="nombres" required
                    data-es-placeholder="Tu Nombre" data-ca-placeholder="El teu Nom" placeholder="Tu Nombre">

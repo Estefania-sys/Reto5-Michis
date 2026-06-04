@@ -27,7 +27,7 @@ if (!Admin::tieneAdminActivo() && !Voluntaria::tieneVoluntariaActiva()) {
     <?php include '../navbar/headeradmin.php'; ?>
 
     <main class="dashboard-container">
-        <div class="dashboard-grid">
+        <section class="dashboard-grid">
             <a href="../catalogo.php" class="dash-card">
                 <i class="fa-solid fa-cat"></i>
                 <span class="traductor" data-es="Gestionar Gatos" data-ca="Gestionar Gats"></span>
@@ -54,7 +54,7 @@ if (!Admin::tieneAdminActivo() && !Voluntaria::tieneVoluntariaActiva()) {
                 <span class="traductor" data-es="Cerrar Sesión" data-ca="Tancar Sessió"></span>
             </a>
             <?php endif; ?>
-        </div>
+        </section>
     </main>
 
     <?php include '../navbar/footer.php'; ?>

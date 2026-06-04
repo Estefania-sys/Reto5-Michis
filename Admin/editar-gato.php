@@ -149,35 +149,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <section class="detalle-img">
                 <section class="info-medica">
                     <h3 class="traductor" data-es="Gestión de Fotos" data-ca="Gestió de Fotos">Gestión de Fotos</h3><br>
-                    <div class="dato">
+                    <section class="dato">
                         <b><span class="traductor" data-es="Añadir fotos:" data-ca="Afegir fotos:">Añadir fotos:</span></b>
                         <input type="file" name="fotos[]" form="form-gato" multiple accept="image/*">
-                    </div>
+                    </section>
 
                 <?php 
                     $fotosGuardadas = $esNuevo ? [] : Imagenes::obtenerFotos($gato);
                     if (!empty($fotosGuardadas)):
                     ?>
-                        <div class="seccion-fotos-admin">
+                        <section class="seccion-fotos-admin">
                             <label class="traductor" data-es="Imágenes actuales en el servidor:" data-ca="Imatges actuals al servidor:"></label>
                             <p class="traductor" data-es="Marca las casillas de las fotos que desees eliminar permanentemente:" data-ca="Marca les caselles de las fotos que vulguis eliminar permanentment:"></p>
                             
-                            <div class="grid-fotos-borrar">
+                            <section class="grid-fotos-borrar">
                                 <?php foreach ($fotosGuardadas as $foto): 
                                     $srcFinal = is_array($foto) ? $foto['src'] : $foto;
                                     
                                     if (strpos($srcFinal, 'default.png') !== false) continue;
                                 ?>
-                                    <div class="card-foto-borrar">
+                                    <section class="card-foto-borrar">
                                         <img src="../<?php echo htmlspecialchars($srcFinal); ?>" width="100" height="100">
                                         <label>
                                             <input type="checkbox" name="fotos_eliminar[]" value="<?php echo htmlspecialchars($srcFinal); ?>">
                                             <span class="traductor" data-es="Borrar" data-ca="Esborrar">Borrar</span>
                                         </label>
-                                    </div>
+                                    </section>
                                 <?php endforeach; ?>
-                            </div>
-                        </div>
+                            </section>
+                        </section>
                     <?php endif; ?>
                 </section>
             </section>
@@ -188,30 +188,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </h1>
 
                 <section class="detalle-datos">
-                    <div class="dato">
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Microchip:" data-ca="Microxip:">Microchip:</span></i></b>
                         <input type="text" name="numero_microchip" form="form-gato" value="<?php echo htmlspecialchars($gato['numero_microchip'] ?? ''); ?>" class="dato-valor">
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Esterilizado:" data-ca="Esterilitzat:">Esterilizado:</span></i></b>
                         <input type="checkbox" name="esterilizado" form="form-gato" <?php echo (isset($gato['esterilizado']) && ($gato['esterilizado'] == 1 || strtolower($gato['esterilizado']) === 'sí')) ? 'checked' : ''; ?>>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Raza:" data-ca="Raça:">Raza:</span></i></b>
                         <input type="text" name="raza" form="form-gato" value="<?php echo htmlspecialchars($gato['raza'] ?? ''); ?>" class="dato-valor">
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Género:" data-ca="Gènere:">Género:</span></i></b>
                         <select name="genero" form="form-gato" class="dato-valor">
                             <option value="Macho" <?php echo ($gato['genero'] ?? '') === 'Macho' ? 'selected' : ''; ?>>Macho</option>
                             <option value="Hembra" <?php echo ($gato['genero'] ?? '') === 'Hembra' ? 'selected' : ''; ?>>Hembra</option>
                         </select>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Nacimiento:" data-ca="Naixement:">Nacimiento:</span></i></b>
                         <input type="date" name="fecha_nacimiento" form="form-gato" value="<?php echo $gato['fecha_nacimiento'] ?? ''; ?>" required class="dato-valor">
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Estado:" data-ca="Estat:">Estado:</span></i></b>
                         <select name="estado" class="dato-valor" form="form-gato">
                             <option value="Disponible" <?php echo (strtolower($gato['estado'] ?? '') === 'disponible') ? 'selected' : ''; ?>>Disponible</option>
@@ -219,32 +219,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <option value="Reservado" <?php echo (strtolower($gato['estado'] ?? '') === 'reservado') ? 'selected' : ''; ?>>Reservado</option>
                             <option value="Adoptado" <?php echo (strtolower($gato['estado'] ?? '') === 'adoptado') ? 'selected' : ''; ?>>Adoptado</option>
                         </select>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Peso (kg):" data-ca="Pes (kg):">Peso (kg):</span></i></b>
                         <input type="number" placeholder="Ejemplo: 2,567" min="0" step="0.001" lang="es-ES" inputmode="decimal" name="peso_kg" form="form-gato" value="<?php echo htmlspecialchars($gato['peso_kg'] ?? ''); ?>" class="dato-valor">
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Tamaño:" data-ca="Mida:">Tamaño:</span></i></b>
                         <select name="tamano" form="form-gato" class="dato-valor">
                             <option value="Pequeño" <?php echo ($gato['tamano'] ?? '') === 'Pequeño' ? 'selected' : ''; ?>>Pequeño</option>
                             <option value="Mediano" <?php echo ($gato['tamano'] ?? '') === 'Mediano' ? 'selected' : ''; ?>>Mediano</option>
                             <option value="Grande" <?php echo ($gato['tamano'] ?? '') === 'Grande' ? 'selected' : ''; ?>>Grande</option>
                         </select>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Capa:" data-ca="Capa:">Capa:</span></i></b>
                         <input type="text" name="capa_patron" form="form-gato" value="<?php echo htmlspecialchars($gato['capa_patron'] ?? ''); ?>" class="dato-valor">
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Pelo:" data-ca="Pèl:">Pelo:</span></i></b>
                         <select name="pelo_largo" form="form-gato" class="dato-valor">
                             <option value="Corto" <?php echo ($gato['pelo_largo'] ?? '') === 'Corto' ? 'selected' : ''; ?>>Corto</option>
                             <option value="Semilargo" <?php echo ($gato['pelo_largo'] ?? '') === 'Semilargo' ? 'selected' : ''; ?>>Semilargo</option>
                             <option value="Largo" <?php echo ($gato['pelo_largo'] ?? '') === 'Largo' ? 'selected' : ''; ?>>Largo</option>
                         </select>
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <b><i><span class="traductor" data-es="Características:" data-ca="Característiques:">Características:</span></i></b>
                         <input type="text" name="character_tags" form="form-gato" 
                                     value="<?php 
@@ -255,13 +255,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     }
                             ?>" 
                             class="dato-valor" placeholder="Ej: Cariñoso, Juguetón, Tranquilo">
-                    </div>
+                    </section>
                     <h3 class="traductor" data-es="Añadir entrada Médica" data-ca="Afegir entrada Mèdica">Añadir entrada Médica</h3>
-                    <div class="dato">
+                    <section class="dato">
                         <label>Diagnóstico / Revisión:</label>
                         <input type="text" name="nuevo_diagnostico" form="form-gato" placeholder="Ej: Revisión anual o Vacunación">
-                    </div>
-                    <div class="dato">
+                    </section>
+                    <section class="dato">
                         <label>Asociar Vacuna:</label>
                         <select name="id_vacuna" form="form-gato">
                             <option value="">-- Ninguna --</option>
@@ -271,14 +271,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                    </div>
-                </div>
+                    </section>
+                </section>
                 </section>
 
                 <h3 class="traductor" data-es="Notas del Cuidador" data-ca="Notes del Cuidador">Notas del Cuidador</h3>
                 <textarea name="notas_cuidador" form="form-gato" rows="4" class="dato-valor" style="width: 100%; height: auto;"><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></textarea>
 
-                <div class="detalle-actions">
+                <section class="detalle-actions">
                     <section class="botoneraseparacion">
                         <button type="submit" form="form-gato" class="btn-primary">
                             <i class="fa-solid fa-floppy-disk"></i>
@@ -297,7 +297,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </a>
                         <?php endif; ?>
                     </section>
-                </div>
+                </section>
 
             </section>
         </section>
