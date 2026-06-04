@@ -76,9 +76,9 @@ if ($pdo) {
                                         <button type="button" class="carousel-btn carousel-next" aria-label="Siguiente">›</button>
                                     <?php endif; ?>
                                 <?php else: ?>
-                                    <div class="carousel-slide active">
+                                    <section class="carousel-slide active">
                                         <i class="fa-solid fa-cat"></i>
-                                    </div>
+                                    </section>
                                 <?php endif; ?>
                             </section>
                             <span class="badge <?php echo strtolower($gato['estado']); ?>">

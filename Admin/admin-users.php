@@ -71,12 +71,12 @@ $usuarios = $db->query("SELECT * FROM Usuarios ORDER BY id_usuario ASC")
 
 <main class="pagina-usuarios">
 
-    <div class="usuarios-panel-header">
+    <section class="usuarios-panel-header">
         <h1>Administrar Usuarios</h1>
 
         <?php if ($mensaje) echo "<p class='success-message'>$mensaje</p>"; ?>
         <?php if ($error)   echo "<p class='error-message'>$error</p>";   ?>
-    </div>
+    </section>
 
     <!-- ── Tabla con los usuarios existentes ── -->
     <section class="usuarios-listado">

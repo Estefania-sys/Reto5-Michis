@@ -1,9 +1,19 @@
 <?php
 require_once '../Clases/Admin.php';
-Admin::iniciar();
-Admin::requerirPersonal(); // Permite acceso a Admin y Voluntarias
-
+require_once '../Clases/Voluntaria.php';
 require_once '../Clases/Conexion.php';
+
+// Iniciamos sesión si no está iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// VALIDACIÓN UNIFICADA: 
+// Si NO tiene admin activo Y TAMPOCO tiene voluntaria activa, al login.
+if (!Admin::tieneAdminActivo() && !Voluntaria::tieneVoluntariaActiva()) {
+    header("Location: ../login.php");
+    exit();
+}
 
 // Instanciamos la conexión y llamamos al método que contiene la consulta SQL
 $conexion = new Conexion();
@@ -21,7 +31,7 @@ $adopciones = $conexion->obtenerAdopcionesCompletas();
 <body>
     <?php include '../navbar/headeradmin.php'; ?>
 
-    <div class="admin-panel">
+    <section class="admin-panel">
         <h1 class="traductor" data-es="📋 Panel de Control - Solicitudes de Adopción" data-ca="📋 Panell de Control - Sol·licituds d'Adopció"></h1>
 
         <?php if(count($adopciones) > 0): ?>
@@ -113,11 +123,11 @@ $adopciones = $conexion->obtenerAdopcionesCompletas();
                 </table>
             </section>
         <?php else: ?>
-            <div class="empty-message">
+            <section class="empty-message">
                 <p class="traductor" data-es="No hay solicitudes de adopción registradas aún." data-ca="No hi ha sol·licituds d'adopció registrades encara."></p>
-            </div>
+            </section>
         <?php endif; ?>
-    </div>
+    </section>
 
     <?php include '../navbar/footer.php' ?>
 </body>

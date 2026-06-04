@@ -1,14 +1,14 @@
 <footer class="main-footer">
     <section class="container footer-content">
         <section class="footer-left">
-            <div class="footer-social">
+            <section class="footer-social">
                 <h4 class="traductor" data-es="¡Síguenos en nuestras redes sociales!" data-ca="Segueix-nos a les nostres xarxes socials!"></h4>
                 <section class="social-icons">
                     <a href="#" title="Facebook"><i class="fa-brands fa-square-facebook"></i></a>
                     <a href="#" title="Instagram"><i class="fa-brands fa-square-instagram"></i></a>
                     <a href="#" title="Twitter"><i class="fa-brands fa-square-x-twitter"></i></a>
                 </section>
-            </div>
+            </section>
         </section>
 
         <section class="footer-brand">
@@ -20,7 +20,7 @@
         </section>
 
         <section class="footer-right">
-            <div class="mapa">
+            <section class="mapa">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1052.9354137167531!2d2.158677292176023!3d41.71725854658735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4c296945e4337%3A0xeb773dc72f429e40!2sCarrer%20del%20Puig%20Dari%2C%2025%2C%2008189%20Sant%20Quirze%20Safaja%2C%20Barcelona!5e0!3m2!1ses!2ses!4v1779695768360!5m2!1ses!2ses"
                     width="100%"
@@ -30,7 +30,7 @@
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
                 ></iframe>
-            </div>
+            </section>
         </section>
     
     <section class="footer-bottom">

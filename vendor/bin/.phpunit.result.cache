@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"version":2,"defects":[],"times":{"PersonaTest::testGetId":0.006,"PersonaTest::testGetNombreCompleto":0,"PersonaTest::testGetEmail":0,"PersonaTest::testGetDni":0.001,"PersonaTest::testGetFechaNacimiento":0.001,"PersonaTest::testGetDireccion":0,"PersonaTest::testGetPoblacion":0,"PersonaTest::testGetCp":0,"PersonaTest::testGetTelefono":0,"PersonaTest::testOptionalFieldsAreNullByDefault":0}}
+=======
+{"version":2,"defects":[],"times":{"PersonaTest::testGetId":0.008,"PersonaTest::testGetNombreCompleto":0,"PersonaTest::testGetEmail":0,"PersonaTest::testGetDni":0,"PersonaTest::testGetFechaNacimiento":0,"PersonaTest::testGetDireccion":0,"PersonaTest::testGetPoblacion":0,"PersonaTest::testGetCp":0,"PersonaTest::testGetTelefono":0,"PersonaTest::testOptionalFieldsAreNullByDefault":0.001}}
+>>>>>>> 681dcdba9bd407ab90553bf4ff0586a7d5662940

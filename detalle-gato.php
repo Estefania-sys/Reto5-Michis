@@ -157,12 +157,12 @@ if (!$gato) {
                 <p><?php echo htmlspecialchars($gato['notas_cuidador'] ?? ''); ?></p><br>
 
                 <?php $isDisponible = strtolower(trim($gato['estado'] ?? '')) === 'disponible'; ?>
-                <div class="detalle-actions">
+                <section class="detalle-actions">
                     <section class="botoneraseparacion">
                         <p><a href="solicitud-adopcion.php?id=<?php echo $gato['id_gato']; ?>" class="btn-adoptar<?php echo $isDisponible ? '' : ' btn-disabled'; ?> traductor" <?php echo $isDisponible ? '' : 'aria-disabled="true" tabindex="-1"'; ?> data-es="Solicitar información / Cita" data-ca="Solicitar informació / Cita">Solicitar información / Cita</a></p>
                         <p><a href="catalogo.php" class="btn-secondary traductor" data-es="← Volver al catálogo" data-ca="← Tornar al catàleg">← Volver al catálogo</a></p>
                     </section>
-                </div>
+                </section>
             </section>
         </section>
     </main>
